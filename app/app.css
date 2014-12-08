@@ -1,0 +1,51 @@
+/* temp app css stylesheet derived from angular-seed */
+
+.masthead {
+	overflow: hidden;
+	border-bottom: 0.1em solid black;
+	margin-bottom: 2em;
+	padding: 0 0 0.5em;
+}
+
+.menu {
+  float: left;
+  list-style: none;
+}
+
+.menu:before {
+  content: "[";
+}
+
+.menu:after {
+  content: "]";
+}
+
+.menu > li {
+  display: inline;
+}
+
+.menu > li:before {
+  content: "|";
+  padding-right: 0.3em;
+}
+
+.menu > li:nth-child(1):before {
+  content: "";
+  padding: 0;
+}
+
+.account {
+	float: right;
+	margin: 1em 1em 1em 0;
+	text-align: right;
+}
+
+.account p {
+	display: inline-block;
+	margin: 0;
+}
+
+.account button {
+	display: inline-block;
+	margin-left: .5em;
+}
