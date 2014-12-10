@@ -1,18 +1,22 @@
 {
   "name": "unleash",
-  "description": "Unleash your path",
-  "version": "0.0.0",
-  "homepage": "https://github.com/x-team/unleash",
-  "private": true,
+  "version": "0.0.1",
   "dependencies": {
-    "angular": "1.3.x",
-    "angular-route": "1.3.x",
-    "angular-loader": "1.3.x",
-    "angular-mocks": "~1.3.x",
-    "html5-boilerplate": "~4.3.0"
+    "angular": "^1.3.0",
+    "json3": "^3.3.0",
+    "es5-shim": "^4.0.0",
+    "angular-resource": "^1.3.0",
+    "angular-cookies": "^1.3.0",
+    "angular-animate": "^1.3.0",
+    "angular-touch": "^1.3.0",
+    "angular-route": "^1.3.0",
+    "firebase": "2.0.x",
+    "angularfire": "~0.9.0"
   },
   "devDependencies": {
-    "firebase": "~2.0.6",
-    "angularfire": "~0.9.0"
-  }
+    "angular-mocks": "~1.3.0",
+    "angular-scenario": "~1.3.0",
+    "mockfirebase": "0.2.x"
+  },
+  "appPath": "app"
 }

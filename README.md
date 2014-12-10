@@ -1,37 +1,27 @@
 # #Unleash your path
 
-This is a very early, experimental work in progress. Most of things are subject to change.
+This is a work in progress. Many things are subject to change.
 
 ## TODO
 
-1. Add browserify
-2. Clean up files and add .editorconfig
-3. (…)
+1. Store user profiles in Firebase
+2. Start path page
 
 ## Running
 
 ### Install Dependencies
 
 ```
-npm install
+npm install && bower install
 ```
 
 ### Preview the Application
 
-First, make sure you have http-server installed globally.
-
 ```
-sudo npm install -g http-server
-```
-
-Then run:
-
-```
-npm start
+grunt serve
 ```
 
 Browse to the app at `http://localhost:8000`.
-
 
 
 ## Testing
@@ -39,21 +29,5 @@ Browse to the app at `http://localhost:8000`.
 ### Unit Tests
 
 ```
-npm test
-```
-
-
-### End to end testing
-
-
-Install WebDriver:
-
-```
-npm run update-webdriver
-```
-
-Then run tests using:
-
-```
-npm run protractor
+grunt test
 ```
