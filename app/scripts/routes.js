@@ -9,10 +9,10 @@
  */
 angular.module('unleashApp')
 
-  .run(["$rootScope", "$location", function($rootScope, $location) {
-    $rootScope.$on("$routeChangeError", function(event, next, previous, error) {
-      if (error === "AUTH_REQUIRED") {
-        $location.path("/");
+  .run(['$rootScope', '$location', function($rootScope, $location) {
+    $rootScope.$on('$routeChangeError', function(event, next, previous, error) {
+      if (error === 'AUTH_REQUIRED') {
+        $location.path('/');
       }
     });
   }])
@@ -25,7 +25,7 @@ angular.module('unleashApp')
         templateUrl: 'views/main.html',
         controller: 'HomeCtrl',
         resolve: {
-          "currentAuth": ['Auth', function(Auth) {
+          currentAuth: ['Auth', function(Auth) {
             return Auth.$waitForAuth();
           }]
         }
@@ -35,7 +35,7 @@ angular.module('unleashApp')
         templateUrl: 'views/path.html',
         controller: 'PathCtrl',
         resolve: {
-          "currentAuth": ['Auth', function(Auth) {
+          currentAuth: ['Auth', function(Auth) {
             return Auth.$requireAuth();
           }]
         }

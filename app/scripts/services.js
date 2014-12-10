@@ -8,23 +8,35 @@ services.factory('Auth', ['$window', 'FBURL', '$firebaseAuth', function($window,
     return $firebaseAuth(ref);
   }]);
 
-services.factory('userService', ['fbutil', '$window', function(fbutil, $window) {
+services.factory('userService', ['$window', 'FBURL', function($window, FBURL) {
+  var ref = new $window.Firebase(FBURL);
+
   return {
     login: function() {
-      var ref = new $window.Firebase('https://radiant-fire-1291.firebaseio.com/');
+      ref.authWithOAuthPopup('google', function(err, authData) {
+        if (err) {
+          console.error('There was a problem logging in: ' + err);
+          return;
+        }
 
-      ref.authWithOAuthPopup('github', function(err, authData) {
         console.log(authData);
+        window.location.href = '/';
+      }, {
+        scope: 'email'
       });
-      //then(function(authData) {
-      //  console.log(authData);
-      //  window.location.href = '/';
-      //}).catch(function(error) {
-      //  console.error('Authentication failed: ', error);
-      //});
     },
     logout: function() {
-      fbutil.unauth();
+      ref.unauth();
+      window.location.href = '/';
+    },
+    testLogin: function() {
+      ref.onAuth(function(authData) {
+        if (authData) {
+          console.log('UID: ' + authData.uid);
+        } else {
+          console.log('logged out');
+        }
+      });
     }
   };
 }]);

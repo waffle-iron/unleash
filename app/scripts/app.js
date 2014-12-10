@@ -19,7 +19,7 @@ angular.module('unleashApp', [
     'unleashApp.services'
   ])
 
-.controller('MainCtrl', ['$scope', 'fbutil', 'Auth', 'userService', function($scope, fbutil, Auth, userService) {
+.controller('MainCtrl', ['$scope', 'Auth', 'userService', function($scope, Auth, userService) {
     $scope.auth = Auth;
     $scope.user = $scope.auth.$getAuth();
 
@@ -31,14 +31,7 @@ angular.module('unleashApp', [
       userService.logout();
     };
 
-
     $scope.testLogin = function() {
-      fbutil.onAuth(function(authData) {
-        if (authData) {
-          console.log('UID: ' + authData.uid);
-        } else {
-          // logged out
-        }
-      });
+      userService.testLogin();
     };
   }]);

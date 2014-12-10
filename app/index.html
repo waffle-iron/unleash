@@ -24,7 +24,7 @@
         </ul>
         <div class="account">
           <div ng-show="user">
-            <p>Hello, {{ user.github.displayName }}</p>
+            <p>Hello, {{ user.google.displayName }}</p>
             <button ng-click="auth.$unauth()">Logout</button>
           </div>
           <div ng-hide="user">
@@ -32,7 +32,8 @@
             <button ng-click="login()">Login</button>
           </div>
         </div>
-        User: {{ user.github.username }}
+        Your email: {{ user.google.email}}
+        <button ng-click="testLogin()">Info</button>
       </div>
 
       <div ng-view=""></div>
