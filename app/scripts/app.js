@@ -19,9 +19,18 @@ angular.module('unleashApp', [
     'unleashApp.authService'
   ])
 
-.controller('MainController', ['$scope', 'Auth', 'userService', function($scope, Auth, userService) {
+.controller('MainController', ['$scope', 'fbutil', 'Auth', 'userService', function($scope, fbutil, Auth, userService) {
     $scope.auth = Auth;
     $scope.user = $scope.auth.$getAuth();
+
+    // Todo: find a workaround for the delay
+    if($scope.user) {
+      userService.getUsername.then(function(data) {
+        $scope.username = data;
+      });
+    }
+
+    $scope.allUsers = fbutil.syncArray('users');
 
     userService.listen();
 

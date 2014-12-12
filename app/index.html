@@ -20,8 +20,8 @@
         <ul class="nav nav-pills pull-right">
           <li class="active"><a ng-href="#/">Home</a></li>
           <!-- //angularfire -->
-          <li ng-show="user"><a ng-href="#/paths">All paths</a></li>
-          <li ng-show="user"><a ng-href="#/paths/asdf">Your path</a></li>
+          <li ng-show="user"><a ng-href="#/paths">Paths</a></li>
+          <li ng-show="user"><a ng-href="#/paths/{{ username }}">Your path</a></li>
         </ul>
         <div class="account">
           <div ng-show="user">

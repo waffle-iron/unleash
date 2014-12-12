@@ -4,9 +4,9 @@ var authService = angular.module('unleashApp.authService', ['firebase']);
 
   // let's create a re-usable factory that generates the $firebaseAuth instance
 authService.factory('Auth', ['$window', 'FBURL', '$firebaseAuth', function($window, FBURL, $firebaseAuth) {
-    var ref = new $window.Firebase(FBURL);
-    return $firebaseAuth(ref);
-  }]);
+  var ref = new $window.Firebase(FBURL);
+  return $firebaseAuth(ref);
+}]);
 
 authService.factory('userService', ['$window', 'FBURL', 'Auth', function($window, FBURL, Auth) {
   var ref = new $window.Firebase(FBURL);
@@ -15,24 +15,25 @@ authService.factory('userService', ['$window', 'FBURL', 'Auth', function($window
     var queryRef = ref.child('users');
 
     queryRef.once('value', function(snapshot) {
-      var storedUsers = snapshot.val();
+      var storedUsers = snapshot.val() || {};
       var currentUser = Auth.$getAuth().uid;
 
-      callback(currentUser in storedUsers ? 1 : 0);
+      callback(currentUser in storedUsers);
     });
   };
 
   var isFromXteam = function(data) {
     // Check if authenticated user’s email address is from x-team.com domain
+    if (data) {
+      var domain = 'x-team.com';
+      var email = data.google.email || '';
 
-    var domain = 'x-team.com';
-    var email = data.google.email || '';
-
-    if (!data) {
-      return;
+      return email.indexOf(domain) !== -1 ? 1 : 0;
     }
+  };
 
-    return email.indexOf(domain) !== -1 ? 1 : 0;
+  var parseEmail = function(email) {
+    return email.match(/^([^@]*)@/)[1];
   };
 
   return {
@@ -48,6 +49,7 @@ authService.factory('userService', ['$window', 'FBURL', 'Auth', function($window
         }
       }
     },
+
     login: function() {
       var _this = this;
 
@@ -71,6 +73,7 @@ authService.factory('userService', ['$window', 'FBURL', 'Auth', function($window
 
           checkIfUserExists(function(doesExist) {
             if(!doesExist) {
+              authData.username = parseEmail(authData.google.email);
               _this.register(authData);
             }
           });
@@ -82,6 +85,42 @@ authService.factory('userService', ['$window', 'FBURL', 'Auth', function($window
 
     logout: function() {
       ref.unauth();
+    },
+
+    getUsername: new Promise(function(resolve, reject) {
+      if(Auth.$getAuth()) {
+        var queryRef = ref.child('users');
+
+        queryRef.once('value', function(snapshot) {
+          var storedUsers = snapshot.val() || {};
+          var currentUser = Auth.$getAuth().uid;
+
+          if (Object.keys(storedUsers).length) {
+            resolve(storedUsers[currentUser].username);
+          } else {
+            reject(Error('Object is empty'));
+          }
+        });
+      }
+    }),
+
+    getUserUid: function(username) {
+      return new Promise(function(resolve) {
+        var queryRef = ref.child('users');
+
+        queryRef.once('value', function (snapshot) {
+          var storedUsers = snapshot.val() || {};
+
+          console.log(storedUsers);
+
+          for (var uid in storedUsers) {
+            console.log(uid);
+            if (storedUsers[uid].username === username) {
+              resolve('UID:', uid);
+            }
+          }
+        });
+      });
     },
 
     listen: function() {

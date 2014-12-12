@@ -8,12 +8,15 @@
  */
 angular.module('unleashApp')
   .controller('PathController', function ($scope, fbutil) {
-    $scope.users = fbutil.syncArray('users');
 
-    // display any errors
-    $scope.users.$loaded().catch('asd');
   })
-  .controller('SinglePathController', function($scope, fbutil, $timeout, $routeParams) {
+  .controller('SinglePathController', ['$scope', 'fbutil', '$timeout', '$routeParams', 'userService', function($scope, fbutil, $timeout, $routeParams, userService) {
+    $scope.params = $routeParams;
+
+    userService.getUserId('wojtek').then(function() {
+      console.log('asd');
+    });
+
     // synchronize a read-only, synchronized array of messages, limit to most recent 10
     $scope.messages = fbutil.syncArray('messages');
 
@@ -36,4 +39,4 @@ angular.module('unleashApp')
         $scope.err = null;
       }, 5000);
     }
-  });
+  }]);
