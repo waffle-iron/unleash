@@ -23,15 +23,13 @@ angular.module('unleashApp', [
     $scope.auth = Auth;
     $scope.user = $scope.auth.$getAuth();
 
+    userService.listen();
+
     $scope.login = function() {
       userService.login();
     };
 
     $scope.logout = function() {
       userService.logout();
-    };
-
-    $scope.testLogin = function() {
-      userService.testLogin();
     };
   }]);

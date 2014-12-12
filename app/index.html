@@ -29,11 +29,10 @@
           </div>
           <div ng-hide="user">
             <p>Welcome, please log in.</p>
-            <button ng-click="login()">Login</button>
+            <button ng-click="login()">Sign in with google</button>
           </div>
         </div>
         Your email: {{ user.google.email}}
-        <button ng-click="testLogin()">Info</button>
       </div>
 
       <div ng-view=""></div>
