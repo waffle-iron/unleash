@@ -23,7 +23,7 @@ angular.module('unleashApp')
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
-        controller: 'HomeCtrl',
+        controller: 'HomeController',
         resolve: {
           currentAuth: ['Auth', function(Auth) {
             return Auth.$waitForAuth();
@@ -33,7 +33,7 @@ angular.module('unleashApp')
 
       .when('/path', {
         templateUrl: 'views/path.html',
-        controller: 'PathCtrl',
+        controller: 'PathController',
         resolve: {
           currentAuth: ['Auth', function(Auth) {
             return Auth.$requireAuth();

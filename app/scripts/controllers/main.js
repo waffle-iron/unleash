@@ -8,7 +8,7 @@
  * Controller of the unleashApp
  */
 angular.module('unleashApp')
-  .controller('HomeCtrl', ['$scope', function ($scope) {
+  .controller('HomeController', ['$scope', function ($scope) {
     $scope.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',

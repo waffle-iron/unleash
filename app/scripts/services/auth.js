@@ -1,14 +1,14 @@
 'use strict';
 
-var services = angular.module('unleashApp.services', ['firebase']);
+var authService = angular.module('unleashApp.authService', ['firebase']);
 
   // let's create a re-usable factory that generates the $firebaseAuth instance
-services.factory('Auth', ['$window', 'FBURL', '$firebaseAuth', function($window, FBURL, $firebaseAuth) {
+authService.factory('Auth', ['$window', 'FBURL', '$firebaseAuth', function($window, FBURL, $firebaseAuth) {
     var ref = new $window.Firebase(FBURL);
     return $firebaseAuth(ref);
   }]);
 
-services.factory('userService', ['$window', 'FBURL', 'Auth', function($window, FBURL, Auth) {
+authService.factory('userService', ['$window', 'FBURL', 'Auth', function($window, FBURL, Auth) {
   var ref = new $window.Firebase(FBURL);
 
   var checkIfUserExists = function(callback) {

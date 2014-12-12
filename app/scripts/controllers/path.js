@@ -7,7 +7,7 @@
  * A demo of using AngularFire to manage a synchronized list.
  */
 angular.module('unleashApp')
-  .controller('PathCtrl', function ($scope, fbutil, $timeout, $routeParams) {
+  .controller('PathController', function ($scope, fbutil, $timeout, $routeParams) {
     $scope.params = $routeParams;
 
     // synchronize a read-only, synchronized array of messages, limit to most recent 10

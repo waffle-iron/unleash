@@ -16,10 +16,10 @@ angular.module('unleashApp', [
     'ngTouch',
     'firebase',
     'firebase.utils',
-    'unleashApp.services'
+    'unleashApp.authService'
   ])
 
-.controller('MainCtrl', ['$scope', 'Auth', 'userService', function($scope, Auth, userService) {
+.controller('MainController', ['$scope', 'Auth', 'userService', function($scope, Auth, userService) {
     $scope.auth = Auth;
     $scope.user = $scope.auth.$getAuth();
 
