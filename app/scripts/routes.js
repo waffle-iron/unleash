@@ -31,9 +31,19 @@ angular.module('unleashApp')
         }
       })
 
-      .when('/path', {
-        templateUrl: 'views/path.html',
+      .when('/paths', {
+        templateUrl: 'views/paths.html',
         controller: 'PathController',
+        resolve: {
+          currentAuth: ['Auth', function(Auth) {
+            return Auth.$requireAuth();
+          }]
+        }
+      })
+
+      .when('/paths/:userId', {
+        templateUrl: 'views/path-single.html',
+        controller: 'SinglePathController',
         resolve: {
           currentAuth: ['Auth', function(Auth) {
             return Auth.$requireAuth();

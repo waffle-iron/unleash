@@ -1,0 +1,11 @@
+
+
+
+<p class="alert alert-danger" ng-show="err">{{err}}</p>
+
+<p>Your email is {{ user.google.email}}</p>
+
+<ul id="messages" ng-show="users.length">
+  <li ng-repeat="user in users">{{user.uid}}</li>
+</ul>
+
