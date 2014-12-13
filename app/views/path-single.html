@@ -1,16 +1,18 @@
-Single path
+<h2>Single path</h2>
 
-<h2>Chat</h2>
+<div class="path" ng-show="users.current">
+  <form>
+    <input placeholder="Message..." ng-model="newMessage">
+    <button type="submit" ng-click="addMessage(newMessage);newMessage = null;">send</button>
+  </form>
 
-<form>
-  <input placeholder="Message..." ng-model="newMessage">
-  <button type="submit" ng-click="addMessage(newMessage);newMessage = null;">send</button>
-</form>
+  <ul id="messages" ng-show="messages.length">
+    <li ng-repeat="message in messages | reverse">{{message.text}}</li>
+  </ul>
+  
+  <p>Your email is {{ user.google.email }}</p>
+  <p>UserId from the URL is {{ params.userId }}</p>
+  <p>Your UID is {{ users.current }}</p>
+</div>
 
-<ul id="messages" ng-show="messages.length">
-  <li ng-repeat="message in messages | reverse">{{message.text}}</li>
-</ul>
-
-
-<p>Your email is {{ user.google.email }}</p>
-<p>UserId from the URL is {{ params.userId }}</p>
+<div ng-show="users.notfound">User not found!</div>

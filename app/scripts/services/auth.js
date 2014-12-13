@@ -105,19 +105,23 @@ authService.factory('userService', ['$window', 'FBURL', 'Auth', function($window
     }),
 
     getUserUid: function(username) {
-      return new Promise(function(resolve) {
+      return new Promise(function(resolve, reject) {
         var queryRef = ref.child('users');
+        var users = {};
 
         queryRef.once('value', function (snapshot) {
-          var storedUsers = snapshot.val() || {};
+          users.all = snapshot.val() || {};
 
-          console.log(storedUsers);
-
-          for (var uid in storedUsers) {
-            console.log(uid);
-            if (storedUsers[uid].username === username) {
-              resolve('UID:', uid);
+          for (var uid in users.all) {
+            if (users.all[uid].username === username) {
+              users.current = uid;
             }
+          }
+
+          if(users.current ) {
+            resolve(users.current);
+          } else {
+            reject(Error('No uid for ' + username + ' found!'));
           }
         });
       });
