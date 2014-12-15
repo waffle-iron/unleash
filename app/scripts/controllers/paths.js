@@ -19,7 +19,7 @@ angular.module('unleashApp')
  * # SinglePathController
  * View a single path
  */
-  .controller('SinglePathController', ['$scope', 'fbutil', '$timeout', '$routeParams', 'userService', function($scope, fbutil, $timeout, $routeParams, userService) {
+  .controller('SinglePathController', ['$scope', 'fbutil', '$timeout', '$routeParams', 'userService', 'cardsService', function($scope, fbutil, $timeout, $routeParams, userService, cardsService) {
     $scope.params = $routeParams;
     $scope.users = {};
 
@@ -29,6 +29,9 @@ angular.module('unleashApp')
       $scope.users.notfound = true;
       console.error(err);
     });
+
+    //$scope.cards = cardsService.list();
+    $scope.cards = fbutil.syncArray('cards');
 
     // synchronize a read-only, synchronized array of messages, limit to most recent 10
     $scope.messages = fbutil.syncArray('messages');

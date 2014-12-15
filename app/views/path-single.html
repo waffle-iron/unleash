@@ -1,5 +1,7 @@
 <h2>Single path</h2>
 
+<div ng-if="users.notfound">User not found!</div>
+
 <div class="path" ng-show="users.current">
   <form>
     <input placeholder="Message..." ng-model="newMessage">
@@ -9,10 +11,12 @@
   <ul id="messages" ng-show="messages.length">
     <li ng-repeat="message in messages | reverse">{{message.text}}</li>
   </ul>
-
-  <p>Your email is {{ user.google.email }}</p>
-  <p>UserId from the URL is {{ params.userId }}</p>
-  <p>Your UID is {{ users.current }}</p>
 </div>
 
-<div ng-if="users.notfound">User not found!</div>
+<div class="cards">
+  <h3>Available cards:</h3>
+
+  <ul ng-show="cards.length">
+    <li ng-repeat="template in cards" card-template>yeah</li>
+  </ul>
+</div>

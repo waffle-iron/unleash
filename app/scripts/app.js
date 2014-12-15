@@ -16,7 +16,8 @@ angular.module('unleashApp', [
     'ngTouch',
     'firebase',
     'firebase.utils',
-    'unleashApp.authService'
+    'unleashApp.authService',
+    'unleashApp.cardsService'
   ])
 
 .controller('MainController', ['$scope', 'fbutil', 'Auth', 'userService', function($scope, fbutil, Auth, userService) {
