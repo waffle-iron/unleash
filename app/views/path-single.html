@@ -9,10 +9,10 @@
   <ul id="messages" ng-show="messages.length">
     <li ng-repeat="message in messages | reverse">{{message.text}}</li>
   </ul>
-  
+
   <p>Your email is {{ user.google.email }}</p>
   <p>UserId from the URL is {{ params.userId }}</p>
   <p>Your UID is {{ users.current }}</p>
 </div>
 
-<div ng-show="users.notfound">User not found!</div>
+<div ng-if="users.notfound">User not found!</div>

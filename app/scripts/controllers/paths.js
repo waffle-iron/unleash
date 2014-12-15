@@ -1,15 +1,24 @@
 'use strict';
+
 /**
  * @ngdoc function
- * @name unleashApp.controller:ChatCtrl
+ * @name unleashApp.controller:PathController
  * @description
- * # ChatCtrl
- * A demo of using AngularFire to manage a synchronized list.
+ * # PathController
+ * Displaying a list of users.
  */
 angular.module('unleashApp')
   .controller('PathController', function () {
 
   })
+
+/**
+ * @ngdoc function
+ * @name unleashApp.controller:SinglePathController
+ * @description
+ * # SinglePathController
+ * View a single path
+ */
   .controller('SinglePathController', ['$scope', 'fbutil', '$timeout', '$routeParams', 'userService', function($scope, fbutil, $timeout, $routeParams, userService) {
     $scope.params = $routeParams;
     $scope.users = {};

@@ -1,9 +1,4 @@
-
-
-
 <p class="alert alert-danger" ng-show="err">{{err}}</p>
-
-<p>Your email is {{ user.google.email}}</p>
 
 <ul id="messages" ng-show="allUsers.length">
   <li ng-repeat="user in allUsers"><a ng-href="#/paths/{{ user.username }}">{{ user.username }}</a></li>
