@@ -19,21 +19,10 @@
       <div class="header">
         <ul class="nav nav-pills pull-right">
           <li class="active"><a ng-href="#/">Home</a></li>
-          <!-- //angularfire -->
           <li ng-show="user"><a ng-href="#/paths">Paths</a></li>
-          <li ng-show="user"><a ng-href="#/paths/{{ username }}">Your path</a></li>
+          <li ng-show="user"><a ng-href="#/paths/{{ user.username }}">Your path</a></li>
         </ul>
-        <div class="account">
-          <div ng-show="user">
-            <p>Hello, {{ user.google.displayName }}</p>
-            <button ng-click="auth.$unauth()">Logout</button>
-          </div>
-          <div ng-hide="user">
-            <p>Welcome, please log in.</p>
-            <button ng-click="login()">Sign in with google</button>
-          </div>
-        </div>
-        Your email: {{ user.google.email}}
+        <unleash-account></unleash-account>
       </div>
 
       <div ng-view=""></div>
@@ -63,10 +52,12 @@
 
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
     <script src="scripts/app.js"></script>
-    <script src="scripts/controllers/main.js"></script>
+    <script src="scripts/controllers/home.js"></script>
     <script src="scripts/angularfire/config.js"></script>
     <script src="scripts/angularfire/firebase.utils.js"></script>
     <script src="scripts/controllers/paths.js"></script>
+    <script src="scripts/controllers/account.js"></script>
+    <script src="scripts/directives/account.js"></script>
     <script src="scripts/filters/reverse.js"></script>
     <script src="scripts/services/auth.js"></script>
     <script src="scripts/routes.js"></script>

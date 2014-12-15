@@ -55,7 +55,7 @@ module.exports = function (grunt) {
           livereload: '<%= connect.options.livereload %>'
         },
         files: [
-          '<%= unleash.app %>/{,*/}*.html',
+          '<%= unleash.app %>/{,*/,*/*/}*.html',
           '.tmp/styles/{,*/}*.css',
           '<%= unleash.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
         ]

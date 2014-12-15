@@ -1,0 +1,11 @@
+<div class="account">
+  <div ng-if="user">
+    <p>Hello, {{ user.google.displayName }}</p>
+    <button ng-click="auth.$unauth()">Logout</button>
+  </div>
+  <div ng-if="!user">
+    <p>Welcome, please log in.</p>
+    <button ng-click="login()">Sign in with google</button>
+  </div>
+  Your email: {{ user.google.email}}
+</div>

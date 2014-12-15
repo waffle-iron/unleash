@@ -23,22 +23,14 @@ angular.module('unleashApp', [
     $scope.auth = Auth;
     $scope.user = $scope.auth.$getAuth();
 
+    $scope.allUsers = fbutil.syncArray('users');
+
     // Todo: find a workaround for the delay
     if($scope.user) {
       userService.getUsername.then(function(data) {
-        $scope.username = data;
+        $scope.user.username = data;
+      }, function(err) {
+        console.err(err);
       });
     }
-
-    $scope.allUsers = fbutil.syncArray('users');
-
-    userService.listen();
-
-    $scope.login = function() {
-      userService.login();
-    };
-
-    $scope.logout = function() {
-      userService.logout();
-    };
   }]);
