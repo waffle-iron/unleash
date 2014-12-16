@@ -22,11 +22,21 @@ angular.module('unleashApp')
   .config(['$routeProvider', function($routeProvider) {
     $routeProvider
       .when('/', {
-        templateUrl: 'views/main.html',
+        templateUrl: 'views/home.html',
         controller: 'HomeController',
         resolve: {
           currentAuth: ['Auth', function(Auth) {
             return Auth.$waitForAuth();
+          }]
+        }
+      })
+
+      .when('/account', {
+        templateUrl: 'views/account.html',
+        controller: 'AccountController',
+        resolve: {
+          currentAuth: ['Auth', function(Auth) {
+            return Auth.$requireAuth();
           }]
         }
       })

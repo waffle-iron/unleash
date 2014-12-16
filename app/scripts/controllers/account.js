@@ -1,14 +1,25 @@
 'use strict';
 
 angular.module('unleashApp')
-  .controller('AccountController', ['$scope', 'userService', function ($scope, userService) {
-    userService.listen();
+  .controller('AccountController', ['$scope', 'fbutil', function ($scope, fbutil) {
+    $scope.cards = {};
+    $scope.cards.dropped = [];
 
-    $scope.login = function() {
-      userService.login();
+    //$scope.cards = cardsService.list();
+    $scope.cards.initial = fbutil.syncArray('cards');
+
+    // Handle drag and drop interface
+    $scope.onDropComplete = function(data){
+      var index = $scope.cards.dropped.indexOf(data);
+      if (index === -1) {
+        $scope.cards.dropped.push(data);
+      }
+    };
+    $scope.onDragSuccess = function(data){
+      var index = $scope.cards.dropped.indexOf(data);
+      if (index > -1) {
+        $scope.cards.dropped.splice(index, 1);
+      }
     };
 
-    $scope.logout = function() {
-      userService.logout();
-    };
   }]);

@@ -21,8 +21,8 @@
         <nav class="nav-main">
           <ul>
             <li class="active"><a ng-href="#/" rel="home">Home</a></li>
-            <li ng-show="user"><a ng-href="#/paths">Paths</a></li>
-            <li ng-show="user"><a ng-href="#/paths/{{ user.username }}">Your path</a></li>
+            <li ng-show="user"><a ng-href="#/account">Your path</a> <a ng-href="#/paths/{{ user.username }}">(public)</a></li>
+            <li ng-show="user"><a ng-href="#/paths">All paths</a></li>
           </ul>
         </nav>
         <unleash-account></unleash-account>
@@ -53,8 +53,9 @@
     <script src="scripts/angularfire/firebase.utils.js"></script>
     <script src="scripts/controllers/home.js"></script>
     <script src="scripts/controllers/paths.js"></script>
+    <script src="scripts/controllers/profile.js"></script>
     <script src="scripts/controllers/account.js"></script>
-    <script src="scripts/directives/account.js"></script>
+    <script src="scripts/directives/profile.js"></script>
     <script src="scripts/directives/card-template.js"></script>
     <script src="scripts/filters/reverse.js"></script>
     <script src="scripts/services/auth.js"></script>

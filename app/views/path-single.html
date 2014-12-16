@@ -1,8 +1,12 @@
-<h2>Single path</h2>
+<h2>Display a single path</h2>
 
 <div ng-if="users.notfound">User not found!</div>
 
 <div class="path" ng-show="users.current">
+  <ul ng-show="cards.length">
+    <li ng-repeat="card in cards" card-template>yeah</li>
+  </ul>
+
   <div class="comments">
     <form>
       <input placeholder="Message..." ng-model="newMessage">
@@ -14,24 +18,3 @@
     </ul>
   </div>
 </div>
-
-<div class="cards-list">
-  <h3>Available cards:</h3>
-
-  <ul ng-show="cards.initial.length">
-    <li ng-repeat="card in cards.initial" card-template>yeah</li>
-  </ul>
-</div>
-
-<div class="drop" ng-drop="true" ng-drop-success="onDropComplete($data,$event)">
-  <h4 class="title">Drop area</h4>
-
-  <div ng-repeat="card in cards.dropped" ng-drag="true" ng-drag-data="card" ng-drag-success="onDragSuccess($data,$event)">
-    <h3>{{ card.type }} <span ng-if="template.level">({{ card.level }})</span></h3>
-  </div>
-</div>
-
-<div ng-drag-clone="">
-  <h3>{{ clonedData.type }} <span ng-if="template.level">({{ clonedData.level }})</span></h3>
-</div>
-
