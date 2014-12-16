@@ -13,20 +13,20 @@ cardsService.factory('cardsService', ['$window', 'FBURL', function($window, FBUR
         'level': 1,
         'task': 'Start tracking ideas'
       },
-      {
-        'type': 'Blogging',
-        'level': 2,
-        'task': 'Start drafting 1 idea'
-      },
-      {
-        'type': 'Blogging',
-        'level': 3,
-        'task': 'Publish a blog post'
-      },
-      {
-        'type': 'Blogging',
-        'level': 4
-      },
+      //{
+      //  'type': 'Blogging',
+      //  'level': 2,
+      //  'task': 'Start drafting 1 idea'
+      //},
+      //{
+      //  'type': 'Blogging',
+      //  'level': 3,
+      //  'task': 'Publish a blog post'
+      //},
+      //{
+      //  'type': 'Blogging',
+      //  'level': 4
+      //},
       {
         'type': 'Meetup Attender'
       },

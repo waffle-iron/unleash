@@ -1,12 +1,32 @@
-// bower:scss
-// endbower
+@import "../bower_components/normalize.css/normalize.css";
 
-.path {
+/*
+ * Basic styles
+ */
+.container {
+  max-width: 60em;
+  padding: 1em;
+  margin: 0 auto;
+}
+
+header {
+  overflow: hidden;
+}
+
+nav {
   float: left;
-  width: 50%;
 }
 
-.cards {
+.account {
   float: right;
-  width: 50%;
 }
+
+.welcome {
+  padding: 4em;
+  text-align: center;
+}
+
+/*
+ * Subpages
+ */
+@import "_path";

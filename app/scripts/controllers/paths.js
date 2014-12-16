@@ -19,9 +19,13 @@ angular.module('unleashApp')
  * # SinglePathController
  * View a single path
  */
-  .controller('SinglePathController', ['$scope', 'fbutil', '$timeout', '$routeParams', 'userService', 'cardsService', function($scope, fbutil, $timeout, $routeParams, userService, cardsService) {
+  .controller('SinglePathController', ['$scope', 'fbutil', '$timeout', '$routeParams', 'userService', function($scope, fbutil, $timeout, $routeParams, userService) {
+    // Todo: move functionality to services
+
     $scope.params = $routeParams;
     $scope.users = {};
+    $scope.cards = {};
+    $scope.cards.dropped = [];
 
     userService.getUserUid($routeParams.userId).then(function(uid) {
       $scope.users.current = uid;
@@ -31,7 +35,7 @@ angular.module('unleashApp')
     });
 
     //$scope.cards = cardsService.list();
-    $scope.cards = fbutil.syncArray('cards');
+    $scope.cards.initial = fbutil.syncArray('cards');
 
     // synchronize a read-only, synchronized array of messages, limit to most recent 10
     $scope.messages = fbutil.syncArray('messages');
@@ -56,4 +60,17 @@ angular.module('unleashApp')
       }, 5000);
     }
 
+    // Handle drag and drop interface
+    $scope.onDropComplete = function(data){
+      var index = $scope.cards.dropped.indexOf(data);
+      if (index === -1) {
+        $scope.cards.dropped.push(data);
+      }
+    };
+    $scope.onDragSuccess = function(data){
+      var index = $scope.cards.dropped.indexOf(data);
+      if (index > -1) {
+        $scope.cards.dropped.splice(index, 1);
+      }
+    };
   }]);

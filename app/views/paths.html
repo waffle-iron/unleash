@@ -1,6 +1,6 @@
 <p class="alert alert-danger" ng-show="err">{{err}}</p>
 
+<h2>List of paths:</h2>
 <ul id="messages" ng-show="allUsers.length">
   <li ng-repeat="user in allUsers"><a ng-href="#/paths/{{ user.username }}">{{ user.username }}</a></li>
 </ul>
-
