@@ -46,7 +46,7 @@ angular.module('unleashApp')
         controller: 'PathController',
         resolve: {
           currentAuth: ['Auth', function(Auth) {
-            return Auth.$requireAuth();
+            return Auth.$waitForAuth();
           }]
         }
       })
@@ -56,7 +56,7 @@ angular.module('unleashApp')
         controller: 'SinglePathController',
         resolve: {
           currentAuth: ['Auth', function(Auth) {
-            return Auth.$requireAuth();
+            return Auth.$waitForAuth();
           }]
         }
       })
