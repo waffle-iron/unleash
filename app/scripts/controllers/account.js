@@ -1,15 +1,16 @@
 'use strict';
 
 angular.module('unleashApp')
-  .controller('AccountController', ['$window', '$scope', '$firebase', 'FBURL', 'fbutil', function ($window, $scope, $firebase, FBURL, fbutil) {
+  .controller('AccountController', ['$window', '$scope', '$firebase', 'FBURL', 'fbutil', 'cardsService', function ($window, $scope, $firebase, FBURL, fbutil, cardsService) {
     var ref = new $window.Firebase(FBURL);
     var sync = $firebase(ref.child('users').child($scope.user.uid).child('cards'));
 
     $scope.cards = {};
     $scope.cards.dropped = sync.$asArray();
 
-    //$scope.cards = cardsService.list();
-    $scope.cards.initial = fbutil.syncArray('cards');
+    cardsService.list.then(function(data) {
+      $scope.cards.initial = data;
+    });
 
     // Handle drag and drop interface
     $scope.onDropComplete = function(data){
