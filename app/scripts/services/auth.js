@@ -127,14 +127,12 @@ authService.factory('userService', ['$window', 'FBURL', 'Auth', function($window
       });
     },
 
-    listen: function() {
+    listen: function(isLoggedInInitially) {
       ref.onAuth(function(authData) {
-        if (authData) {
-          // display logged in userbox
-          console.log('change: logged in');
-        } else {
-          // display logged out userbox
-          console.log('change: logged out');
+        // Only detect changes
+        // @todo: Display notifications related to auth changes
+        if (authData && !isLoggedInInitially || !authData && isLoggedInInitially) {
+          $window.location.href = '/';
         }
       });
     }

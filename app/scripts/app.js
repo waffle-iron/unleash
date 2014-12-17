@@ -27,7 +27,7 @@ angular.module('unleashApp', [
 
     $scope.allUsers = fbutil.syncArray('users');
 
-    // Todo: find a workaround for the delay
+    // @todo: Find a workaround for the delay
     if($scope.user) {
       userService.getUsername.then(function(data) {
         $scope.user.username = data;
