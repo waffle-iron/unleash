@@ -21,7 +21,7 @@
         <nav class="nav-main">
           <ul>
             <li class="active"><a ng-href="#/" rel="home">Home</a></li>
-            <li ng-show="user"><a ng-href="#/account">Your path</a> <a ng-href="#/paths/{{ user.username }}">(public)</a></li>
+            <li ng-show="user" ng-cloak><a ng-href="#/account">Your path</a> <a ng-href="#/paths/{{ user.username }}">(public)</a></li>
             <li><a ng-href="#/paths">All paths</a></li>
           </ul>
         </nav>
