@@ -7,6 +7,8 @@
     <li ng-repeat="card in cards" card-template>yeah</li>
   </ul>
 
+  <p ng-show="!cards.length">No cards set!</p>
+
   <div class="comments">
     <form>
       <input placeholder="Message..." ng-model="newMessage">

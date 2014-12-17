@@ -23,17 +23,17 @@ angular.module('unleashApp')
     // Todo: move functionality to services
     $scope.params = $routeParams;
     $scope.users = {};
-    $scope.cards = {};
 
+    // Resolve username from the URL to a google ID stored in Firebase
     userService.getUserUid($routeParams.userId).then(function(uid) {
       $scope.users.current = uid;
-    }, function(err) {
-      $scope.users.notfound = true;
-      console.error(err);
-    });
 
-    //$scope.cards = cardsService.list();
-    $scope.cards = fbutil.syncArray('cards');
+      // Pull cards by this user
+      $scope.cards = fbutil.syncArray('users/' + uid + '/cards');
+    }, function() {
+      // No users found!
+      $scope.users.notfound = true;
+    });
 
     // synchronize a read-only, synchronized array of messages, limit to most recent 10
     $scope.messages = fbutil.syncArray('messages');

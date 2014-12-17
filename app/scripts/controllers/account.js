@@ -1,9 +1,12 @@
 'use strict';
 
 angular.module('unleashApp')
-  .controller('AccountController', ['$scope', 'fbutil', function ($scope, fbutil) {
+  .controller('AccountController', ['$window', '$scope', '$firebase', 'FBURL', 'fbutil', function ($window, $scope, $firebase, FBURL, fbutil) {
+    var ref = new $window.Firebase(FBURL);
+    var sync = $firebase(ref.child('users').child($scope.user.uid).child('cards'));
+
     $scope.cards = {};
-    $scope.cards.dropped = [];
+    $scope.cards.dropped = sync.$asArray();
 
     //$scope.cards = cardsService.list();
     $scope.cards.initial = fbutil.syncArray('cards');
@@ -12,13 +15,13 @@ angular.module('unleashApp')
     $scope.onDropComplete = function(data){
       var index = $scope.cards.dropped.indexOf(data);
       if (index === -1) {
-        $scope.cards.dropped.push(data);
+        $scope.cards.dropped.$add(data);
       }
     };
     $scope.onDragSuccess = function(data){
       var index = $scope.cards.dropped.indexOf(data);
       if (index > -1) {
-        $scope.cards.dropped.splice(index, 1);
+        $scope.cards.dropped.$remove($scope.cards.dropped[index]);
       }
     };
 
