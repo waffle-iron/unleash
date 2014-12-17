@@ -1,3 +1,24 @@
+.profile {
+  margin: 3em 0;
+  overflow: hidden;
+
+  .thumbnail {
+    float: left;
+    max-width: 7em;
+    margin-right: 1em;
+  }
+
+  h2 {
+    font-size: 14px;
+    font-weight: normal;
+    margin: 3em 0 0;
+  }
+}
+
+.path {
+  clear: both;
+}
+
 .cards-list {
   float: right;
   width: 50%;
