@@ -3,8 +3,8 @@
 <div ng-if="users.notfound">User not found!</div>
 
 <div class="profile">
-  <img class="thumbnail" ng-src="{{ user.google.cachedUserProfile.picture }}" alt="{{ user.google.displayName }}">
-  <h2>{{ user.google.displayName }}</h2>
+  <img class="thumbnail" ng-src="{{ users.current.google.cachedUserProfile.picture }}" alt="{{ users.current.google.displayName }}">
+  <h2>{{ users.current.google.displayName }}</h2>
 </div>
 
 <div class="path" ng-show="users.current">

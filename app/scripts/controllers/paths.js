@@ -26,7 +26,8 @@ angular.module('unleashApp')
 
     // Resolve username from the URL to a google ID stored in Firebase
     userService.getUserUid($routeParams.userId).then(function(uid) {
-      $scope.users.current = uid;
+      // Pull user data
+      $scope.users.current = fbutil.syncObject('users/' + uid);
 
       // Pull cards by this user
       $scope.cards = fbutil.syncArray('users/' + uid + '/cards');
