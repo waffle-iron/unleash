@@ -288,24 +288,6 @@ module.exports = function (grunt) {
       }
     },
 
-    htmlmin: {
-      dist: {
-        options: {
-          collapseWhitespace: true,
-          conservativeCollapse: true,
-          collapseBooleanAttributes: true,
-          removeCommentsFromCDATA: true,
-          removeOptionalTags: true
-        },
-        files: [{
-          expand: true,
-          cwd: '<%= unleash.dist %>',
-          src: ['*.html', 'views/{,*/}*.html'],
-          dest: '<%= unleash.dist %>'
-        }]
-      }
-    },
-
     // ng-annotate tries to make the code safe for minification automatically
     // by using the Angular long form for dependency injection.
     ngAnnotate: {
@@ -423,8 +405,7 @@ module.exports = function (grunt) {
     'cssmin',
     'uglify',
     'filerev',
-    'usemin',
-    'htmlmin'
+    'usemin'
   ]);
 
   grunt.registerTask('default', [
