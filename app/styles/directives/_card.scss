@@ -1,0 +1,39 @@
+/*
+ * Variables
+ */
+$card-bg-color: #fc6c7f;
+
+/*
+ * Main styles
+ */
+.card {
+  font-size: 11px;
+  display: inline-block;
+  vertical-align: top;
+  margin: .5em;
+  width: 10em;
+  height: 5em;
+  text-align: center;
+  background: $card-bg-color;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+
+  h3 {
+    font-weight: normal;
+  }
+
+  [ng-drag] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 10em;
+    height: 5em;
+    padding: 0;
+    margin: 0;
+
+    .dragging {
+      opacity: .5;
+    }
+  }
+}

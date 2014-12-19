@@ -1,0 +1,64 @@
+/*
+ * Common styles
+ */
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  color: $body-text-color;
+  padding: 0 2em;
+}
+
+a {
+  color: $body-link-color;
+  text-decoration: none;
+
+  &:hover,
+  &:active {
+    text-decoration: underline;
+  }
+}
+
+.container {
+  @include pie-clearfix;
+  max-width: 71.25em;
+  padding: 3em 0 1em;
+  margin: 0 auto;
+  border: 1px solid $body-border-color;
+  border-width: 0 1px;
+}
+
+main {
+  padding: 0 $padding-container;
+}
+
+/*
+ * Helpers
+ */
+.structural {
+  margin: -1px;
+  padding: 0;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip: rect(0, 0, 0, 0);
+  position: absolute;
+}
+
+.loading {
+  text-align: center;
+}
+
+/*
+ * Angular–related
+ */
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}

@@ -1,40 +1,56 @@
 @import "../bower_components/normalize.css/normalize.css";
+@import "compass";
+@import "compass/_utilities";
 
 /*
- * Basic styles
+ * Variables
  */
-.container {
-  max-width: 60em;
-  padding: 1em;
-  margin: 0 auto;
+$body-text-color:   #000;
+$body-bg-color:     #fff;
+$body-link-color:   #436884;
+$body-border-color: #f4f4f4;
+
+$padding-container: 2em;
+
+$account-bg:        #f2f4f3;
+
+
+/*
+ * Breakpoints
+ */
+@mixin breakpoint($point) {
+  @if $point == desktop {
+    @media (min-width: 70em) { @content ; }
+  }
+  @else if $point == laptop {
+    @media (min-width: 64em) { @content ; }
+  }
+  @else if $point == tablet {
+    @media (min-width: 50em) { @content ; }
+  }
+  @else if $point == phablet {
+    @media (min-width: 37.5em)  { @content ; }
+  }
+  @else if $point == mobileonly {
+    @media (max-width: 37.5em)  { @content ; }
+
+  }
 }
 
-header {
-  overflow: hidden;
-}
-
-nav {
-  float: left;
-}
-
-.account {
-  float: right;
-}
-
-.welcome {
-  padding: 4em;
-  text-align: center;
-}
+/*
+ * Common styles
+ */
+@import "_common";
+@import "_header";
 
 /*
  * Subpages
  */
-@import "_path";
-
+@import "pages/_home";
+@import "pages/_account";
+@import "pages/_path";
 
 /*
- * Angular–related
+ * Directives
  */
-[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
-  display: none !important;
-}
+@import "directives/_card";

@@ -1,0 +1,70 @@
+/*
+ * Variables
+ */
+$drop-bg-color: #f2f4f3;
+
+/*
+ * Main styles
+ */
+.page-account {
+  .wrapper {
+    margin: 0 -2em;
+
+    @include breakpoint(tablet) {
+      float: left;
+      width: 50%;
+      border-right: 1px solid $body-border-color;
+    }
+  }
+
+  .card {
+    cursor: move;
+  }
+}
+
+.cards-list {
+  @include breakpoint(tablet) {
+    float: right;
+    width: 50%;
+  }
+
+  ul {
+    list-style: none;
+  }
+}
+
+[ng-drag], [ng-drag-clone]{
+  user-select: none;
+}
+
+.drag-object, [ng-drag-clone], [ng-drop] [ng-drag]{
+  @extend .card;
+}
+
+.drop {
+  margin: .5em 0;
+  height: 30em;
+  background: $drop-bg-color;
+  position: relative;
+
+  &.drag-enter {
+    outline: solid 5px red;
+  }
+
+  .title {
+    font-weight: normal;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    width: 200px;
+    height: 20px;
+    margin-left: -100px;
+    margin-top: -10px;
+  }
+
+  div {
+    position: relative;
+    z-index: 2;
+  }
+}

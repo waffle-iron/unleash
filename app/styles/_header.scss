@@ -1,0 +1,74 @@
+/*
+ * Variables
+ */
+$logo-width: 40px;
+$logo-height: 32px;
+
+/*
+ * Main styles
+ */
+.masthead {
+  @include pie-clearfix;
+  padding: 0 1em;
+  border-bottom: 1px solid $body-border-color;
+
+  .logo {
+    margin: 0;
+
+    a {
+      float: left;
+      text-decoration: none;
+      color: $body-text-color;
+      font-size: 36px;
+      line-height: 1;
+      position: relative;
+      padding-left: $logo-width + 4px;
+
+      &:after {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: $logo-width;
+        height: $logo-height;
+        background: transparent url(../images/logo.svg) no-repeat;
+        background-size: 100% 100%;
+      }
+    }
+  }
+
+  nav {
+    clear: both;
+
+    ul {
+      list-style: none;
+      padding: 0;
+
+      @include breakpoint(phablet) {
+        padding-left: 3em;
+      }
+    }
+
+    li {
+      display: inline-block;
+      margin-right: 1em;
+    }
+  }
+
+  .account {
+    clear: both;
+    padding-top: 1em;
+
+    @include breakpoint(phablet) {
+      clear: none;
+      padding: 0;
+      float: right;
+    }
+
+    button {
+      display: inline-block;
+      margin-left: .5em;
+    }
+  }
+}
