@@ -39,6 +39,7 @@ body > .wrapper {
   bottom: 100%;
   right: 0;
   z-index: 0;
+  padding: 0 2em;
 }
 
 .container {
@@ -85,9 +86,9 @@ main {
  * Shared modules
  */
 .person {
+  @include pie-clearfix;
   text-align: center;
   margin: 2em 0;
-  overflow: hidden;
 
   &__thumb {
     max-width: 7em;
