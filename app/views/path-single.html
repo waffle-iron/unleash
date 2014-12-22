@@ -1,9 +1,6 @@
 <div ng-if="users.notfound">User not found!</div>
 
-<div class="profile">
-  <img class="thumbnail" ng-src="{{ users.current.google.cachedUserProfile.picture }}" alt="{{ users.current.google.displayName }}">
-  <h2>{{ users.current.google.displayName }}</h2>
-</div>
+<unleash-person></unleash-person>
 
 <div class="path" ng-show="users.current">
   <ul ng-show="cards.length">

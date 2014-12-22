@@ -1,5 +1,5 @@
 <li class="card drag-object">
-  <h3>{{ card.type }} <span ng-if="template.level">({{ card.level }})</span></h3>
+  <h3 class="card__type">{{ card.type }} <span class="card__level" ng-if="template.level">({{ card.level }})</span></h3>
   <div ng-drag="true" ng-drag-data="card"></div>
   <!--<p ng-if="template.task">{{ template.task }}</p>-->
 </li>

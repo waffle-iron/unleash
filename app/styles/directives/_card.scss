@@ -19,7 +19,7 @@ $card-bg-color: #fc6c7f;
   position: relative;
   overflow: hidden;
 
-  h3 {
+  &__type {
     font-weight: normal;
   }
 
@@ -36,4 +36,12 @@ $card-bg-color: #fc6c7f;
       opacity: .5;
     }
   }
+}
+
+[ng-drag], [ng-drag-clone]{
+  user-select: none;
+}
+
+.drag-object, [ng-drag-clone], [ng-drop] [ng-drag]{
+  @extend .card;
 }

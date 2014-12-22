@@ -1,16 +1,15 @@
 <div class="page-account">
   <div class="wrapper">
-    <div class="profile">
-      <img class="thumbnail" ng-src="{{ user.google.cachedUserProfile.picture }}" alt="{{ user.google.displayName }}">
-      <h2>{{ user.google.displayName }}</h2>
-    </div>
+    <unleash-person></unleash-person>
 
     <div class="drop" ng-drop="true" ng-drop-success="onDropComplete($data,$event)">
       <h4 class="title">Drop area</h4>
 
-      <div ng-repeat="card in cards.dropped" ng-drag="true" ng-drag-data="card" ng-drag-success="onDragSuccess($data,$event)">
-        <h3>{{ card.type }} <span ng-if="template.level">({{ card.level }})</span></h3>
-      </div>
+      <ul>
+        <li class="card" ng-repeat="card in cards.dropped" ng-drag="true" ng-drag-data="card" ng-drag-success="onDragSuccess($data,$event)">
+          <h3 class="card__type">{{ card.type }} <span class="card__level" ng-if="template.level">({{ card.level }})</span></h3>
+        </li>
+      </ul>
     </div>
 
     <div ng-drag-clone="">

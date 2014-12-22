@@ -25,6 +25,10 @@ a {
   }
 }
 
+ul, ol {
+  padding: 0;
+}
+
 .container {
   @include pie-clearfix;
   max-width: 71.25em;
@@ -61,4 +65,26 @@ main {
  */
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none !important;
+}
+
+
+/*
+ * Shared modules
+ */
+.person {
+  text-align: center;
+  margin: 2em 0;
+  overflow: hidden;
+
+  &__thumb {
+    max-width: 7em;
+    margin-right: 1em;
+    vertical-align: middle;
+  }
+
+  &__name {
+    font-size: 14px;
+    font-weight: normal;
+    margin: .5em 0 0;
+  }
 }
