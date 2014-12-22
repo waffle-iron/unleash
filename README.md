@@ -9,6 +9,12 @@ This is a work in progress. Many things are subject to change.
 
 ## Running
 
+Make sure that you have newest `Compass` in your system.
+
+```
+sudo gem update
+```
+
 ### Install Dependencies
 
 ```

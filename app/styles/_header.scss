@@ -57,7 +57,7 @@ $logo-height: 32px;
     }
   }
 
-  .account {
+  .auth {
     clear: both;
     padding-top: 1em;
 
@@ -76,7 +76,7 @@ $logo-height: 32px;
       margin-left: .5em;
     }
 
-    .button-google {
+    &__google {
       @include google-button();
     }
   }

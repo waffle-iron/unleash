@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('unleashApp')
-  .controller('ProfileController', ['$scope', 'userService', function ($scope, userService) {
+  .controller('AuthController', ['$scope', 'userService', function ($scope, userService) {
     // Detect if user is logged in initially
     var isLoggedInInitially = $scope.user ? 1 : 0;
 
