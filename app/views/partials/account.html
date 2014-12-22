@@ -1,7 +1,7 @@
 <div class="account">
-  <p ng-if="!user">
-    <button ng-click="login()">Sign in with Google</button>
-  </p>
+  <button class="button-google" ng-if="!user" ng-click="login()">
+    Sign in with Google
+  </button>
   <p ng-if="user">
     Hello, {{ user.google.displayName }}
     <button ng-click="auth.$unauth()">Logout</button>

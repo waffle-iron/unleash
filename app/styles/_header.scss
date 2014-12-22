@@ -43,7 +43,8 @@ $logo-height: 32px;
 
     ul {
       list-style: none;
-      padding: 0;
+      padding: 2em;
+      margin: 0;
 
       @include breakpoint(phablet) {
         padding-left: 3em;
@@ -66,9 +67,17 @@ $logo-height: 32px;
       float: right;
     }
 
+    p {
+      margin: 0;
+    }
+
     button {
       display: inline-block;
       margin-left: .5em;
+    }
+
+    .button-google {
+      @include google-button();
     }
   }
 }
