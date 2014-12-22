@@ -1,0 +1,30 @@
+/*
+ * Variables
+ */
+$menu-width: 30%;
+
+/*
+ * Main styles
+ */
+.achievement {
+  background: #fff;
+  width: $menu-width;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  right: -($menu-width);
+  bottom: 0;
+  padding: 0 2em;
+  z-index: 1;
+  transition: right 0.2s;
+
+  .has-menu & {
+    right: 0;
+    box-shadow: 0 0 15px 5px rgba(0,0,0,0.1);
+  }
+
+  &__comments {
+    margin: 0;
+    list-style: none;
+  }
+}

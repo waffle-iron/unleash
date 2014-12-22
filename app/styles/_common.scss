@@ -12,7 +12,8 @@ html {
 body {
   font-family: 'Open Sans', sans-serif;
   color: $body-text-color;
-  padding: 0 2em;
+  min-height: 100%;
+  overflow-x: hidden;
 }
 
 a {
@@ -29,9 +30,21 @@ ul, ol {
   padding: 0;
 }
 
+body > .wrapper {
+  min-width: 100%;
+  min-height: 100%;
+  background-color: white;
+  position: relative;
+  top: 0;
+  bottom: 100%;
+  right: 0;
+  z-index: 0;
+}
+
 .container {
   @include pie-clearfix;
   max-width: 71.25em;
+  min-height: 100%;
   padding: 3em 0 1em;
   margin: 0 auto;
   border: 1px solid $body-border-color;

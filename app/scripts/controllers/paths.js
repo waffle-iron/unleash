@@ -19,7 +19,7 @@ angular.module('unleashApp')
  * # SinglePathController
  * View a single path
  */
-  .controller('SinglePathController', ['$scope', 'fbutil', '$timeout', '$routeParams', 'userService', function($scope, fbutil, $timeout, $routeParams, userService) {
+  .controller('SinglePathController', function($scope, fbutil, $timeout, $routeParams, userService) {
     // Todo: move functionality to services
     $scope.params = $routeParams;
     $scope.users = {};
@@ -58,4 +58,4 @@ angular.module('unleashApp')
         $scope.err = null;
       }, 5000);
     }
-  }]);
+  });

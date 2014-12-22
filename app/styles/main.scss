@@ -31,6 +31,7 @@ $account-bg:        #f2f4f3;
 @import "pages/_path";
 
 /*
- * Directives
+ * Modules
  */
-@import "directives/_card";
+@import "modules/_achievements";
+@import "modules/_card";
