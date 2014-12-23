@@ -21,6 +21,14 @@ angular.module('unleashApp', [
     'unleashApp.cardsService'
   ])
 
+.config(function($sceDelegateProvider) {
+    // Allow loading thumbnails from Google+ in directives
+    $sceDelegateProvider.resourceUrlWhitelist([
+      'self',
+      'https://*.googleusercontent.com/**'
+    ]);
+  })
+
 .controller('MainController', ['$scope', 'fbutil', 'Auth', 'userService', function($scope, fbutil, Auth, userService) {
     $scope.auth = Auth;
     $scope.user = $scope.auth.$getAuth();

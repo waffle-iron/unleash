@@ -7,10 +7,6 @@ angular.module('unleashApp')
 
     $scope.cards = {};
     $scope.cards.dropped = sync.$asArray();
-    $scope.users = {};
-
-    // We are editing our own profile, so we are the current user
-    $scope.users.current = $scope.user;
 
     cardsService.list.then(function(data) {
       $scope.cards.initial = data;

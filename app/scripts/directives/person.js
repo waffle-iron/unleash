@@ -2,6 +2,10 @@
 
 angular.module('unleashApp').directive('unleashPerson', function() {
   return {
-    templateUrl: 'views/partials/person.html'
+    templateUrl: 'views/partials/person.html',
+    scope: {
+      name: '@',
+      thumb: '@'
+    }
   };
 });

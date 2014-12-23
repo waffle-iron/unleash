@@ -1,6 +1,6 @@
 <div class="page-account">
   <div class="wrapper">
-    <unleash-person></unleash-person>
+    <unleash-person name="{{ user.google.displayName }}" thumb="{{ user.google.cachedUserProfile.picture }}"></unleash-person>
 
     <div class="drop" ng-drop="true" ng-drop-success="onDropComplete($data,$event)">
       <h4 class="title">Drop area</h4>

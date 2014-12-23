@@ -1,6 +1,6 @@
 <div ng-if="users.notfound">User not found!</div>
 
-<unleash-person></unleash-person>
+<unleash-person name="{{ users.current.google.displayName }}" thumb="{{ users.current.google.cachedUserProfile.picture }}"></unleash-person>
 
 <div class="path" ng-show="users.current">
   <ul ng-show="cards.length">

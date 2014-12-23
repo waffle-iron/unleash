@@ -7,7 +7,7 @@ angular.module('unleashApp').directive('unleashCard', function() {
     scope: true,
     replace: true,
     transclude: true,
-    link: function(scope, element, attrs) {
+    link: function(scope, element) {
       var card = angular.element(element);
 
       $(card).not('.page-account .card').on('click', function() {
