@@ -4,7 +4,7 @@
 
 <div class="path" ng-show="users.current">
   <ul ng-show="cards.length">
-    <li ng-repeat="card in cards" unleash-card></li>
+    <li ng-repeat="card in cards" type="{{ card.type }}" level="{{ card.level }}" task="{{ task }}" unleash-card></li>
   </ul>
 
   <p ng-show="!cards.length">No cards set!</p>
