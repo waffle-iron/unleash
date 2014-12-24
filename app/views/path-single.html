@@ -4,19 +4,8 @@
 
 <div class="path" ng-show="users.current">
   <ul ng-show="cards.length">
-    <li ng-repeat="card in cards" type="{{ card.type }}" level="{{ card.level }}" task="{{ task }}" unleash-card></li>
+    <li ng-repeat="card in cards" user-id="{{ users.current.uid }}" card-id="{{ card.$id }}" type="{{ card.type }}" level="{{ card.level }}" task="{{ task }}" unleash-card></li>
   </ul>
 
   <p ng-show="!cards.length">No cards set!</p>
-
-  <div class="comments">
-    <form>
-      <input placeholder="Message..." ng-model="newMessage">
-      <button type="submit" ng-click="addMessage(newMessage);newMessage = null;">send</button>
-    </form>
-
-    <ul id="messages" ng-show="messages.length">
-      <li ng-repeat="message in messages | reverse">{{message.text}}</li>
-    </ul>
-  </div>
 </div>

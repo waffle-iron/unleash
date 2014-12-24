@@ -7,13 +7,13 @@
 
       <ul>
         <li class="card" ng-repeat="card in cards.dropped" ng-drag="true" ng-drag-data="card" ng-drag-success="onDragSuccess($data,$event)">
-          <h3 class="card__type">{{ card.type }} <span class="card__level" ng-if="template.level">({{ card.level }})</span></h3>
+          <h3 class="card__type">{{ card.type }} <span class="card__level" ng-if="card.level">({{ card.level }})</span></h3>
         </li>
       </ul>
     </div>
 
     <div ng-drag-clone="">
-      <h3>{{ clonedData.type }} <span ng-if="template.level">({{ clonedData.level }})</span></h3>
+      <h3>{{ clonedData.type }} <span ng-if="clonedData.level">({{ clonedData.level }})</span></h3>
     </div>
   </div>
 
