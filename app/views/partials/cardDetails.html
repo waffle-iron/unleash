@@ -1,4 +1,5 @@
 <section class="achievement">
+  <button ng-click="close()">Close</button>
   <h2 class="achievement__name">{{ card.type }}</h2>
 
   <p class="achievement__desc" ng-if="card.task">{{ card.task }}</p>
@@ -6,14 +7,7 @@
 
   <h3 class="achievement__history">Path History</h3>
 
-  <ol class="achievement__comments">
-    <li>
-      Comment 1
-    </li>
-    <li>
-      Comment 2
-    </li>
-  </ol>
+  <!--<unleash-card-comments></unleash-card-comments>-->
 
   <div class="comments">
     <form>
