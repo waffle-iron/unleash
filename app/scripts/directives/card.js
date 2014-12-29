@@ -37,11 +37,9 @@ angular.module('unleashApp').directive('unleashCard', function($compile) {
   return {
     templateUrl: 'views/partials/card.html',
     scope: {
+      card: '=cardData',
       user: '@userId',
-      id: '@cardId',
-      type: '@',
-      level: '@',
-      task: '@'
+      id: '@cardId'
     },
     replace: true,
     link: linkFn
