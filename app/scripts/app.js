@@ -15,6 +15,7 @@ angular.module('unleashApp', [
     'ngRoute',
     'ngTouch',
     'ngDraggable',
+    'relativeDate',
     'firebase',
     'firebase.utils',
     'unleashApp.authService',

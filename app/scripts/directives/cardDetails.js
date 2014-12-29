@@ -10,14 +10,23 @@ angular.module('unleashApp').directive('unleashCardDetails', function(cardsServi
       cardsService.closeSidebar();
     };
 
-    // synchronize a read-only, synchronized array of messages, limit to most recent 10
+    // synchronize a read-only, synchronized array of messages
     $scope.messages = $firebase(ref.child('comments')).$asArray();
+
+    // Get username of owner of the card
+    ref.parent().parent().once('value', function(snap) {
+      $scope.cardOwner = snap.val().username;
+    });
 
     // provide a method for adding a message
     $scope.addMessage = function(newMessage) {
       if( newMessage ) {
         // push a message to the end of the array
-        $scope.messages.$add({text: newMessage, author: $scope.username})
+        $scope.messages.$add({
+          text: newMessage,
+          author: $scope.currentUser,
+          timestamp: $window.Firebase.ServerValue.TIMESTAMP
+        })
           // display any errors
           .catch(alert);
       }
@@ -37,7 +46,7 @@ angular.module('unleashApp').directive('unleashCardDetails', function(cardsServi
     controller: ctrlFn,
     scope: {
       cardOwnerId: '@',
-      username: '@',
+      currentUser: '@username',
       cardId: '@'
     }
   };

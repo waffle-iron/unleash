@@ -1,22 +1,26 @@
 <section class="achievement">
-  <button ng-click="close()">Close</button>
+  <button ng-click="close()" class="close" title="Close">Close</button>
   <h2 class="achievement__name">{{ card.type }}</h2>
 
-  <p class="achievement__desc" ng-if="card.task">{{ card.task }}</p>
-  <p class="achievement__desc" ng-if="!card.task">No card description set.</p>
-
-  <h3 class="achievement__history">Path History</h3>
-
-  <!--<unleash-card-comments></unleash-card-comments>-->
-
-  <div class="comments">
-    <form>
-      <input placeholder="Message..." ng-model="newMessage">
-      <button type="submit" ng-click="addMessage(newMessage);newMessage = null;">send</button>
-    </form>
-
-    <ul id="messages" ng-show="messages.length">
-      <li ng-repeat="message in messages | reverse">{{message.author}}: {{message.text}}</li>
-    </ul>
+  <div class="achievement__desc">
+    <p>{{ card.task || "No card description set." }}</p>
   </div>
+
+  <h3>Path History</h3>
+
+  <div class="achievement__comments" ng-show="messages.length">
+    <article class="comment" ng-class="{'is-owner': message.author === cardOwner}" ng-repeat="message in messages | reverse">
+      <div class="comment__meta">
+        <address class="comment__author"><a ng-href="/#/paths/{{ message.author }}">{{ message.author }}</a></address>
+        <time class="comment__time" ng-if="message.timestamp">{{ message.timestamp | relativeDate }}</time>
+      </div>
+
+      <p class="comment__body">{{ message.text }}</p>
+    </article>
+  </div>
+
+  <form class="achievement__form">
+    <input placeholder="Add a comment…" ng-model="newMessage">
+    <button type="submit" ng-click="addMessage(newMessage);newMessage = null;">send</button>
+  </form>
 </section>

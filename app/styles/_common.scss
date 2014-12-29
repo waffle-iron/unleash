@@ -16,6 +16,10 @@ body {
   overflow-x: hidden;
 }
 
+input {
+  font-family: 'Open Sans', sans-serif;
+}
+
 a {
   color: $body-link-color;
   text-decoration: none;
