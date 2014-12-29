@@ -2,13 +2,14 @@
 /* global $ */
 
 angular.module('unleashApp').directive('unleashCard', function($compile) {
-  var showCardDetails = function(scope, user, id) {
+  var showCardDetails = function(scope, cardOwnerId, username, cardId) {
     var $body = angular.element(document.body);
 
     // Create sidebar element
     var $sidebar = angular.element('<unleash-card-details></unleash-card-details>')
-      .attr('user', user)
-      .attr('id', id);
+      .attr('card-owner-id', cardOwnerId)
+      .attr('username', username)
+      .attr('card-id', cardId);
 
     // If exists, hide existing sidebar
     $body.removeClass('has-menu');
@@ -27,10 +28,11 @@ angular.module('unleashApp').directive('unleashCard', function($compile) {
     var card = angular.element(element);
 
     $(card).not('.page-account .card').on('click', function() {
-      var user = $(this).attr('user-id');
-      var id = $(this).attr('card-id');
+      var cardOwnerId = $(this).attr('card-owner-id');
+      var username = $(this).attr('username');
+      var cardId = $(this).attr('card-id');
 
-      showCardDetails(scope, user, id);
+      showCardDetails(scope, cardOwnerId, username, cardId);
     });
   };
 
@@ -38,8 +40,9 @@ angular.module('unleashApp').directive('unleashCard', function($compile) {
     templateUrl: 'views/partials/card.html',
     scope: {
       card: '=cardData',
-      user: '@userId',
-      id: '@cardId'
+      cardOwnerId: '@',
+      username: '@',
+      cardId: '@'
     },
     replace: true,
     link: linkFn

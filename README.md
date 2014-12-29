@@ -1,11 +1,12 @@
 # #Unleash your path
 
-This is a work in progress. Many things are subject to change.
+This is a work in progress. Things are subject to change.
 
 ## TODO
 
-1. Store user profiles in Firebase
-2. Start path page
+1. Write tests!
+2. Better interface for removing cards
+3. Multiple levels for cards
 
 ## Running
 
@@ -27,7 +28,7 @@ npm install && bower install
 grunt serve
 ```
 
-Browse to the app at `http://localhost:8000`.
+Browse to the app at `http://localhost:9000`.
 
 
 ## Testing
