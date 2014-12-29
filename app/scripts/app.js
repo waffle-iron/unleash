@@ -29,6 +29,12 @@ angular.module('unleashApp', [
     ]);
   })
 
+.run(function($rootScope, cardsService) {
+    $rootScope.$on('$routeChangeStart', function() {
+      cardsService.closeSidebar();
+    });
+  })
+
 .controller('MainController', ['$scope', 'fbutil', 'Auth', 'userService', function($scope, fbutil, Auth, userService) {
     $scope.auth = Auth;
     $scope.user = $scope.auth.$getAuth();

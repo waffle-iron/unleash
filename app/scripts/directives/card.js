@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('unleashApp').directive('unleashCard', function($compile) {
+angular.module('unleashApp').directive('unleashCard', function($compile, cardsService) {
   var showCardDetails = function(scope) {
     var $body = angular.element(document.body);
 
@@ -10,16 +10,18 @@ angular.module('unleashApp').directive('unleashCard', function($compile) {
       .attr('username', scope.username)
       .attr('card-id', scope.cardId);
 
-    // If exists, hide existing sidebar
-    $body.removeClass('has-menu');
+    // Hide the existing sidebar, if any
+    cardsService.closeSidebar();
 
-    // Remove rendered sidebar directive from DOM
-    angular.element('.achievement').remove();
+    // Add a new sidebar
+    setTimeout(function() {
+      $body
+        .append($compile($sidebar)(scope));
 
-    // Add new sidebar
-    $body
-      .append($compile($sidebar)(scope))
-      .addClass('has-menu');
+      setTimeout(function() {
+        $body.addClass('has-menu');
+      }, 10);
+    }, 250);
 
   };
 

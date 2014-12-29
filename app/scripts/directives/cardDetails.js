@@ -1,13 +1,13 @@
 'use strict';
 
-angular.module('unleashApp').directive('unleashCardDetails', function() {
+angular.module('unleashApp').directive('unleashCardDetails', function(cardsService) {
   var ctrlFn = function($window, $scope, FBURL, $firebase, $timeout) {
     var ref = new $window.Firebase(FBURL).child('users').child($scope.cardOwnerId).child('cards').child($scope.cardId);
     var sync = $firebase(ref);
     $scope.card = sync.$asObject();
 
-    $scope.close = function () {
-      angular.element(document.body).removeClass('has-menu');
+    $scope.close = function() {
+      cardsService.closeSidebar();
     };
 
     // synchronize a read-only, synchronized array of messages, limit to most recent 10

@@ -67,6 +67,13 @@ cardsService.factory('cardsService', ['$window', 'FBURL', '$firebase', function(
           resolve(populateCards(cards.initial));
         }
       });
-    })
+    }),
+    closeSidebar: function() {
+      angular.element(document.body).removeClass('has-menu');
+
+      setTimeout(function() {
+        angular.element('.achievement').remove();
+      }, 250);
+    }
   };
 }]);
