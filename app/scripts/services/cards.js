@@ -6,7 +6,7 @@ cardsService.factory('cardsService', ['$window', 'FBURL', '$firebase', function(
   var ref = new $window.Firebase(FBURL).child('cards');
   var cards = {};
 
-  cards.stored = $firebase(ref.child('cards'));
+  cards.stored = $firebase(ref);
 
   cards.initial = [
     {
@@ -15,16 +15,20 @@ cardsService.factory('cardsService', ['$window', 'FBURL', '$firebase', function(
       'task': 'Start tracking ideas'
     },
     {
-      'type': 'Meetup Attender'
+      'type': 'Meetup Attender',
+      'task': 'Attend at least 1 meeting'
     },
     {
-      'type': 'Meetup Speaker'
+      'type': 'Meetup Speaker',
+      'task': 'Speak at a meetup'
     },
     {
-      'type': 'Conference Speaker'
+      'type': 'Conference Speaker',
+      'task': 'Speak at a conference'
     },
     {
-      'type': 'Open Source Contributor'
+      'type': 'Open Source Contributor',
+      'task': 'Contribute to an Open Source project'
     },
     {
       'type': 'Proactive',
