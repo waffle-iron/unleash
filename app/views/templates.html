@@ -6,24 +6,34 @@
   <button ng-click="cards.add();">Add new</button>
 
   <ul class="existing">
-    <li ng-repeat="card in cards.existing | orderBy:cards.order">
-      <input type="text" ng-model="card.type">
-      <input type="text" ng-model="card.task">
+    <li class="template edit">
+      <input type="text" value="Sample type">
+      <input type="text" value="Sample task">
       <input type="text" class="level" ng-model="card.level">
-      <div style="display: inline-block; font-size: 12px;">
-        {{ card }}
+      <div class="controls">
+        <button ng-click="cards.save($index)">Save</button>
+        <button>Delete</button>
       </div>
-      <button ng-click="cards.edit($index)">Edit</button>
+    </li>
+    <li class="template" ng-repeat="card in cards.existing | orderBy:cards.order">
+      <h3>{{ card.type }} <span ng-if="card.level">({{ card.level }})</span></h3>
+      {{ card.task}}
+      <div class="controls">
+        <button ng-click="cards.edit($index)">Edit</button>
+      </div>
     </li>
   </ul>
 
-  <ul class="new" ng-if="cards.new">
-    <li ng-repeat="card in cards.new">
-      <input type="text" class="type" ng-model="card.type" placeholder="Type">
-      <input type="text" class="task" ng-model="card.task" placeholder="Task">
-      <input type="text" class="level" ng-model="card.level" placeholder="Level">
-      <button ng-click="cards.save($index)">Save</button>
-      <button>Delete</button>
-    </li>
-  </ul>
+  <div class="new" ng-if="cards.new.length">
+    <h2>Add new card template</h2>
+    <ul>
+      <li class="template" ng-repeat="card in cards.new">
+        <input type="text" class="type" ng-model="card.type" placeholder="Type">
+        <input type="text" class="task" ng-model="card.task" placeholder="Task">
+        <input type="text" class="level" ng-model="card.level" placeholder="Level">
+        <button ng-click="cards.save($index)">Save</button>
+        <button>Delete</button>
+      </li>
+    </ul>
+  </div>
 </div>

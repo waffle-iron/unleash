@@ -1,3 +1,25 @@
-.level {
-  width: 20px;
+.existing {
+  margin-top: 50px;
+}
+
+.template {
+  list-style: none;
+  width: 200px;
+  height: 150px;
+  display: inline-block;
+  vertical-align: top;
+  margin: 0 20px 50px 0;
+
+  h3 {
+    margin: 0;
+  }
+
+  input {
+    display: block;
+    width: 150px;
+  }
+
+  .level {
+    width: 20px;
+  }
 }
