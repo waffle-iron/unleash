@@ -6,6 +6,8 @@ cardsService.factory('cardsService', ['$window', 'FBURL', '$firebase', function(
   var ref = new $window.Firebase(FBURL).child('cards');
   var cards = {};
 
+  cards.new = [];
+
   cards.stored = $firebase(ref);
 
   cards.initial = [
@@ -59,6 +61,9 @@ cardsService.factory('cardsService', ['$window', 'FBURL', '$firebase', function(
   };
 
   return {
+    // Synchronize new cards
+    newCards: cards.new,
+
     // List initial cards
     list: new Promise(function(resolve, reject) {
       var list = cards.stored.$asArray();
@@ -106,6 +111,16 @@ cardsService.factory('cardsService', ['$window', 'FBURL', '$firebase', function(
           });
         }
       });
+    },
+
+    // Remove a given template card
+    remove: function(eq) {
+      cards.new.splice(eq, 1);
+    },
+
+    // Restore initial template cards
+    restore: function() {
+      populateCards(cards.initial);
     },
 
     closeSidebar: function() {

@@ -4,11 +4,12 @@
 
 <div ng-if="cards.existing">
   <button ng-click="cards.add();">Add new</button>
+  <button ng-click="cards.restore()">Restore initial cards</button>
 
   <div class="new" ng-if="cards.new.length">
     <h2>Add new card template</h2>
     <ul>
-      <li class="template" ng-repeat="card in cards.new" card="card" cards="cards" unleash-template-edit></li>
+      <li class="template" ng-repeat="card in cards.new" data-eq="{{$index}}" card="card" cards="cards" unleash-template-edit></li>
     </ul>
   </div>
 

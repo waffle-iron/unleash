@@ -12,13 +12,10 @@ angular.module('unleashApp')
       console.log(scope.card);
 
       var $edit = angular.element('<li class="template edit" unleash-template-edit></li>')
+        .addClass('template edit')
         .attr('card', scope.card);
 
-      // Add a new sidebar
-      setTimeout(function() {
-        element
-          .replaceWith($compile($edit)(scope));
-      }, 250);
+      element.replaceWith($compile($edit)(scope));
     };
 
     return {

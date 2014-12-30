@@ -11,25 +11,25 @@
 angular.module('unleashApp')
   .controller('TemplatesController', function ($scope, cardsService) {
     $scope.cards = {};
-    $scope.cards.new = [];
     $scope.cards.order = 'type';
+
+    $scope.$watch(
+      function() {
+        return cardsService.newCards;
+      }, function(newVal) {
+        $scope.cards.new = newVal;
+      }
+    );
 
     cardsService.list.then(function(result) {
       $scope.cards.existing = result;
     });
 
     $scope.cards.add = function() {
-      $scope.cards.new.push([]);
+      cardsService.newCards.push([]);
     };
 
-    $scope.cards.save = function() {
-      var card = $scope.cards.new[index];
-
-      cardsService.save(card).then(function() {
-        $scope.cards.new.splice(index, 1);
-        $scope.$apply();
-      }, function(error) {
-        console.log(error);
-      });
-    };
+    $scope.cards.restore = function() {
+      cardsService.restore();
+    }
   });

@@ -1,8 +1,7 @@
-Current Cards: {{ card }}
 <input type="text" class="type" ng-model="card.type" placeholder="Type">
 <input type="text" class="task" ng-model="card.task" placeholder="Task">
 <input type="text" class="level" ng-model="card.level" placeholder="Level">
 <div class="controls">
   <button ng-click="save(card)">Save</button>
-  <button>Delete</button>
+  <button ng-click="remove()">Delete</button>
 </div>
