@@ -30,6 +30,13 @@ grunt serve
 
 Browse to the app at `http://localhost:9000`.
 
+### Deploying
+
+```
+npm run deploy
+```
+
+Check the updates live on https://unleash-app.firebaseapp.com.
 
 ## Testing
 
