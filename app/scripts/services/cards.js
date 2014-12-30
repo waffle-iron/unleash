@@ -80,11 +80,11 @@ cardsService.factory('cardsService', ['$window', 'FBURL', '$firebase', function(
       });
     }),
 
-    edit: new Promise(function(resolve) {
-      var result = cards.stored.$asObject();
+    update: function(data) {
+      return new Promise(function(resolve, reject) {
 
-      resolve(result);
-    }),
+      });
+    },
 
     save: function(data) {
       return new Promise(function(resolve, reject) {

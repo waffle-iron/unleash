@@ -22,12 +22,7 @@ angular.module('unleashApp')
       $scope.cards.new.push([]);
     };
 
-    $scope.cards.edit = function(index) {
-      var template = angular.element('.templates li').eq(index);
-      console.log(template.find('input').eq(0).val());
-    };
-
-    $scope.cards.save = function(index) {
+    $scope.cards.save = function() {
       var card = $scope.cards.new[index];
 
       cardsService.save(card).then(function() {
