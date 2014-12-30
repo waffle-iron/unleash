@@ -61,5 +61,15 @@ angular.module('unleashApp')
         }
       })
 
+      .when('/templates', {
+        templateUrl: 'views/templates.html',
+        controller: 'TemplatesController',
+        resolve: {
+          currentAuth: ['Auth', function(Auth) {
+            return Auth.$requireAuth();
+          }]
+        }
+      })
+
       .otherwise({redirectTo: '/'});
   }]);

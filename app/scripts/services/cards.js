@@ -49,25 +49,65 @@ cardsService.factory('cardsService', ['$window', 'FBURL', '$firebase', function(
   ];
 
   var populateCards = function(data) {
-    cards.stored.$set(data);
-
-    return data;
+    return new Promise(function(resolve, reject) {
+      cards.stored.$set(data).then(function() {
+        resolve(data);
+      }, function(error) {
+        reject(new Error(error));
+      });
+    });
   };
 
   return {
     // List initial cards
-    list: new Promise(function(resolve) {
-      ref.once('value', function(data) {
-        if(data.val()) {
-          // Cards already exist
-          resolve(data.val());
+    list: new Promise(function(resolve, reject) {
+      var list = cards.stored.$asArray();
+
+      list.$loaded().then(function() {
+        if (list.length) {
+          resolve(list);
         }
+
         else {
           // No cards stored in Firebase, instantiate
-          resolve(populateCards(cards.initial));
+          populateCards(cards.initial).then(function() {
+            resolve(cards.initial);
+          }, function(error) {
+            reject(new Error(error));
+          });
         }
+
       });
     }),
+
+    edit: new Promise(function(resolve) {
+      var result = cards.stored.$asObject();
+
+      resolve(result);
+    }),
+
+    save: function(data) {
+      return new Promise(function(resolve, reject) {
+        if (!data || !data.type) {
+          reject(new Error('No card data given.'));
+        }
+
+        else {
+          var card = {
+            'type': data.type,
+            'task': data.task || '',
+            'level': data.level || ''
+          };
+
+          cards.stored.$push(card).then(function(ref) {
+            resolve(ref.key());
+          }, function(error) {
+            reject(error);
+          });
+        }
+      });
+    },
+
     closeSidebar: function() {
       angular.element(document.body).removeClass('has-menu');
 

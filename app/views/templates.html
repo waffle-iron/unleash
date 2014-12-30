@@ -1,0 +1,29 @@
+<h2>List all templates</h2>
+
+<p ng-if="!cards.existing">Loading…</p>
+
+<div ng-if="cards.existing">
+  <button ng-click="cards.add();">Add new</button>
+
+  <ul class="existing">
+    <li ng-repeat="card in cards.existing | orderBy:cards.order">
+      <input type="text" ng-model="card.type">
+      <input type="text" ng-model="card.task">
+      <input type="text" class="level" ng-model="card.level">
+      <div style="display: inline-block; font-size: 12px;">
+        {{ card }}
+      </div>
+      <button ng-click="cards.edit($index)">Edit</button>
+    </li>
+  </ul>
+
+  <ul class="new" ng-if="cards.new">
+    <li ng-repeat="card in cards.new">
+      <input type="text" class="type" ng-model="card.type" placeholder="Type">
+      <input type="text" class="task" ng-model="card.task" placeholder="Task">
+      <input type="text" class="level" ng-model="card.level" placeholder="Level">
+      <button ng-click="cards.save($index)">Save</button>
+      <button>Delete</button>
+    </li>
+  </ul>
+</div>
