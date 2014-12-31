@@ -23,6 +23,7 @@ angular.module('unleashApp')
 
     cardsService.list.then(function(result) {
       $scope.cards.existing = result;
+      $scope.$apply();
     });
 
     $scope.cards.add = function() {
