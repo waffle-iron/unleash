@@ -8,21 +8,20 @@
  */
 angular.module('unleashApp')
   .directive('unleashTemplateView', function ($compile) {
-    var makeEditable = function(scope, element) {
-      console.log(scope.card);
+    var makeEditable = function(scope, element, attrs) {
+      var $edit = angular.element('<div unleash-template-edit></div>')
+        .addClass('template template--edit')
+        .attr('data-id', attrs.id);
 
-      var $edit = angular.element('<li class="template edit" unleash-template-edit></li>')
-        .addClass('template edit')
-        .attr('card', scope.card);
-
-      element.replaceWith($compile($edit)(scope));
+      element.closest('li').removeClass('view').addClass('edit');
+      element.append($compile($edit)(scope));
     };
 
     return {
       templateUrl: 'views/partials/templateView.html',
       link: function postLink(scope, element, attrs) {
         scope.edit = function() {
-          makeEditable(scope, element);
+          makeEditable(scope, element, attrs);
         };
       },
       scope: {

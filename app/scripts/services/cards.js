@@ -85,13 +85,7 @@ cardsService.factory('cardsService', ['$window', 'FBURL', '$firebase', function(
       });
     }),
 
-    update: function(data) {
-      return new Promise(function(resolve, reject) {
-
-      });
-    },
-
-    save: function(data) {
+    add: function(data) {
       return new Promise(function(resolve, reject) {
         if (!data || !data.type) {
           reject(new Error('No card data given.'));
@@ -113,9 +107,34 @@ cardsService.factory('cardsService', ['$window', 'FBURL', '$firebase', function(
       });
     },
 
+    update: function(id, data) {
+      return new Promise(function(resolve, reject) {
+        var card = $firebase(ref.child(id));
+
+        card.$update(data).then(function() {
+          resolve();
+        }, function(error) {
+          reject(error);
+        });
+      });
+    },
+
     // Remove a given template card
-    remove: function(eq) {
+    removeNew: function(eq) {
       cards.new.splice(eq, 1);
+    },
+
+    removeStored: function(id) {
+      return new Promise(function(resolve, reject) {
+        var list = cards.stored.$asArray();
+        var item = list.$getRecord(id);
+
+        list.$remove(item).then(function() {
+          resolve();
+        }, function(error) {
+          reject(error);
+        });
+      });
     },
 
     // Restore initial template cards

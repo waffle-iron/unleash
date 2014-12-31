@@ -72,3 +72,9 @@
     border-right: #bb3f30 1px solid;
   }
 }
+
+@mixin hide() {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+}

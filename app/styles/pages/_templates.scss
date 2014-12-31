@@ -2,13 +2,16 @@
   margin-top: 50px;
 }
 
-.template {
+.templates li {
   list-style: none;
-  width: 200px;
-  height: 150px;
   display: inline-block;
   vertical-align: top;
   margin: 0 20px 50px 0;
+}
+
+.template {
+  width: 200px;
+  height: 150px;
 
   h3 {
     margin: 0;
@@ -22,4 +25,9 @@
   .level {
     width: 50px;
   }
+}
+
+.edit .template--view,
+.view .template--edit {
+  @include hide();
 }

@@ -32,5 +32,5 @@ angular.module('unleashApp')
 
     $scope.cards.restore = function() {
       cardsService.restore();
-    }
+    };
   });
