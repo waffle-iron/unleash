@@ -41,6 +41,6 @@
   },
   "scripts": {
     "test": "grunt test",
-    "deploy": "grunt build && ./node_modules/firebase-cli/bin/firebase deploy"
+    "deploy": "sh scripts/deploy.sh"
   }
 }
