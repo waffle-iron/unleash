@@ -1,7 +1,7 @@
 <div class="template template--view">
-  <h3>{{ card.type }} <span ng-if="card.level">({{ card.level }})</span></h3>
+  <h3>{{ card.type }} <span class="template__level" ng-if="card.level">(Level {{ card.level }})</span></h3>
   {{ card.task}}
-  <div class="controls">
+  <div class="template__controls">
     <button ng-click="edit()">Edit</button>
   </div>
 </div>

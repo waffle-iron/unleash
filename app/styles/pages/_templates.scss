@@ -1,3 +1,11 @@
+/*
+ * Variables
+ */
+$template-alt-color: #ccc;
+
+/*
+ * Main styles
+ */
 .existing {
   margin-top: 50px;
 }
@@ -12,6 +20,7 @@
 .template {
   width: 200px;
   height: 150px;
+  position: relative;
 
   h3 {
     margin: 0;
@@ -24,6 +33,17 @@
 
   .level {
     width: 50px;
+  }
+
+  &__level {
+    color: $template-alt-color;
+    font-weight: 100;
+  }
+
+  &__controls {
+    position: absolute;
+    bottom: 0;
+    left: 0;
   }
 }
 
