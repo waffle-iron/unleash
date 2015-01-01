@@ -5,7 +5,7 @@
   <div class="achievement__steps">
     <div ng-if="card.task">
       <h3>Steps I’m taking:</h3>
-      <p>{{ card.task }}</p>
+      <p ng-bind-html="card.task | linky:'_blank'"></p>
     </div>
     <p ng-if="!card.task">No card description set.</p>
   </div>
@@ -19,7 +19,7 @@
         <time class="comment__time" ng-if="message.timestamp">{{ message.timestamp | relativeDate }}</time>
       </div>
 
-      <p class="comment__body">{{ message.text }}</p>
+      <p class="comment__body" ng-bind-html="message.text | linky:'_blank'"></p>
     </article>
   </div>
 

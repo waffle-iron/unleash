@@ -1,6 +1,6 @@
 <div class="template template--view">
   <h3>{{ card.type }} <span class="template__level" ng-if="card.level">(Level {{ card.level }})</span></h3>
-  {{ card.task}}
+  <p ng-bind-html="card.task | linky:'_blank'"></p>
   <div class="template__controls">
     <button ng-click="edit()">Edit</button>
   </div>
