@@ -1,29 +1,29 @@
 'use strict';
 
 angular.module('unleashApp')
-  .controller('AccountController', ['$window', '$scope', '$firebase', 'FBURL', 'fbutil', 'cardsService', function ($window, $scope, $firebase, FBURL, fbutil, cardsService) {
-    var ref = new $window.Firebase(FBURL);
-    var sync = $firebase(ref.child('users').child($scope.user.uid).child('cards'));
-
+  .controller('AccountController', function ($window, $scope, $firebase, FBURL, fbutil, cardsService, userCards) {
     $scope.cards = {};
-    $scope.cards.dropped = sync.$asArray();
+
+    // @todo: Make userCards and cardsService more consistent
+    userCards.setup($scope.user.uid).then(function() {
+      $scope.cards.dropped = userCards.list();
+    });
 
     cardsService.list.then(function(data) {
       $scope.cards.initial = data;
     });
 
     // Handle drag and drop interface
-    $scope.onDropComplete = function(data){
-      var index = $scope.cards.dropped.indexOf(data);
-      if (index === -1) {
-        $scope.cards.dropped.$add(data);
-      }
-    };
-    $scope.onDragSuccess = function(data){
-      var index = $scope.cards.dropped.indexOf(data);
-      if (index > -1) {
-        $scope.cards.dropped.$remove($scope.cards.dropped[index]);
-      }
+    $scope.onDropComplete = function(data) {
+      userCards.add(data);
     };
 
-  }]);
+    //$scope.onDragSuccess = function() {
+    //  console.log('Dragging has finished');
+    //};
+
+    $scope.remove = function(data) {
+      userCards.remove(data);
+    };
+
+  });

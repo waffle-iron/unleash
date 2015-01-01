@@ -2,7 +2,7 @@
   <div class="wrapper">
     <unleash-person name="{{ user.google.displayName }}" thumb="{{ user.google.cachedUserProfile.picture }}"></unleash-person>
 
-    <div class="drop" ng-drop="true" ng-drop-success="onDropComplete($data,$event)">
+    <div class="drop drop--primary" ng-drop="true" ng-drop-success="onDropComplete($data,$event)">
       <h4 class="title">Drop area</h4>
 
       <ul>
@@ -10,6 +10,10 @@
           <h3 class="card__type">{{ card.type }} <span class="card__level" ng-if="card.level">({{ card.level }})</span></h3>
         </li>
       </ul>
+    </div>
+
+    <div class="drop drop--remove" ng-drop="true" ng-drop-success="remove($data, $event)">
+      <h4 class="title">Remove cards</h4>
     </div>
 
     <div ng-drag-clone="">

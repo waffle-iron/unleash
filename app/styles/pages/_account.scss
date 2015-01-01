@@ -1,7 +1,9 @@
 /*
  * Variables
  */
-$drop-bg-color: #f2f4f3;
+$drop-bg-color:     #f2f4f3;
+$remove-bg-color:   #dbdbdb;
+$remove-txt-color:   #777;
 
 /*
  * Main styles
@@ -34,9 +36,15 @@ $drop-bg-color: #f2f4f3;
 
   .drop {
     margin: .5em 0;
-    height: 30em;
+    height: 20em;
     background: $drop-bg-color;
     position: relative;
+
+    &--remove {
+      height: 5em;
+      background: $remove-bg-color;
+      color: $remove-txt-color;
+    }
 
     &.drag-enter {
       outline: solid 5px red;
