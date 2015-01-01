@@ -40,7 +40,21 @@ $comment-border-color:  #f1f1f2;
     margin: 1em 0;
   }
 
-  h3 {
+  &__steps {
+    h3 {
+      margin: 0;
+      font-size: inherit;
+      font-weight: normal;
+      display: inline;
+    }
+
+    p {
+      margin: 0;
+      display: inline;
+    }
+  }
+
+  &__history {
     margin: 2em 0 1em;
   }
 
