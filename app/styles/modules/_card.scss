@@ -1,7 +1,14 @@
 /*
  * Variables
  */
-$card-bg-color: #fc6c7f;
+$card-default-bg:    #fafafa;
+$card-default-txt:   #8f939a;
+
+$card-achieved-bg:   rgb(41, 203, 147);
+$card-achieved-txt:  #fdfefe;
+
+$card-template-bg:   #fc6c7f;
+$card-template-txt:  $card-achieved-txt;
 
 /*
  * Main styles
@@ -14,13 +21,18 @@ $card-bg-color: #fc6c7f;
   width: 10em;
   height: 5em;
   text-align: center;
-  background: $card-bg-color;
-  color: #fff;
+  background: $card-default-bg;
+  color: $card-default-txt;
   position: relative;
   overflow: hidden;
+  user-select: none;
 
   &__type {
     font-weight: normal;
+  }
+
+  &.dragging {
+    opacity: .5;
   }
 
   [ng-drag] {
@@ -31,17 +43,32 @@ $card-bg-color: #fc6c7f;
     height: 5em;
     padding: 0;
     margin: 0;
-
-    .dragging {
-      opacity: .5;
-    }
   }
 }
 
-[ng-drag], [ng-drag-clone]{
+[ng-drag-clone] {
+  @extend .card;
+}
+
+[ng-drag], [ng-drag-clone] {
   user-select: none;
 }
 
-.drag-object, [ng-drag-clone], [ng-drop] [ng-drag]{
-  @extend .card;
+[ng-drag-clone] {
+  margin: 0;
+  opacity: .5;
+  background: #fff;
+
+}
+
+.card {
+  .card-templates & {
+    background: $card-template-bg;
+    color: $card-template-txt;
+  }
+
+  &--is-achieved {
+    background: $card-achieved-bg;
+    color: $card-achieved-txt;
+  }
 }

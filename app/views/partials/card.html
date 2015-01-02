@@ -1,4 +1,4 @@
-<li class="card" ng-class="{'drag-object': isDraggable}" ng-click="showCardDetails()">
+<li class="card" ng-class="{'drag-object': isDraggable, 'card--is-achieved': card.achieved}" ng-click="showCardDetails()">
   <h3 class="card__type">{{ card.type }} <span class="card__level" ng-if="card.level">({{ card.level }})</span></h3>
   <div ng-if="isDraggable" ng-drag="true" ng-drag-data="card"></div>
 </li>

@@ -6,7 +6,7 @@
       <h4 class="title">Drop area</h4>
 
       <ul>
-        <li class="card" ng-repeat="card in cards.dropped" ng-drag="true" ng-drag-data="card" ng-drag-success="onDragSuccess($data,$event)">
+        <li class="card" ng-class="{'card--is-achieved': card.achieved}" ng-repeat="card in cards.dropped" ng-drag="true" ng-drag-data="card" ng-drag-success="onDragSuccess($data,$event)">
           <h3 class="card__type">{{ card.type }} <span class="card__level" ng-if="card.level">({{ card.level }})</span></h3>
         </li>
       </ul>
@@ -17,11 +17,11 @@
     </div>
 
     <div ng-drag-clone="">
-      <h3>{{ clonedData.type }} <span ng-if="clonedData.level">({{ clonedData.level }})</span></h3>
+      <h3 class="card__type">{{ clonedData.type }} <span ng-if="clonedData.level">({{ clonedData.level }})</span></h3>
     </div>
   </div>
 
-  <div class="cards-list">
+  <div class="card-templates">
     <h3 class="structural">Available cards:</h3>
 
     <p class="loading" ng-hide="cards.initial.length">Loading cards…</p>

@@ -50,6 +50,11 @@ cardsService.factory('cardsService', ['$window', 'FBURL', '$firebase', function(
     }
   ];
 
+  /**
+   * Populate a predefined set of cards to database
+   * @param data
+   * @returns {Promise}
+   */
   var populateCards = function(data) {
     return new Promise(function(resolve, reject) {
       cards.stored.$set(data).then(function() {
@@ -61,10 +66,14 @@ cardsService.factory('cardsService', ['$window', 'FBURL', '$firebase', function(
   };
 
   return {
-    // Synchronize new cards
+    /**
+     * Synchronize new cards
+     */
     newCards: cards.new,
 
-    // List initial cards
+    /**
+     * List initial cards
+     */
     list: new Promise(function(resolve, reject) {
       var list = cards.stored.$asArray();
 
@@ -85,6 +94,11 @@ cardsService.factory('cardsService', ['$window', 'FBURL', '$firebase', function(
       });
     }),
 
+    /**
+     * Add a new card
+     * @param data
+     * @returns {Promise}
+     */
     add: function(data) {
       return new Promise(function(resolve, reject) {
         if (!data || !data.type) {
@@ -107,6 +121,12 @@ cardsService.factory('cardsService', ['$window', 'FBURL', '$firebase', function(
       });
     },
 
+    /**
+     * Update card details with new data
+     * @param id
+     * @param data
+     * @returns {Promise}
+     */
     update: function(id, data) {
       return new Promise(function(resolve, reject) {
         var card = $firebase(ref.child(id));
@@ -119,11 +139,36 @@ cardsService.factory('cardsService', ['$window', 'FBURL', '$firebase', function(
       });
     },
 
-    // Remove a given template card
+    /**
+     * Mark card as completed.
+     * @param card
+     * @returns {Promise}
+     */
+    markAsAchieved: function(card) {
+      return new Promise(function(resolve, reject) {
+        card.achieved = true;
+
+        card.$save().then(function() {
+          resolve();
+        }, function(error) {
+          reject(error);
+        })
+      });
+    },
+
+    /**
+     * Remove given template card
+     * @param eq
+     */
     removeNew: function(eq) {
       cards.new.splice(eq, 1);
     },
 
+    /**
+     * Remove given stored card
+     * @param id
+     * @returns {Promise}
+     */
     removeStored: function(id) {
       return new Promise(function(resolve, reject) {
         var list = cards.stored.$asArray();
@@ -137,11 +182,16 @@ cardsService.factory('cardsService', ['$window', 'FBURL', '$firebase', function(
       });
     },
 
-    // Restore initial template cards
+    /**
+     * Restore initial template cards
+     */
     restore: function() {
       populateCards(cards.initial);
     },
 
+    /**
+     * Close sidebar and remove achievement from DOM
+     */
     closeSidebar: function() {
       angular.element(document.body).removeClass('has-menu');
 

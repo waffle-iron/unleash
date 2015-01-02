@@ -10,6 +10,12 @@ angular.module('unleashApp').directive('unleashCardDetails', function(cardsServi
       cardsService.closeSidebar();
     };
 
+    $scope.markAsAchieved = function() {
+      cardsService.markAsAchieved($scope.card).then(function() {
+        console.log($scope.card);
+      });
+    };
+
     // synchronize a read-only, synchronized array of messages
     $scope.messages = $firebase(ref.child('comments')).$asArray();
 

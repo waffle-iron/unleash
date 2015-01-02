@@ -19,7 +19,7 @@ $remove-txt-color:   #777;
     }
   }
 
-  .cards-list {
+  .card-templates {
     @include breakpoint(tablet) {
       float: right;
       width: 50%;
