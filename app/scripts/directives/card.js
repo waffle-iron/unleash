@@ -6,9 +6,9 @@ angular.module('unleashApp').directive('unleashCard', function($compile, cardsSe
 
     // Create sidebar element
     var $sidebar = angular.element('<unleash-card-details></unleash-card-details>')
-      .attr('card-owner-id', scope.cardOwnerId)
-      .attr('username', scope.username)
-      .attr('card-id', scope.cardId);
+      .attr('data-card-owner-id', scope.cardOwnerId)
+      .attr('data-username', scope.username)
+      .attr('data-card-id', scope.card.$id);
 
     // Hide the existing sidebar, if any
     cardsService.closeSidebar();
@@ -25,22 +25,20 @@ angular.module('unleashApp').directive('unleashCard', function($compile, cardsSe
 
   };
 
-  var linkFn = function(scope) {
-    scope.showCardDetails = function() {
-      if(!scope.isDraggable) {
+  var linkFn = function(scope, element, attr) {
+    if(attr.view === 'public') {
+      element.on('click', function() {
         showCardDetails(scope);
-      }
-    };
+      })
+    }
   };
 
   return {
     templateUrl: 'views/partials/card.html',
     scope: {
-      card: '=cardData',
+      card: '=',
       cardOwnerId: '@',
-      username: '@',
-      cardId: '@',
-      isDraggable: '@'
+      username: '@'
     },
     replace: true,
     link: linkFn

@@ -11,9 +11,7 @@ angular.module('unleashApp').directive('unleashCardDetails', function(cardsServi
     };
 
     $scope.markAsAchieved = function() {
-      cardsService.markAsAchieved($scope.card).then(function() {
-        console.log($scope.card);
-      });
+      cardsService.markAsAchieved($scope.card);
     };
 
     // synchronize a read-only, synchronized array of messages

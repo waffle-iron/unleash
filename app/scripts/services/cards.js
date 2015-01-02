@@ -152,7 +152,7 @@ cardsService.factory('cardsService', ['$window', 'FBURL', '$firebase', function(
           resolve();
         }, function(error) {
           reject(error);
-        })
+        });
       });
     },
 

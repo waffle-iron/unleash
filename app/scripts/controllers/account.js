@@ -5,10 +5,13 @@ angular.module('unleashApp')
     $scope.cards = {};
 
     // @todo: Make userCards and cardsService more consistent
+
+    // Get a list of user cards for a specific user
     userCards.setup($scope.user.uid).then(function() {
       $scope.cards.dropped = userCards.list();
     });
 
+    // Get a list of card templates
     cardsService.list.then(function(data) {
       $scope.cards.initial = data;
     });
@@ -18,12 +21,8 @@ angular.module('unleashApp')
       userCards.add(data);
     };
 
-    //$scope.onDragSuccess = function() {
-    //  console.log('Dragging has finished');
-    //};
-
+    // Remove specific card from user cards
     $scope.remove = function(data) {
       userCards.remove(data);
     };
-
   });

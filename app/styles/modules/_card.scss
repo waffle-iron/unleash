@@ -26,6 +26,21 @@ $card-template-txt:  $card-achieved-txt;
   position: relative;
   overflow: hidden;
   user-select: none;
+  transition: color .3s, background-color .3s;
+
+  .card-templates & {
+    background: $card-template-bg;
+    color: $card-template-txt;
+  }
+
+  &[ng-drag] {
+    user-select: none;
+  }
+
+  &--is-achieved {
+    background: $card-achieved-bg;
+    color: $card-achieved-txt;
+  }
 
   &__type {
     font-weight: normal;
@@ -43,32 +58,5 @@ $card-template-txt:  $card-achieved-txt;
     height: 5em;
     padding: 0;
     margin: 0;
-  }
-}
-
-[ng-drag-clone] {
-  @extend .card;
-}
-
-[ng-drag], [ng-drag-clone] {
-  user-select: none;
-}
-
-[ng-drag-clone] {
-  margin: 0;
-  opacity: .5;
-  background: #fff;
-
-}
-
-.card {
-  .card-templates & {
-    background: $card-template-bg;
-    color: $card-template-txt;
-  }
-
-  &--is-achieved {
-    background: $card-achieved-bg;
-    color: $card-achieved-txt;
   }
 }

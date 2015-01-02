@@ -5,10 +5,8 @@
     <div class="drop drop--primary" ng-drop="true" ng-drop-success="onDropComplete($data,$event)">
       <h4 class="title">Drop area</h4>
 
-      <ul>
-        <li class="card" ng-class="{'card--is-achieved': card.achieved}" ng-repeat="card in cards.dropped" ng-drag="true" ng-drag-data="card" ng-drag-success="onDragSuccess($data,$event)">
-          <h3 class="card__type">{{ card.type }} <span class="card__level" ng-if="card.level">({{ card.level }})</span></h3>
-        </li>
+      <ul ng-if="cards.dropped.length">
+        <li ng-repeat="card in cards.dropped" data-card="card" ng-drag="true" ng-drag-data="card" unleash-card></li>
       </ul>
     </div>
 
@@ -16,9 +14,7 @@
       <h4 class="title">Remove cards</h4>
     </div>
 
-    <div ng-drag-clone="">
-      <h3 class="card__type">{{ clonedData.type }} <span ng-if="clonedData.level">({{ clonedData.level }})</span></h3>
-    </div>
+
   </div>
 
   <div class="card-templates">
@@ -26,8 +22,8 @@
 
     <p class="loading" ng-hide="cards.initial.length">Loading cards…</p>
 
-    <ul ng-show="cards.initial.length">
-      <li ng-repeat="card in cards.initial" card-data="card" is-draggable="true" unleash-card></li>
+    <ul ng-if="cards.initial.length">
+      <li ng-repeat="card in cards.initial" data-card="card" ng-drag="true" ng-drag-data="card" unleash-card></li>
     </ul>
   </div>
 </div>
