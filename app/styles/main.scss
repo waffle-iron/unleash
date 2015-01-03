@@ -17,6 +17,7 @@ $comment-owner-bg:      #ffffe4;
  * Normalize and mixins
  */
 @import "compass";
+@import "compass/_reset";
 @import "compass/_utilities";
 @import "_mixins";
 

@@ -1,4 +1,9 @@
 /*
+ * CSS reset
+ */
+@include global-reset();
+
+/*
  * Common styles
  */
 html {

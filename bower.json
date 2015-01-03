@@ -13,7 +13,6 @@
     "angularfire": "~0.9.0",
     "jquery": "~2.1.1",
     "ngDraggable": "*",
-    "normalize.css": "~3.0.2",
     "angular-relative-date": "wildlyinaccurate/angular-relative-date",
     "lodash": "~2.4.1"
   },
