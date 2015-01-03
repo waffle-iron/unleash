@@ -24,6 +24,7 @@ angular.module('unleashApp')
       .when('/', {
         templateUrl: 'views/home.html',
         controller: 'HomeController',
+        className: 'home',
         resolve: {
           currentAuth: ['Auth', function(Auth) {
             return Auth.$waitForAuth();
@@ -34,6 +35,7 @@ angular.module('unleashApp')
       .when('/account', {
         templateUrl: 'views/account.html',
         controller: 'AccountController',
+        className: 'account',
         resolve: {
           currentAuth: ['Auth', function(Auth) {
             return Auth.$requireAuth();
@@ -44,6 +46,7 @@ angular.module('unleashApp')
       .when('/paths', {
         templateUrl: 'views/paths.html',
         controller: 'PathController',
+        className: 'paths',
         resolve: {
           currentAuth: ['Auth', function(Auth) {
             return Auth.$waitForAuth();
@@ -54,6 +57,7 @@ angular.module('unleashApp')
       .when('/paths/:userId', {
         templateUrl: 'views/path-single.html',
         controller: 'SinglePathController',
+        className: 'path-single',
         resolve: {
           currentAuth: ['Auth', function(Auth) {
             return Auth.$waitForAuth();
@@ -64,6 +68,7 @@ angular.module('unleashApp')
       .when('/templates', {
         templateUrl: 'views/templates.html',
         controller: 'TemplatesController',
+        className: 'templates',
         resolve: {
           currentAuth: ['Auth', function(Auth) {
             return Auth.$requireAuth();

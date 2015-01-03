@@ -31,9 +31,14 @@ angular.module('unleashApp', [
     ]);
   })
 
-.run(function($rootScope, cardsService) {
+.run(function($rootScope, $route, cardsService) {
     $rootScope.$on('$routeChangeStart', function() {
       cardsService.closeSidebar();
+    });
+    $rootScope.$on('$routeChangeSuccess', function(newVal, oldVal) {
+      if (oldVal !== newVal) {
+        $rootScope.routeClassName = 'page-' + $route.current.className;
+      }
     });
   })
 

@@ -1,29 +1,27 @@
-<div class="page-account">
-  <div class="wrapper">
-    <unleash-person name="{{ user.google.displayName }}" thumb="{{ user.google.cachedUserProfile.picture }}"></unleash-person>
+<div class="wrapper">
+  <unleash-person name="{{ user.google.displayName }}" thumb="{{ user.google.cachedUserProfile.picture }}"></unleash-person>
 
-    <div class="drop drop--primary" ng-drop="true" ng-drop-success="onDropComplete($data,$event)">
-      <h4 class="title">Drop area</h4>
+  <div class="drop drop--primary" ng-drop="true" ng-drop-success="onDropComplete($data,$event)">
+    <h4 class="title">Drop area</h4>
 
-      <ul ng-if="cards.dropped.length">
-        <li ng-repeat="card in cards.dropped" data-card="card" ng-drag="true" ng-drag-data="card" unleash-card></li>
-      </ul>
-    </div>
-
-    <div class="drop drop--remove" ng-drop="true" ng-drop-success="remove($data, $event)">
-      <h4 class="title">Remove cards</h4>
-    </div>
-
-
-  </div>
-
-  <div class="card-templates">
-    <h3 class="structural">Available cards:</h3>
-
-    <p class="loading" ng-hide="cards.initial.length">Loading cards…</p>
-
-    <ul ng-if="cards.initial.length">
-      <li ng-repeat="card in cards.initial" data-card="card" ng-drag="true" ng-drag-data="card" unleash-card></li>
+    <ul ng-if="cards.dropped.length">
+      <li ng-repeat="card in cards.dropped" data-card="card" ng-drag="true" ng-drag-data="card" unleash-card></li>
     </ul>
   </div>
+
+  <div class="drop drop--remove" ng-drop="true" ng-drop-success="remove($data, $event)">
+    <h4 class="title">Remove cards</h4>
+  </div>
+
+
+</div>
+
+<div class="card-templates">
+  <h3 class="structural">Available cards:</h3>
+
+  <p class="loading" ng-hide="cards.initial.length">Loading cards…</p>
+
+  <ul ng-if="cards.initial.length">
+    <li ng-repeat="card in cards.initial" data-card="card" ng-drag="true" ng-drag-data="card" unleash-card></li>
+  </ul>
 </div>

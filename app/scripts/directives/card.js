@@ -29,7 +29,7 @@ angular.module('unleashApp').directive('unleashCard', function($compile, cardsSe
     if(attr.view === 'public') {
       element.on('click', function() {
         showCardDetails(scope);
-      })
+      });
     }
   };
 
