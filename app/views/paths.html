@@ -1,6 +1,11 @@
 <p class="alert alert-danger" ng-show="err">{{err}}</p>
 
-<h2>List of paths:</h2>
-<ul id="messages" ng-show="allUsers.length">
-  <li ng-repeat="user in allUsers"><a ng-href="#/paths/{{ user.username }}">{{ user.username }}</a></li>
+<h2 class="structural">List of paths:</h2>
+
+<ul class="paths-list" ng-show="allUsers.length">
+  <li ng-repeat="user in allUsers">
+    <a ng-href="#/paths/{{ user.username }}">
+      <unleash-person name="{{ user.google.displayName }}" thumb="{{ user.google.cachedUserProfile.picture }}"></unleash-person>
+    </a>
+  </li>
 </ul>

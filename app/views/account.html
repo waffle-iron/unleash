@@ -1,11 +1,11 @@
-<div class="wrapper">
-  <unleash-person name="{{ user.google.displayName }}" thumb="{{ user.google.cachedUserProfile.picture }}"></unleash-person>
+<!--<unleash-person name="{{ user.google.displayName }}" thumb="{{ user.google.cachedUserProfile.picture }}"></unleash-person>-->
 
+<div class="inner">
   <div class="drop drop--primary" ng-drop="true" ng-drop-success="onDropComplete($data,$event)">
     <h4 class="title">Drop area</h4>
 
     <ul ng-if="cards.dropped.length">
-      <li ng-repeat="card in cards.dropped" data-card="card" ng-drag="true" ng-drag-data="card" unleash-card></li>
+      <li ng-repeat="card in cards.dropped" class="card--small" data-card="card" ng-drag="true" ng-drag-data="card" unleash-card></li>
     </ul>
   </div>
 
@@ -22,6 +22,6 @@
   <p class="loading" ng-hide="cards.initial.length">Loading cards…</p>
 
   <ul ng-if="cards.initial.length">
-    <li ng-repeat="card in cards.initial" data-card="card" ng-drag="true" ng-drag-data="card" unleash-card></li>
+    <li ng-repeat="card in cards.initial" class="card--small card--template" data-card="card" ng-drag="true" ng-drag-data="card" unleash-card></li>
   </ul>
 </div>

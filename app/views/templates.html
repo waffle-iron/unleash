@@ -1,4 +1,4 @@
-<h2>List all templates</h2>
+<h2 class="primary">List all templates</h2>
 
 <p ng-if="!cards.existing">Loading…</p>
 
@@ -7,13 +7,13 @@
   <button ng-click="cards.restore()">Restore initial cards</button>
 
   <div class="templates templates--new" ng-if="cards.new.length">
-    <h2>Add new card template</h2>
+    <h3 class="secondary">Add new card template</h3>
     <ul>
-      <li class="template" ng-repeat="card in cards.new" data-eq="{{$index}}" card="card" cards="cards" unleash-template-add></li>
+      <li class="card card--template card--is-editable template" ng-repeat="card in cards.new" data-eq="{{$index}}" card="card" cards="cards" unleash-template-add></li>
     </ul>
   </div>
 
   <ul class="templates templates--existing">
-    <li class="view" ng-repeat="card in cards.existing | orderBy:cards.order" data-id="{{card.$id}}" card="card" unleash-template-view></li>
+    <li class="view card card--template card--is-editable" ng-repeat="card in cards.existing | orderBy:cards.order" data-id="{{card.$id}}" card="card" unleash-template-view></li>
   </ul>
 </div>

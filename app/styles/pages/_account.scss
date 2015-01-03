@@ -9,7 +9,7 @@ $remove-txt-color:   #777;
  * Main styles
  */
 .page-account {
-  .wrapper {
+  .inner{
     margin: 0 -2em;
 
     @include breakpoint(tablet) {
@@ -17,6 +17,10 @@ $remove-txt-color:   #777;
       width: 50%;
       border-right: 1px solid $body-border-color;
     }
+  }
+
+  .person {
+    margin: 2em 0;
   }
 
   .card-templates {
@@ -36,7 +40,8 @@ $remove-txt-color:   #777;
 
   .drop {
     margin: .5em 0;
-    height: 20em;
+    padding: 1em 2em;
+    height: 30em;
     background: $drop-bg-color;
     position: relative;
 
@@ -44,6 +49,11 @@ $remove-txt-color:   #777;
       height: 5em;
       background: $remove-bg-color;
       color: $remove-txt-color;
+
+      .title {
+        top: 50%;
+        bottom: auto;
+      }
     }
 
     &.drag-enter {
@@ -54,7 +64,7 @@ $remove-txt-color:   #777;
       font-weight: normal;
       position: absolute;
       text-align: center;
-      top: 50%;
+      bottom: 5%;
       left: 50%;
       width: 200px;
       height: 20px;

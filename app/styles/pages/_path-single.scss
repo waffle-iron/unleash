@@ -1,0 +1,25 @@
+/*
+ * Variables
+ */
+$path-bg-color: #f1f2f2;
+
+/*
+ * Main styles
+ */
+.page-path-single {
+  .person {
+    margin: 2em 0;
+  }
+
+  .path {
+    clear: both;
+    text-align: center;
+    background: $path-bg-color;
+    padding: 3em 0;
+    margin: 0 -2em;
+
+    .card {
+      margin: 0 5% 100px;
+    }
+  }
+}

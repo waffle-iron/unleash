@@ -10,6 +10,7 @@ $comment-border-color:  #f1f1f2;
 .achievement {
   background: #fff;
   width: $menu-width;
+  min-width: 375px;
   height: 100%;
   position: fixed;
   top: 0;
@@ -37,15 +38,18 @@ $comment-border-color:  #f1f1f2;
   }
 
   &__name {
-    margin: 1em 0;
+    font-size: 24px;
+    font-weight: bold;
+    margin: 1em 0 1.5em;
   }
 
   &__resolve {
     background: none;
-    border: 0;
+    border-radius: 3px;
+    border: 1px solid #ccc;
     margin: 2em 0 0;
-    padding: 0;
     color: $body-link-color;
+    cursor: pointer;
   }
 
   &__steps {
@@ -63,6 +67,7 @@ $comment-border-color:  #f1f1f2;
 
   &__history {
     margin: 2em 0 1em;
+    font-weight: bold;
   }
 
   &__desc,
@@ -76,11 +81,17 @@ $comment-border-color:  #f1f1f2;
 
     input {
       width: 80%;
+      padding: 5px;
+      line-height: 1.4;
     }
 
     button {
+      background: #eee;
+      border: 1px solid #ccc;
       float: right;
+      line-height: 1.4;
       width: 18%;
+      padding: 6px 5px 5px;
     }
   }
 }

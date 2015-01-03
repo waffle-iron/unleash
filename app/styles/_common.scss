@@ -84,6 +84,21 @@ main {
 }
 
 /*
+ * Typography
+ */
+.primary {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 1em 0 2em;
+}
+
+.secondary {
+  font-size: 18px;
+  margin: 0 0 1em;
+  font-weight: bold;
+}
+
+/*
  * Angular–related
  */
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
@@ -97,11 +112,9 @@ main {
 .person {
   @include pie-clearfix;
   text-align: center;
-  margin: 2em 0;
 
   &__thumb {
     max-width: 7em;
-    margin-right: 1em;
     vertical-align: middle;
   }
 

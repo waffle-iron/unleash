@@ -10,40 +10,13 @@ $template-alt-color: #ccc;
   margin-top: 50px;
 }
 
-.templates li {
-  list-style: none;
-  display: inline-block;
-  vertical-align: top;
-  margin: 0 20px 50px 0;
-}
+.templates {
+  margin: 2em 0 0;
 
-.template {
-  width: 200px;
-  height: 150px;
-  position: relative;
-
-  h3 {
-    margin: 0;
-  }
-
-  input {
-    display: block;
-    width: 150px;
-  }
-
-  .level {
-    width: 50px;
-  }
-
-  &__level {
-    color: $template-alt-color;
-    font-weight: 100;
-  }
-
-  &__controls {
-    position: absolute;
-    bottom: 0;
-    left: 0;
+  li {
+    display: inline-block;
+    vertical-align: top;
+    margin: 0 20px 50px 0;
   }
 }
 
