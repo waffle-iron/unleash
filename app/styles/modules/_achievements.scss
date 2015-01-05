@@ -65,6 +65,11 @@ $comment-border-color:  #f1f1f2;
     }
   }
 
+  &__toggle {
+    display: block;
+    margin: -1em 0 2em;
+  }
+
   &__history {
     margin: 2em 0 1em;
     font-weight: bold;

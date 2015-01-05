@@ -140,13 +140,13 @@ cardsService.factory('cardsService', ['$window', 'FBURL', '$firebase', function(
     },
 
     /**
-     * Mark card as completed.
+     * Toggle 'achieved' state in the card
      * @param card
-     * @returns {Promise}
+     * @returns {Promise} Resolved after the updated card has been stored in Firebase.
      */
-    markAsAchieved: function(card) {
+    toggleAchieved: function(card) {
       return new Promise(function(resolve, reject) {
-        card.achieved = true;
+        card.achieved = !card.achieved;
 
         card.$save().then(function() {
           resolve();

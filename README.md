@@ -5,8 +5,10 @@ This is a work in progress. Things are subject to change.
 ## TODO
 
 1. Write tests!
-2. Better interface for removing cards
-3. Multiple levels for cards
+2. Remove used cards from account page
+3. Implement multiple levels of cards
+4. Add notifications
+5. Match [Angular.js guidelines](#coding-standards) more closely
 
 ## Running
 
@@ -45,3 +47,8 @@ Check the updates live on https://unleash-app.firebaseapp.com.
 ```
 grunt test
 ```
+
+## Coding Standards
+
+* CSS: http://bem.info/method/
+* Angular.js: https://github.com/johnpapa/angularjs-styleguide
