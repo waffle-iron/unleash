@@ -10,7 +10,7 @@
     <p ng-if="!card.task">No card description set.</p>
   </div>
 
-  <button class="achievement__resolve" ng-click="markAsAchieved()">Mark as achieved</button>
+  <button ng-if="currentUser === cardOwner" class="achievement__resolve" ng-click="markAsAchieved()">Mark as achieved</button>
 
   <h3 class="achievement__history">Path History</h3>
 
