@@ -22,13 +22,26 @@ angular.module('unleashApp').directive('unleashCard', function($compile, cardsSe
         $body.addClass('has-menu');
       }, 10);
     }, 250);
-
   };
 
   var linkFn = function(scope, element, attr) {
+    /**
+     * Check if a given card is already being viewed
+     * @param id Card $id
+     * @returns {boolean}
+     */
+    var isCardAlreadyOpened = function(id) {
+      var currentId = angular.element('.achievement').attr('data-card-id');
+      return id === currentId;
+    };
+
     if(attr.view === 'public') {
       element.on('click', function() {
-        showCardDetails(scope);
+        if (isCardAlreadyOpened(scope.card.$id)) {
+          cardsService.closeSidebar();
+        } else {
+          showCardDetails(scope);
+        }
       });
     }
   };
