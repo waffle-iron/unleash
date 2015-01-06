@@ -6,14 +6,22 @@ angular.module('unleashApp')
 
     // @todo: Make userCards and cardsService more consistent
 
-    // Get a list of user cards for a specific user
-    userCards.setup($scope.user.uid).then(function() {
-      $scope.cards.dropped = userCards.list();
+    // Setup userCards with user ID
+    userCards.setup($scope.user.uid);
+
+    // List cards that user has been assigned with
+    userCards.listCards().then(function(cards) {
+      $scope.cards.dropped = cards;
+    }).catch(function(error) {
+      console.error(error);
     });
 
-    // Get a list of card templates
-    cardsService.list.then(function(data) {
-      $scope.cards.initial = data;
+    // List templates that are still available to the user
+    userCards.getAvailableTemplates().then(function(templates) {
+      $scope.cards.available = templates;
+      $scope.$apply();
+    }).catch(function(error) {
+      console.error(error);
     });
 
     // Handle drag and drop interface

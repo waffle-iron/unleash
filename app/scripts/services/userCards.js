@@ -8,9 +8,19 @@
  * Methods related to adding or removing user cards.
  */
 angular.module('unleashApp')
-  .factory('userCards', function ($window, FBURL, $firebase) {
-    var currentUser;
-    var cards;
+  .factory('userCards', function ($window, FBURL, $q, $firebase, cardsService) {
+    var isInitialized = false;
+    var currentUser = null;
+    var cards = null;
+
+    /**
+     * Get rid of card properties other than type and level.
+     * @param card
+     * @returns {Object} A card only containing its type and level
+     */
+    var simplifyCard = function(card) {
+      return _.pick(card, ['type', 'level']);
+    };
 
     /**
      * Check if given card already exists in user cards
@@ -20,7 +30,7 @@ angular.module('unleashApp')
     var checkIfCardIsAlreadyAdded = function(data) {
       var isAdded;
 
-      var card = _.pick(data, ['type', 'level']);
+      var card = simplifyCard(data);
 
       if (_.find(cards, card)) {
         isAdded = true;
@@ -29,27 +39,112 @@ angular.module('unleashApp')
       return isAdded;
     };
 
+    /**
+     * Removes templates that already have been used.
+     * @param cards Cards currently assigned to the user
+     * @param templates A current set of templates to use
+     * @returns {Array} Templates that haven’t been used yet
+     */
+    var filterTemplates = function(cards, templates) {
+      cards = cards.map(simplifyCard);
+      templates = templates.map(simplifyCard);
+
+      var unique = _.reject(templates, function(template) {
+        var isEqual = false;
+
+        _.forEach(cards, function(card) {
+          if(_.isEqual(template, card)) {
+            isEqual = true;
+          }
+        });
+
+        return isEqual;
+      });
+
+      return unique;
+    };
+
     return {
       /**
        * Setup service with basic user data and download user cards
        * @param uid
-       * @returns Promise
+       * @returns {Promise} Resolve if cards have finished fetching
        */
       setup: function(uid) {
-        var ref = new $window.Firebase(FBURL).child('users').child(uid).child('cards');
-        cards = $firebase(ref).$asArray();
+        return new Promise(function(resolve, reject) {
+          // If uid is present, setup the service
+          if (uid) {
+            var ref = new $window.Firebase(FBURL).child('users').child(uid).child('cards');
+            cards = $firebase(ref).$asArray();
 
-        currentUser = uid;
+            isInitialized = true;
+            currentUser = uid;
 
-        return cards.$loaded();
+            cards.$loaded().then(function() {
+              resolve();
+            });
+          }
+
+          // If setup setter hasn’t been called yet
+          else if (!uid && !isInitialized) {
+            reject(new Error('You need to setup userCards first!'));
+          }
+
+          cards.$loaded().then(function() {
+            resolve();
+          });
+        });
       },
 
       /**
        * List user cards
        * @returns {*}
        */
-      list: function() {
-        return cards;
+      listCards: function() {
+        var self = this;
+
+        return new Promise(function (resolve, reject) {
+          self.setup().then(function () {
+            resolve(cards);
+          }, function (error) {
+            reject(error);
+          });
+        });
+      },
+
+      /**
+       * Gets user cards with initial card templates and returns cards that still can be used.
+       * @returns {Promise}
+       */
+      getAvailableTemplates: function() {
+        var self = this;
+
+        return new Promise(function (resolve, reject) {
+          var userCards = self.listCards();
+          var templates = cardsService.list;
+
+          var updateTemplates = new Promise(function(resolve, reject) {
+
+            $q.all([userCards, templates]).then(function(arr) {
+              var filtered = filterTemplates(arr[0], arr[1]);
+
+              resolve(filtered);
+            }).catch(function(error) {
+              reject(error);
+            });
+          });
+
+          resolve(updateTemplates);
+
+          // If the list of cards has changed, render available templates again
+          cards.$watch(function() {
+            $q.all([userCards, templates]).then(function(arr) {
+              var filtered = filterTemplates(arr[0], arr[1]);
+
+              resolve(filtered);
+            });
+          });
+        });
       },
 
       /**

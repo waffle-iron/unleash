@@ -19,9 +19,9 @@
 <div class="card-templates">
   <h3 class="structural">Available cards:</h3>
 
-  <p class="loading" ng-hide="cards.initial.length">Loading cards…</p>
+  <p class="loading" ng-hide="cards.available.length">Loading cards…</p>
 
-  <ul ng-if="cards.initial.length">
-    <li ng-repeat="card in cards.initial" class="card--small card--template" data-card="card" ng-drag="true" ng-drag-data="card" unleash-card></li>
+  <ul ng-if="cards.available.length">
+    <li ng-repeat="card in cards.available" class="card--small card--template" data-card="card" ng-drag="true" ng-drag-data="card" unleash-card></li>
   </ul>
 </div>
