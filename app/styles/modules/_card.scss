@@ -14,6 +14,9 @@ $card-width:         180px;
 $card-height:        $card-width;
 $card-small-width:   100px;
 $card-small-height:  $card-small-width;
+$card-tiny-width:    72px;
+$card-tiny-height:   $card-tiny-width;
+
 
 $ninja-width:        55px;
 $ninja-height:       $ninja-width;
@@ -171,6 +174,19 @@ $ninja-height:       $ninja-width;
     .card__type,
     .card__level {
       font-weight: normal;
+    }
+  }
+
+  &--tiny {
+    width: $card-tiny-width;
+    height: $card-tiny-height;
+    float: left;
+    margin: 1em 1em 1em 0;
+
+    &:after {
+      width: 30px;
+      height: 30px;
+      top: 22px;
     }
   }
 }

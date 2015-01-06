@@ -21,7 +21,7 @@ angular.module('unleashApp')
           return;
         }
 
-        var location = angular.element('.achievement__name');
+        var location = angular.element('.achievement .wrapper');
 
         var $button = angular.element('<button unleash-achieve></button>')
           .addClass('achievement__toggle');
