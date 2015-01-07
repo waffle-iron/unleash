@@ -4,24 +4,22 @@
   <div class="drop drop--primary" ng-drop="true" ng-drop-success="onDropComplete($data,$event)">
     <h4 class="title">Drop area</h4>
 
-    <ul ng-if="cards.dropped.length">
-      <li ng-repeat="card in cards.dropped" class="card--small" data-card="card" ng-drag="true" ng-drag-data="card" unleash-card></li>
+    <ul ng-if="cards.length">
+      <li ng-repeat="card in cards" class="card--small" data-card="card" ng-drag="true" ng-drag-data="card" unleash-card></li>
     </ul>
   </div>
 
   <div class="drop drop--remove" ng-drop="true" ng-drop-success="remove($data, $event)">
     <h4 class="title">Remove cards</h4>
   </div>
-
-
 </div>
 
 <div class="card-templates">
   <h3 class="structural">Available cards:</h3>
 
-  <p class="loading" ng-hide="cards.available.length">Loading cards…</p>
+  <p class="loading" ng-hide="templates.length">Loading cards…</p>
 
-  <ul ng-if="cards.available.length">
-    <li ng-repeat="card in cards.available" class="card--small card--template" data-card="card" ng-drag="true" ng-drag-data="card" unleash-card></li>
+  <ul ng-if="templates.length">
+    <li ng-repeat="card in templates" class="card--small card--template" data-card="card" ng-drag="true" ng-drag-data="card" unleash-card></li>
   </ul>
 </div>

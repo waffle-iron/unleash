@@ -8,19 +8,10 @@
  * Methods related to adding or removing user cards.
  */
 angular.module('unleashApp')
-  .factory('cardsService', function ($window, FBURL, $q, $firebase, templatesService) {
+  .factory('cardsService', function ($window, FBURL, $q, $firebase) {
     var isInitialized = false;
     var currentUser = null;
     var cards = null;
-
-    /**
-     * Get rid of card properties other than type and level.
-     * @param card
-     * @returns {Object} A card only containing its type and level
-     */
-    var simplifyCard = function(card) {
-      return _.pick(card, ['type', 'level']);
-    };
 
     /**
      * Check if given card already exists in user cards
@@ -30,38 +21,13 @@ angular.module('unleashApp')
     var isCardIsAlreadyAdded = function(data) {
       var isAdded;
 
-      var card = simplifyCard(data);
+      var card = _.pick(data, ['type', 'level']);
 
       if (_.find(cards, card)) {
         isAdded = true;
       }
 
       return isAdded;
-    };
-
-    /**
-     * Removes templates that already have been used.
-     * @param cards Cards currently assigned to the user
-     * @param templates A current set of templates to use
-     * @returns {Array} Templates that haven’t been used yet
-     */
-    var filterTemplates = function(cards, templates) {
-      cards = cards.map(simplifyCard);
-      templates = templates.map(simplifyCard);
-
-      var unique = _.reject(templates, function(template) {
-        var isEqual = false;
-
-        _.forEach(cards, function(card) {
-          if(_.isEqual(template, card)) {
-            isEqual = true;
-          }
-        });
-
-        return isEqual;
-      });
-
-      return unique;
     };
 
     return {
@@ -108,41 +74,6 @@ angular.module('unleashApp')
             resolve(cards);
           }, function (error) {
             reject(error);
-          });
-        });
-      },
-
-      /**
-       * Gets user cards and all initial card templates. Teturns templates that still can be used
-       * @returns {Promise}
-       */
-      getAvailableTemplates: function() {
-        var self = this;
-
-        return new Promise(function (resolve) {
-          var userCards = self.listCards();
-          var templates = templatesService.list;
-
-          var updateTemplates = new Promise(function(resolve, reject) {
-
-            $q.all([userCards, templates]).then(function(arr) {
-              var filtered = filterTemplates(arr[0], arr[1]);
-
-              resolve(filtered);
-            }).catch(function(error) {
-              reject(error);
-            });
-          });
-
-          resolve(updateTemplates);
-
-          // If the list of cards has changed, render available templates again
-          cards.$watch(function() {
-            $q.all([userCards, templates]).then(function(arr) {
-              var filtered = filterTemplates(arr[0], arr[1]);
-
-              resolve(filtered);
-            });
           });
         });
       },
