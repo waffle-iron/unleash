@@ -3,7 +3,26 @@
 angular.module('unleashApp')
   .controller('AccountController', function ($window, $scope, $firebase, FBURL, fbutil, templatesService, cardsService) {
     $scope.cards = null;
-    $scope.templates = null;
+    $scope.templates = {};
+
+    // @todo: Implement thee-way data binding to fully remove flickering
+
+    // List templates that are still available to use for the current user
+    var getTemplates = function() {
+      templatesService.getAvailableTemplates().then(function(templates) {
+        $scope.templates.available = templates;
+        $scope.$apply();
+      }).catch(function(error) {
+        console.error(error);
+      });
+    };
+
+    // Get initial templates
+    templatesService.list.then(function(templates) {
+      $scope.templates.initial = templates;
+    }).catch(function(error) {
+      console.error(error);
+    });
 
     // Setup cardsService with user ID
     cardsService.setup($scope.user.uid);
@@ -11,14 +30,12 @@ angular.module('unleashApp')
     // List cards that user has been assigned with
     cardsService.listCards().then(function(cards) {
       $scope.cards = cards;
-    }).catch(function(error) {
-      console.error(error);
-    });
 
-    // List templates that are still available to the user
-    templatesService.getAvailableTemplates().then(function(templates) {
-      $scope.templates = templates;
-      $scope.$apply();
+      getTemplates();
+
+      cards.$watch(function() {
+        getTemplates();
+      });
     }).catch(function(error) {
       console.error(error);
     });

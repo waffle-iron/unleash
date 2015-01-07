@@ -213,7 +213,7 @@ angular.module('unleashApp')
       },
 
       /**
-       * Gets user cards and all initial card templates. Teturns templates that still can be used
+       * Gets user cards and all initial card templates. Returns templates that still can be used
        * @returns {Promise}
        */
       getAvailableTemplates: function() {
@@ -235,15 +235,6 @@ angular.module('unleashApp')
           });
 
           resolve(updateTemplates);
-
-          // If the list of cards has changed, render available templates again
-          userCards.$watch(function() {
-            $q.all([userCards, templates]).then(function(arr) {
-              var filtered = filterTemplates(arr[0], arr[1]);
-
-              resolve(filtered);
-            });
-          });
         });
       }
     };

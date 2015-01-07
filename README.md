@@ -5,10 +5,9 @@ This is a work in progress. Things are subject to change.
 ## TODO
 
 1. Write tests!
-2. Remove used cards from account page
-3. Implement multiple levels of cards
-4. Add notifications
-5. Match [Angular.js guidelines](#coding-standards) more closely
+2. Don’t show higher card levels if level 1 hasn’t been started yet
+3. Add notifications
+4. Analyse all code against [Angular.js guidelines](#coding-standards) more closely
 
 ## Running
 

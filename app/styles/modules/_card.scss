@@ -189,4 +189,8 @@ $ninja-height:       $ninja-width;
       top: 22px;
     }
   }
+
+  &--notransition {
+    transition: none;
+  }
 }
