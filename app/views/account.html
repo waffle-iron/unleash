@@ -21,6 +21,6 @@
   <p class="message" ng-show="templates.available && !templates.available.length">You’ve already used all available templates. <br>Great job!</p>
 
   <ul ng-if="templates.available.length">
-    <li ng-repeat="template in templates.available" class="card--small card--template card--notransition" data-card="template" ng-drag="true" ng-drag-data="template" unleash-card></li>
+    <li ng-repeat="template in templates.available" class="card--small card--template card--notransition" data-card="template" ng-drag="true" ng-drag-data="template" ng-drag-success="removeAvailable({{ $index }})" unleash-card></li>
   </ul>
 </div>

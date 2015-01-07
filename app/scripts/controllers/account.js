@@ -45,6 +45,11 @@ angular.module('unleashApp')
       cardsService.add(data);
     };
 
+    // @todo Temporary fix to remove available cards flickering
+    $scope.removeAvailable = function(index) {
+      $scope.templates.available.splice(index, 1);
+    };
+
     // Remove specific card from user cards
     $scope.remove = function(data) {
       cardsService.remove(data);
