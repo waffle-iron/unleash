@@ -77,7 +77,7 @@ angular.module('unleashApp')
      * @returns {Object} A card only containing its type and level
      */
     var simplifyCard = function(card) {
-      return _.pick(card, ['type', 'level']);
+      return _.pick(card, ['type', 'level', 'task']);
     };
 
     /**
