@@ -18,9 +18,7 @@ angular.module('unleashApp', [
     'ngDraggable',
     'relativeDate',
     'firebase',
-    'firebase.utils',
-    'unleashApp.authService',
-    'unleashApp.cardsService'
+    'firebase.utils'
   ])
 
 .config(function($sceDelegateProvider) {
@@ -31,10 +29,7 @@ angular.module('unleashApp', [
     ]);
   })
 
-.run(function($rootScope, $route, cardsService) {
-    $rootScope.$on('$routeChangeStart', function() {
-      cardsService.closeSidebar();
-    });
+.run(function($rootScope, $route) {
     $rootScope.$on('$routeChangeSuccess', function(newVal, oldVal) {
       if (oldVal !== newVal) {
         $rootScope.routeClassName = 'page-' + $route.current.className;

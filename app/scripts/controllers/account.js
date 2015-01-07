@@ -1,23 +1,23 @@
 'use strict';
 
 angular.module('unleashApp')
-  .controller('AccountController', function ($window, $scope, $firebase, FBURL, fbutil, cardsService, userCards) {
+  .controller('AccountController', function ($window, $scope, $firebase, FBURL, fbutil, templatesService, cardsService) {
     $scope.cards = {};
 
-    // @todo: Make userCards and cardsService more consistent
+    // @todo: Make cardsService and templatesService more consistent
 
-    // Setup userCards with user ID
-    userCards.setup($scope.user.uid);
+    // Setup cardsService with user ID
+    cardsService.setup($scope.user.uid);
 
     // List cards that user has been assigned with
-    userCards.listCards().then(function(cards) {
+    cardsService.listCards().then(function(cards) {
       $scope.cards.dropped = cards;
     }).catch(function(error) {
       console.error(error);
     });
 
     // List templates that are still available to the user
-    userCards.getAvailableTemplates().then(function(templates) {
+    cardsService.getAvailableTemplates().then(function(templates) {
       $scope.cards.available = templates;
       $scope.$apply();
     }).catch(function(error) {
@@ -26,11 +26,11 @@ angular.module('unleashApp')
 
     // Handle drag and drop interface
     $scope.onDropComplete = function(data) {
-      userCards.add(data);
+      cardsService.add(data);
     };
 
     // Remove specific card from user cards
     $scope.remove = function(data) {
-      userCards.remove(data);
+      cardsService.remove(data);
     };
   });

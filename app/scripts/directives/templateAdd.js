@@ -2,30 +2,29 @@
 
 /**
  * @ngdoc directive
- * @name unleashApp.directive:templateAdd
+ * @name unleashApp.directive:unleashTemplateAdd
  * @description
- * # templateAdd
+ * # unleashTemplateAdd
  */
 angular.module('unleashApp')
-  .directive('unleashTemplateAdd', function (cardsService) {
-    var add = function(scope, card, eq) {
-      cardsService.add(card).then(function() {
-        cardsService.newCards.splice(eq, 1);
-        scope.$apply();
+  .directive('unleashTemplateAdd', function (templatesService) {
+    var add = function(scope, template, eq) {
+      templatesService.add(template).then(function() {
+        templatesService.newTemplates.splice(eq, 1);
       }, function(error) {
         console.error(error);
       });
     };
 
     var remove = function(eq) {
-      cardsService.removeNew(eq);
+      templatesService.removeNew(eq);
     };
 
     return {
       templateUrl: 'views/partials/templateAdd.html',
       link: function postLink(scope, element, attrs) {
-        scope.add = function(card) {
-          add(scope, card, attrs.eq);
+        scope.add = function(template) {
+          add(scope, template, attrs.eq);
         };
 
         scope.remove = function() {
@@ -33,7 +32,7 @@ angular.module('unleashApp')
         };
       },
       scope: {
-        card: '='
+        template: '='
       }
     };
   });

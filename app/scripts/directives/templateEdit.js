@@ -2,32 +2,32 @@
 
 /**
  * @ngdoc directive
- * @name unleashApp.directive:templateEdit
+ * @name unleashApp.directive:unleashTemplateEdit
  * @description
- * # templateEdit
+ * # unleashTemplateEdit
  */
 angular.module('unleashApp')
-  .directive('unleashTemplateEdit', function (cardsService) {
-    var getCardData = function(card) {
+  .directive('unleashTemplateEdit', function (templatesService) {
+    var getTemplateData = function(template) {
       return {
-        'type': card.type,
-        'level': card.level || '',
-        'task': card.task || ''
+        'type': template.type,
+        'level': template.level || '',
+        'task': template.task || ''
       };
     };
 
-    var cloneCardProps = function(scope) {
+    var cloneTemplateProps = function(scope) {
       scope.updated = {};
 
       ['type', 'level', 'task'].forEach(function(prop) {
-        scope.updated[prop] = scope.card[prop];
+        scope.updated[prop] = scope.template[prop];
       });
     };
 
     var save = function(id, data, element) {
-      var card = getCardData(data);
+      var template = getTemplateData(data);
 
-      cardsService.update(id, card).then(function() {
+      templatesService.update(id, template).then(function() {
         element.closest('li').removeClass('edit').addClass('view');
         element.remove();
       }, function(error) {
@@ -36,13 +36,13 @@ angular.module('unleashApp')
     };
 
     var remove = function(id) {
-      cardsService.removeStored(id);
+      templatesService.removeStored(id);
     };
 
     return {
       templateUrl: 'views/partials/templateEdit.html',
       controller: function editController($scope) {
-        cloneCardProps($scope);
+        cloneTemplateProps($scope);
       },
       link: function editLink(scope, element, attrs) {
         scope.save = function() {

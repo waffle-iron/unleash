@@ -1,8 +1,8 @@
-<input type="text" class="type" ng-model="card.type" placeholder="Type">
-<textarea class="task" cols="25" rows="4" ng-model="updated.task" placeholder="Task">{{ updated.task }}</textarea>
-<input type="text" class="level" ng-model="card.level" placeholder="Level">
+<input type="text" class="type" ng-model="template.type" placeholder="Type">
+<textarea class="task" cols="25" rows="4" ng-model="template.task" placeholder="Task">{{ template.task }}</textarea>
+<input type="text" class="level" ng-model="template.level" placeholder="Level">
 
 <div class="card__controls">
-  <button ng-click="add(card)">Save</button>
+  <button ng-click="add(template)">Save</button>
   <button ng-click="remove()">Remove</button>
 </div>

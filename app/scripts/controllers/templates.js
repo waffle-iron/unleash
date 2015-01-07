@@ -1,4 +1,3 @@
-/* global angular */
 'use strict';
 
 /**
@@ -9,28 +8,27 @@
  * Controller of the unleashApp
  */
 angular.module('unleashApp')
-  .controller('TemplatesController', function ($scope, cardsService) {
-    $scope.cards = {};
-    $scope.cards.order = 'type';
+  .controller('TemplatesController', function ($scope, templatesService) {
+    $scope.templates = {};
+    $scope.templates.order = 'type';
 
     $scope.$watch(
       function() {
-        return cardsService.newCards;
+        return templatesService.newTemplates;
       }, function(newVal) {
-        $scope.cards.new = newVal;
+        $scope.templates.new = newVal;
       }
     );
 
-    cardsService.list.then(function(result) {
-      $scope.cards.existing = result;
-      $scope.$apply();
+    templatesService.list.then(function(result) {
+      $scope.templates.existing = result;
     });
 
-    $scope.cards.add = function() {
-      cardsService.newCards.push([]);
+    $scope.templates.add = function() {
+      templatesService.newTemplates.push([]);
     };
 
-    $scope.cards.restore = function() {
-      cardsService.restore();
+    $scope.templates.restore = function() {
+      templatesService.restore();
     };
   });

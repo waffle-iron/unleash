@@ -1,7 +1,7 @@
 <div class="template template--view"><!--  template template--view -->
-  <h3 class="card__type">{{ card.type }}</h3>
-  <em class="card__level" ng-if="card.level">Level {{ card.level }}</em>
-  <p class="card__desc" ng-bind-html="card.task | linky:'_blank'"></p>
+  <h3 class="card__type">{{ template.type }}</h3>
+  <em class="card__level" ng-if="template.level">Level {{ template.level }}</em>
+  <p class="card__desc" ng-bind-html="template.task | linky:'_blank'"></p>
   <div class="card__controls">
     <button ng-click="edit()">Edit</button>
   </div>

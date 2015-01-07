@@ -7,36 +7,23 @@
  * # Renders card details
  */
 angular.module('unleashApp')
-  .directive('unleashCardDetails', function(cardsService, $compile) {
+  .directive('unleashCardDetails', function($rootScope, templatesService, $compile) {
+    var closeSidebar = function() {
+      angular.element(document.body).removeClass('has-menu');
+
+      setTimeout(function() {
+        angular.element('.achievement').remove();
+      }, 250);
+    };
+
     var ctrlFn = function($window, $scope, FBURL, $firebase, $timeout) {
       var ref = new $window.Firebase(FBURL).child('users').child($scope.cardOwnerId).child('cards').child($scope.cardId);
       var sync = $firebase(ref);
       $scope.card = sync.$asObject();
 
-      /**
-       * Renders a button for toggling the 'achieved' state in the card
-       */
-      var addAchievedButton = function() {
-        if (!$scope.cardOwner || $scope.currentUser !== $scope.cardOwner) {
-          return;
-        }
-
-        var location = angular.element('.achievement .wrapper');
-
-        var $button = angular.element('<button unleash-achieve></button>')
-          .addClass('achievement__toggle');
-
-        location.after(($compile($button)($scope)));
-      };
-
-      $scope.card.$loaded().then(function() {
-        addAchievedButton();
+      $rootScope.$on('$routeChangeStart', function() {
+        closeSidebar();
       });
-
-      // @todo: This should be put into a directive
-      $scope.close = function() {
-        cardsService.closeSidebar();
-      };
 
       // Get username of owner of the card
       ref.parent().parent().once('value', function(snap) {
@@ -68,10 +55,37 @@ angular.module('unleashApp')
       }
     };
 
+    var linkFn = function($scope) {
+      $scope.close = function() {
+        closeSidebar();
+      };
+
+      /**
+       * Renders a button for toggling the 'achieved' state in the card
+       */
+      var addAchievedButton = function() {
+        if (!$scope.cardOwner || $scope.currentUser !== $scope.cardOwner) {
+          return;
+        }
+
+        var location = angular.element('.achievement .wrapper');
+
+        var $button = angular.element('<button unleash-achieve></button>')
+          .addClass('achievement__toggle');
+
+        location.after(($compile($button)($scope)));
+      };
+
+      $scope.card.$loaded().then(function() {
+        addAchievedButton();
+      });
+    };
+
     return {
       templateUrl: 'views/partials/cardDetails.html',
       replace: true,
       controller: ctrlFn,
+      link: linkFn,
       scope: {
         cardOwnerId: '@',
         currentUser: '@username',

@@ -1,203 +1,195 @@
 'use strict';
 
-var cardsService = angular.module('unleashApp.cardsService', ['firebase']);
+/**
+ * @ngdoc service
+ * @name unleashApp.cardsService
+ * @description
+ * # cardsService
+ * Methods related to adding or removing user cards.
+ */
+angular.module('unleashApp')
+  .factory('cardsService', function ($window, FBURL, $q, $firebase, templatesService) {
+    var isInitialized = false;
+    var currentUser = null;
+    var cards = null;
 
-cardsService.factory('cardsService', ['$window', 'FBURL', '$firebase', function($window, FBURL, $firebase) {
-  var ref = new $window.Firebase(FBURL).child('cards');
-  var cards = {};
-
-  cards.new = [];
-
-  cards.stored = $firebase(ref);
-
-  cards.initial = [
-    {
-      'type': 'Blogging',
-      'level': 1,
-      'task': 'Start tracking ideas'
-    },
-    {
-      'type': 'Meetup Attender',
-      'task': 'Attend at least 1 meeting'
-    },
-    {
-      'type': 'Meetup Speaker',
-      'task': 'Speak at a meetup'
-    },
-    {
-      'type': 'Conference Speaker',
-      'task': 'Speak at a conference'
-    },
-    {
-      'type': 'Open Source Contributor',
-      'task': 'Contribute to an Open Source project'
-    },
-    {
-      'type': 'Proactive',
-      'level': 1
-    },
-    {
-      'type': 'Mentoring',
-      'level': 1
-    },
-    {
-      'type': 'Leadership',
-      'level': 1
-    },
-    {
-      'type': 'Open Source Advocate',
-      'level': 1
-    }
-  ];
-
-  /**
-   * Populate a predefined set of cards to database
-   * @param data
-   * @returns {Promise}
-   */
-  var populateCards = function(data) {
-    return new Promise(function(resolve, reject) {
-      cards.stored.$set(data).then(function() {
-        resolve(data);
-      }, function(error) {
-        reject(new Error(error));
-      });
-    });
-  };
-
-  return {
     /**
-     * Synchronize new cards
+     * Get rid of card properties other than type and level.
+     * @param card
+     * @returns {Object} A card only containing its type and level
      */
-    newCards: cards.new,
+    var simplifyCard = function(card) {
+      return _.pick(card, ['type', 'level']);
+    };
 
     /**
-     * List initial cards
-     */
-    list: new Promise(function(resolve, reject) {
-      var list = cards.stored.$asArray();
-
-      list.$loaded().then(function() {
-        if (list.length) {
-          resolve(list);
-        }
-
-        else {
-          // No cards stored in Firebase, instantiate
-          populateCards(cards.initial).then(function() {
-            resolve(cards.initial);
-          }, function(error) {
-            reject(new Error(error));
-          });
-        }
-
-      });
-    }),
-
-    /**
-     * Add a new card
+     * Check if given card already exists in user cards
      * @param data
-     * @returns {Promise}
+     * @returns {*}
      */
-    add: function(data) {
-      return new Promise(function(resolve, reject) {
-        if (!data || !data.type) {
-          reject(new Error('No card data given.'));
+    var isCardIsAlreadyAdded = function(data) {
+      var isAdded;
+
+      var card = simplifyCard(data);
+
+      if (_.find(cards, card)) {
+        isAdded = true;
+      }
+
+      return isAdded;
+    };
+
+    /**
+     * Removes templates that already have been used.
+     * @param cards Cards currently assigned to the user
+     * @param templates A current set of templates to use
+     * @returns {Array} Templates that haven’t been used yet
+     */
+    var filterTemplates = function(cards, templates) {
+      cards = cards.map(simplifyCard);
+      templates = templates.map(simplifyCard);
+
+      var unique = _.reject(templates, function(template) {
+        var isEqual = false;
+
+        _.forEach(cards, function(card) {
+          if(_.isEqual(template, card)) {
+            isEqual = true;
+          }
+        });
+
+        return isEqual;
+      });
+
+      return unique;
+    };
+
+    return {
+      /**
+       * Setup service with basic user data and download user cards
+       * @param uid
+       * @returns {Promise} Resolve if cards have finished fetching
+       */
+      setup: function(uid) {
+        return new Promise(function(resolve, reject) {
+          // If uid is present, setup the service
+          if (uid) {
+            var ref = new $window.Firebase(FBURL).child('users').child(uid).child('cards');
+            cards = $firebase(ref).$asArray();
+
+            isInitialized = true;
+            currentUser = uid;
+
+            cards.$loaded().then(function() {
+              resolve();
+            });
+          }
+
+          // If setup setter hasn’t been called yet
+          else if (!uid && !isInitialized) {
+            reject(new Error('You need to setup cardsService first!'));
+          }
+
+          cards.$loaded().then(function() {
+            resolve();
+          });
+        });
+      },
+
+      /**
+       * List user cards
+       * @returns {*}
+       */
+      listCards: function() {
+        var self = this;
+
+        return new Promise(function (resolve, reject) {
+          self.setup().then(function () {
+            resolve(cards);
+          }, function (error) {
+            reject(error);
+          });
+        });
+      },
+
+      /**
+       * Gets user cards and all initial card templates. Teturns templates that still can be used
+       * @returns {Promise}
+       */
+      getAvailableTemplates: function() {
+        var self = this;
+
+        return new Promise(function (resolve) {
+          var userCards = self.listCards();
+          var templates = templatesService.list;
+
+          var updateTemplates = new Promise(function(resolve, reject) {
+
+            $q.all([userCards, templates]).then(function(arr) {
+              var filtered = filterTemplates(arr[0], arr[1]);
+
+              resolve(filtered);
+            }).catch(function(error) {
+              reject(error);
+            });
+          });
+
+          resolve(updateTemplates);
+
+          // If the list of cards has changed, render available templates again
+          cards.$watch(function() {
+            $q.all([userCards, templates]).then(function(arr) {
+              var filtered = filterTemplates(arr[0], arr[1]);
+
+              resolve(filtered);
+            });
+          });
+        });
+      },
+
+      /**
+       * Assign a given card to the user
+       * @param card
+       */
+      add: function(card) {
+        // Check if the UID is set
+        if (!currentUser) {
+          console.error('No user UID set!');
+          return;
         }
 
-        else {
-          var card = {
-            'type': data.type,
-            'task': data.task || '',
-            'level': data.level || ''
-          };
+        // Abandon if the card has been added already
+        if (isCardIsAlreadyAdded(card)) {
+          return;
+        }
 
-          cards.stored.$push(card).then(function(ref) {
-            resolve(ref.key());
+        // If all works OK
+        cards.$add(card);
+      },
+
+      /**
+       * Remove the given card from user cards
+       * @param card
+       */
+      remove: function(card) {
+        cards.$remove(card);
+      },
+
+      /**
+       * Toggle 'achieved' state in the card
+       * @param card
+       * @returns {Promise} Resolved after the updated card has been stored in Firebase.
+       */
+      toggleAchieved: function(card) {
+        return $q(function(resolve, reject) {
+          card.achieved = !card.achieved;
+
+          card.$save().then(function() {
+            resolve();
           }, function(error) {
             reject(error);
           });
-        }
-      });
-    },
-
-    /**
-     * Update card details with new data
-     * @param id
-     * @param data
-     * @returns {Promise}
-     */
-    update: function(id, data) {
-      return new Promise(function(resolve, reject) {
-        var card = $firebase(ref.child(id));
-
-        card.$update(data).then(function() {
-          resolve();
-        }, function(error) {
-          reject(error);
         });
-      });
-    },
-
-    /**
-     * Toggle 'achieved' state in the card
-     * @param card
-     * @returns {Promise} Resolved after the updated card has been stored in Firebase.
-     */
-    toggleAchieved: function(card) {
-      return new Promise(function(resolve, reject) {
-        card.achieved = !card.achieved;
-
-        card.$save().then(function() {
-          resolve();
-        }, function(error) {
-          reject(error);
-        });
-      });
-    },
-
-    /**
-     * Remove given template card
-     * @param eq
-     */
-    removeNew: function(eq) {
-      cards.new.splice(eq, 1);
-    },
-
-    /**
-     * Remove given stored card
-     * @param id
-     * @returns {Promise}
-     */
-    removeStored: function(id) {
-      return new Promise(function(resolve, reject) {
-        var list = cards.stored.$asArray();
-        var item = list.$getRecord(id);
-
-        list.$remove(item).then(function() {
-          resolve();
-        }, function(error) {
-          reject(error);
-        });
-      });
-    },
-
-    /**
-     * Restore initial template cards
-     */
-    restore: function() {
-      populateCards(cards.initial);
-    },
-
-    /**
-     * Close sidebar and remove achievement from DOM
-     */
-    closeSidebar: function() {
-      angular.element(document.body).removeClass('has-menu');
-
-      setTimeout(function() {
-        angular.element('.achievement').remove();
-      }, 250);
-    }
-  };
-}]);
+      }
+    };
+  });
