@@ -10,7 +10,6 @@ $comment-border-color:  #f1f1f2;
 .achievement {
   background: #fff;
   width: $menu-width;
-  min-width: 375px;
   height: 100%;
   position: fixed;
   top: 0;
@@ -22,6 +21,7 @@ $comment-border-color:  #f1f1f2;
 
   .has-menu & {
     right: 0;
+    min-width: 375px;
     box-shadow: 0 0 15px 5px rgba(0,0,0,0.1);
   }
 

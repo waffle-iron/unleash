@@ -24,13 +24,19 @@ $remove-txt-color:   #777;
   }
 
   .card-templates {
+    display: table;
+    min-height: 400px;
+
     @include breakpoint(tablet) {
       float: right;
       width: 50%;
     }
 
-    ul {
-      list-style: none;
+    .message {
+      display: table-cell;
+      vertical-align: middle;
+      text-align: center;
+      line-height: 1.5;
     }
   }
 
