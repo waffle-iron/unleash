@@ -1,3 +1,4 @@
+scripts/
 logs/*
 !.gitkeep
 node_modules/
