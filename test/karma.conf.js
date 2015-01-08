@@ -14,7 +14,7 @@ module.exports = function(config) {
     basePath: '../',
 
     // testing framework to use (jasmine/mocha/qunit/...)
-    frameworks: ['jasmine'],
+    frameworks: ['mocha', 'sinon-chai'],
 
     // list of files / patterns to load in the browser
     files: [
@@ -30,9 +30,13 @@ module.exports = function(config) {
       'bower_components/angular-touch/angular-touch.js',
       'bower_components/ngDraggable/ngDraggable.js',
       'bower_components/angular-relative-date/angular-relative-date.js',
+      'bower_components/mockfirebase/dist/mockfirebase.js',
       'app/scripts/**/*.js',
       'test/mock/**/*.js',
-      'test/spec/**/*.js'
+      'test/spec/**/*.js',
+
+      // templates
+      'app/views/**/*.html'
     ],
 
     // list of files / patterns to exclude
@@ -50,20 +54,31 @@ module.exports = function(config) {
     // - PhantomJS
     // - IE (only Windows)
     browsers: [
-      'Chrome'
+      'PhantomJS'
     ],
 
     // Which plugins to enable
     plugins: [
-      'karma-chrome-launcher',
-      'karma-jasmine'
+      'karma-mocha',
+      'karma-sinon-chai',
+      'karma-ng-html2js-preprocessor',
+      'karma-phantomjs-launcher'
     ],
+
+    preprocessors: {
+      'app/views/**/*.html': ['ng-html2js']
+    },
 
     // Continuous Integration mode
     // if true, it capture browsers, run tests and exit
     singleRun: false,
 
     colors: true,
+
+    ngHtml2JsPreprocessor: {
+      // strip app from the file path
+      stripPrefix: 'app/'
+   },
 
     // level of logging
     // possible values: LOG_DISABLE || LOG_ERROR || LOG_WARN || LOG_INFO || LOG_DEBUG
