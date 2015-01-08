@@ -23,7 +23,6 @@ angular.module('unleashApp')
     $routeProvider
       .when('/', {
         templateUrl: 'views/home.html',
-        controller: 'HomeController',
         className: 'home',
         resolve: {
           currentAuth: ['Auth', function(Auth) {
@@ -45,7 +44,6 @@ angular.module('unleashApp')
 
       .when('/paths', {
         templateUrl: 'views/paths.html',
-        controller: 'PathController',
         className: 'paths',
         resolve: {
           currentAuth: ['Auth', function(Auth) {

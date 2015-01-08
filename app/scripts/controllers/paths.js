@@ -2,23 +2,12 @@
 
 /**
  * @ngdoc function
- * @name unleashApp.controller:PathController
- * @description
- * # PathController
- * Displaying a list of users.
- */
-angular.module('unleashApp')
-  .controller('PathController', function () {
-
-  })
-
-/**
- * @ngdoc function
  * @name unleashApp.controller:SinglePathController
  * @description
  * # SinglePathController
  * View a single path
  */
+angular.module('unleashApp')
   .controller('SinglePathController', function($scope, fbutil, $timeout, $routeParams, userService) {
     // Todo: move functionality to services
     $scope.params = $routeParams;
