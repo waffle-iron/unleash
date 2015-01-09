@@ -23,6 +23,7 @@
   },
   "appPath": "app",
   "resolutions": {
-    "angular": ">=1.0.0"
+    "angular": ">=1.0.0",
+    "firebase": "2.1.x"
   }
 }
