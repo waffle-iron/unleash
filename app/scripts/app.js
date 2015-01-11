@@ -15,6 +15,7 @@ angular.module('unleashApp', [
     'ngRoute',
     'ngTouch',
     'ngSanitize',
+    'ngAria',
     'ngDraggable',
     'relativeDate',
     'firebase',
