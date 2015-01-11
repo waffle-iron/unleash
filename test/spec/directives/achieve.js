@@ -22,9 +22,9 @@ describe('Directive: unleashPerson', function () {
       return false;
     };
     outerScope.card.$save = function() {
-      return new $q(function(resolve) {
+      return $q(function(resolve) {
         resolve();
-      })
+      });
     };
 
     $compile(element)(outerScope);
@@ -48,7 +48,7 @@ describe('Directive: unleashPerson', function () {
       mySpy = sinon.spy();
       outerScope.$apply(function() {
         cardsService.toggleAchieved = mySpy;
-      })
+      });
     });
 
     describe('when the directive is clicked', function() {
@@ -64,6 +64,6 @@ describe('Directive: unleashPerson', function () {
         // https://github.com/ariya/phantomjs/issues/11289
         expect(mySpy.callCount).to.equal(0);
       });
-    })
+    });
   });
 });

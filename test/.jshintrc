@@ -36,6 +36,7 @@
     "it",
     "inject",
     "expect",
-    "spyOn"
+    "spyOn",
+    "sinon"
   ]
 }
