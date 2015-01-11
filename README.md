@@ -4,12 +4,13 @@ This is a work in progress. Things are subject to change.
 
 ## TODO
 
-1. Write tests!
+1. Add more unit tests!
 2. Don’t show higher card levels if level 1 hasn’t been started yet
 3. Add notifications
 4. Analyse all code against [Angular.js guidelines](#coding-standards) more closely
+5. Write end to end tests
 
-## Running
+## Setup
 
 Make sure that you have newest `Compass` in your system.
 
@@ -17,13 +18,17 @@ Make sure that you have newest `Compass` in your system.
 sudo gem update
 ```
 
-### Install Dependencies
+Install required dependencies:
 
 ```
 npm install && bower install
 ```
 
-### Preview the Application
+## Preview 
+
+### Local environment
+
+Run a local server:
 
 ```
 grunt serve
@@ -31,17 +36,11 @@ grunt serve
 
 Browse to the app at `http://localhost:9000`.
 
-### Deploying
+### Public version
 
-```
-npm run deploy
-```
+The project is being deployed to https://unleash-app.firebaseapp.com.
 
-Check the updates live on https://unleash-app.firebaseapp.com.
-
-## Testing
-
-### Unit Tests
+## Unit testing
 
 ```
 grunt test

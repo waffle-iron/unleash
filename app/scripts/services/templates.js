@@ -58,51 +58,34 @@ angular.module('unleashApp')
 
     /**
      * Populate a predefined set of templates to the database
-     * @param data
+     * @param data Predefined templates
      * @returns {Promise}
      */
     var populateTemplates = function(data) {
-      return new Promise(function(resolve, reject) {
-        templates.stored.$set(data).then(function() {
-          resolve(data);
-        }, function(error) {
-          reject(new Error(error));
-        });
-      });
+      return templates.stored.$set(data);
     };
 
     /**
-     * Get rid of card properties other than type and level.
-     * @param card
-     * @returns {Object} A card only containing its type and level
-     */
-    var simplifyCard = function(card) {
-      return _.pick(card, ['type', 'level', 'task']);
-    };
-
-    /**
-     * Removes templates that already have been used.
+     * Removes templates that have been used already.
      * @param cards Cards currently assigned to the user
      * @param templates A current set of templates to use
      * @returns {Array} Templates that haven’t been used yet
      */
     var filterTemplates = function(cards, templates) {
-      cards = cards.map(simplifyCard);
-      templates = templates.map(simplifyCard);
 
-      var unique = _.reject(templates, function(template) {
-        var isEqual = false;
+      // Find templates that already match an existing card
+      var matchesAnyCard = function(template) {
+        return _.some(cards, function(card) {
 
-        _.forEach(cards, function(card) {
-          if(_.isEqual(template, card)) {
-            isEqual = true;
-          }
+          // Compare a card to the given template
+          return _.isEqual(template, card, function(a, b) {
+            return a.type === b.type && a.level === b.level;
+          });
+
         });
+      };
 
-        return isEqual;
-      });
-
-      return unique;
+      return _.reject(templates, matchesAnyCard);
     };
 
     return {
@@ -136,7 +119,7 @@ angular.module('unleashApp')
 
       /**
        * Add a new template
-       * @param data
+       * @param data Template data
        * @returns {Promise}
        */
       add: function(data) {
@@ -163,20 +146,14 @@ angular.module('unleashApp')
 
       /**
        * Update template details with new data
-       * @param id
-       * @param data
-       * @returns {Promise}
+       * @param id Template ID
+       * @param data New data
+       * @returns {Promise} Resolved once data has been stored in Firebase
        */
       update: function(id, data) {
-        return $q(function(resolve, reject) {
-          var template = $firebase(ref.child(id));
+        var template = $firebase(ref.child(id));
 
-          template.$update(data).then(function() {
-            resolve();
-          }, function(error) {
-            reject(error);
-          });
-        });
+        return template.$update(data);
       },
 
       /**
@@ -188,21 +165,15 @@ angular.module('unleashApp')
       },
 
       /**
-       * Remove given stored template
-       * @param id
+       * Remove a given stored template
+       * @param id ID of stored template
        * @returns {Promise}
        */
       removeStored: function(id) {
-        return $q(function(resolve, reject) {
-          var list = templates.stored.$asArray();
-          var item = list.$getRecord(id);
+        var list = templates.stored.$asArray();
+        var item = list.$getRecord(id);
 
-          list.$remove(item).then(function() {
-            resolve();
-          }, function(error) {
-            reject(error);
-          });
-        });
+        return list.$remove(item);
       },
 
       /**
@@ -223,7 +194,7 @@ angular.module('unleashApp')
           var userCards = cardsService.listCards();
           var templates = self.list;
 
-          var updateTemplates = new Promise(function(resolve, reject) {
+          var availableTemplates = $q(function(resolve, reject) {
 
             $q.all([userCards, templates]).then(function(arr) {
               var filtered = filterTemplates(arr[0], arr[1]);
@@ -234,7 +205,7 @@ angular.module('unleashApp')
             });
           });
 
-          resolve(updateTemplates);
+          resolve(availableTemplates);
         });
       }
     };

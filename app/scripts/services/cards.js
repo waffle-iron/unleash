@@ -15,19 +15,11 @@ angular.module('unleashApp')
 
     /**
      * Check if given card already exists in user cards
-     * @param data
-     * @returns {*}
+     * @param data Card object
+     * @returns {boolean}
      */
     var isCardIsAlreadyAdded = function(data) {
-      var isAdded;
-
-      var card = _.pick(data, ['type', 'level']);
-
-      if (_.find(cards, card)) {
-        isAdded = true;
-      }
-
-      return isAdded;
+      return _.find(cards, { type: data.type, level: data.level }) ? true : false;
     };
 
     return {
@@ -69,7 +61,7 @@ angular.module('unleashApp')
       listCards: function() {
         var self = this;
 
-        return new Promise(function (resolve, reject) {
+        return $q(function (resolve, reject) {
           self.setup().then(function () {
             resolve(cards);
           }, function (error) {
@@ -112,15 +104,9 @@ angular.module('unleashApp')
        * @returns {Promise} Resolved after the updated card has been stored in Firebase.
        */
       toggleAchieved: function(card) {
-        return $q(function(resolve, reject) {
-          card.achieved = !card.achieved;
+        card.achieved = !card.achieved;
 
-          card.$save().then(function() {
-            resolve();
-          }, function(error) {
-            reject(error);
-          });
-        });
+        return card.$save();
       }
     };
   });

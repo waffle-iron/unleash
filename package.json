@@ -43,7 +43,6 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "grunt test",
-    "deploy": "sh scripts/deploy.sh"
+    "test": "grunt test"
   }
 }
