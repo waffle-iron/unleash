@@ -14,7 +14,7 @@ angular.module('unleashApp')
 
     templates.new = [];
 
-    templates.stored = $firebase(ref);
+    templates.stored = $firebase(ref.orderByChild('type'));
 
     templates.initial = [
       {
