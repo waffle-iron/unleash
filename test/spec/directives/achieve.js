@@ -1,31 +1,31 @@
 'use strict';
 
+var clickElement = function (el){
+  var ev = document.createEvent('MouseEvent');
+  ev.initMouseEvent(
+    'click',
+    true, true
+  );
+  el.dispatchEvent(ev);
+};
+
 describe('Directive: unleashPerson', function () {
 
   var element;
+  var mySpy;
   var outerScope;
   var innerScope;
 
   beforeEach(module('unleashApp'));
   beforeEach(module('views/home.html'));
 
-  beforeEach(inject(function($rootScope, $compile, $q) {
+  beforeEach(inject(function($rootScope, $compile) {
     element = angular.element('<unleash-achieve></unleash-achieve>');
 
     outerScope = $rootScope;
 
     outerScope.card = {};
-    outerScope.card.achieved = true;
-
-    // @TODO use mockfirebase
-    outerScope.card.$watch = function() {
-      return false;
-    };
-    outerScope.card.$save = function() {
-      return $q(function(resolve) {
-        resolve();
-      });
-    };
+    outerScope.card.achieved = false;
 
     $compile(element)(outerScope);
 
@@ -34,35 +34,40 @@ describe('Directive: unleashPerson', function () {
     outerScope.$digest();
   }));
 
-  describe('label', function() {
-    it('should be rendered', function() {
+  describe('directive in unachieved state', function() {
+    it('render a proper button label', function() {
+      expect(element[0].innerHTML).to.equal('Mark as achieved');
+    });
+  });
+
+  describe('directive in achieved state', function() {
+    beforeEach(function() {
+      outerScope.card.achieved = true;
+      outerScope.$apply();
+    });
+
+    it('render a proper button label', function() {
       expect(element[0].innerHTML).to.equal('Mark as not achieved');
     });
   });
 
   describe('click callback', function() {
-    var mySpy;
-    var cardsService = {};
+    var cardsService;
 
-    beforeEach(function() {
+    beforeEach(inject(function($injector) {
       mySpy = sinon.spy();
-      outerScope.$apply(function() {
-        cardsService.toggleAchieved = mySpy;
-      });
-    });
+      cardsService = $injector.get('cardsService');
+
+      cardsService.toggleAchieved = mySpy;
+    }));
 
     describe('when the directive is clicked', function() {
       beforeEach(function() {
-        var event = document.createEvent('CustomEvent');
-        event.initCustomEvent('MouseEvent', true, true, true);
-        element[0].dispatchEvent(event);
+        clickElement(element[0]);
       });
 
       it('should be called', function() {
-        // @todo This should be equal 1
-        // PhantomJS bug is preventing this to work though:
-        // https://github.com/ariya/phantomjs/issues/11289
-        expect(mySpy.callCount).to.equal(0);
+        expect(mySpy.callCount).to.equal(1);
       });
     });
   });
