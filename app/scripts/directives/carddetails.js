@@ -25,6 +25,10 @@ angular.module('unleashApp')
         closeSidebar();
       });
 
+      $scope.close = function() {
+        closeSidebar();
+      };
+
       // Get username of owner of the card
       ref.parent().parent().once('value', function(snap) {
         $scope.cardOwner = snap.val().username;
@@ -56,10 +60,6 @@ angular.module('unleashApp')
     };
 
     var linkFn = function($scope) {
-      $scope.close = function() {
-        closeSidebar();
-      };
-
       /**
        * Renders a button for toggling the 'achieved' state in the card
        */

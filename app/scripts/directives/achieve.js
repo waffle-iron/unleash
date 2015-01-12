@@ -22,7 +22,7 @@ angular.module('unleashApp')
 
         updateButton();
 
-        scope.card.$watch(function() {
+        scope.$watchCollection('card', function() {
           updateButton();
         });
 
