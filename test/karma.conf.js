@@ -31,6 +31,7 @@ module.exports = function(config) {
       'bower_components/angular-aria/angular-aria.js',
       'bower_components/ngDraggable/ngDraggable.js',
       'bower_components/angular-relative-date/angular-relative-date.js',
+      'bower_components/angular-growl-2/build/angular-growl.js',
       'bower_components/mockfirebase/dist/mockfirebase.js',
       'app/scripts/**/*.js',
       'test/mock/**/*.js',

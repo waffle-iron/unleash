@@ -104,9 +104,13 @@ angular.module('unleashApp')
        * @returns {Promise} Resolved after the updated card has been stored in Firebase.
        */
       toggleAchieved: function(card) {
-        card.achieved = !card.achieved;
+        return $q(function(resolve) {
+          card.achieved = !card.achieved;
 
-        return card.$save();
+          card.$save().then(function() {
+            resolve(card.achieved);
+          });
+        });
       }
     };
   });

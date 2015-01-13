@@ -2,7 +2,6 @@
   "name": "unleash",
   "version": "0.0.1",
   "homepage": "https://github.com/x-team/unleash",
-  "private": true,
   "dependencies": {},
   "devDependencies": {
     "chalk": "^0.4.0",

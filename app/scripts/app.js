@@ -18,6 +18,7 @@ angular.module('unleashApp', [
     'ngAria',
     'ngDraggable',
     'relativeDate',
+    'angular-growl',
     'firebase',
     'firebase.utils'
   ])
@@ -28,6 +29,12 @@ angular.module('unleashApp', [
       'self',
       'https://*.googleusercontent.com/**'
     ]);
+  })
+
+.config(function(growlProvider) {
+    growlProvider.globalTimeToLive(5000);
+    growlProvider.globalDisableCountDown(true);
+    growlProvider.globalDisableCloseButton(true);
   })
 
 .run(function($rootScope, $route) {

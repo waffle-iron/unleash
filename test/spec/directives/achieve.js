@@ -9,7 +9,7 @@ var clickElement = function (el){
   el.dispatchEvent(ev);
 };
 
-describe('Directive: unleashPerson', function () {
+describe('Directive: unleashAchieve', function () {
 
   var element;
   var mySpy;
@@ -58,7 +58,15 @@ describe('Directive: unleashPerson', function () {
       mySpy = sinon.spy();
       cardsService = $injector.get('cardsService');
 
-      cardsService.toggleAchieved = mySpy;
+      cardsService.toggleAchieved = function() {
+        mySpy();
+
+        return {
+          then: function(callback) {
+            return callback;
+          }
+        };
+      };
     }));
 
     describe('when the directive is clicked', function() {
