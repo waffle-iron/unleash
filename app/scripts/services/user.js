@@ -8,7 +8,7 @@
  * Methods related to controlling user authentication.
  */
 angular.module('unleashApp')
-  .factory('userService', function($window, FBURL, Auth, $compile, $q, growl) {
+  .factory('userService', function($rootScope, $window, $location, FBURL, Auth, $compile, $q, growl) {
     var ref = new $window.Firebase(FBURL);
 
     /**
@@ -105,9 +105,14 @@ angular.module('unleashApp')
         });
       },
 
+      /**
+       * Actions related to logout
+       */
       logout: function() {
+        // @todo: add animations
         ref.unauth();
         growl.success('Logged out successfully.');
+        $location.path('/');
       },
 
       /**
@@ -159,19 +164,11 @@ angular.module('unleashApp')
       },
 
       /**
-       * Watch for changes in auth
-       * @param isLoggedInInitially
+       * Broadcast changes in auth
        */
-      listen: function(isLoggedInInitially) {
-        ref.onAuth(function(authData) {
-          // Only detect changes
-          // @todo: Display notifications related to auth changes
-          if (authData && !isLoggedInInitially) {
-            //$window.location.href = '/';
-            console.log('logged in: ', authData);
-          } else if (!authData && isLoggedInInitially) {
-            console.log('logged out: ', authData);
-          }
+      listen: function() {
+        ref.onAuth(function() {
+          $rootScope.$broadcast('auth-change');
         });
       }
     };

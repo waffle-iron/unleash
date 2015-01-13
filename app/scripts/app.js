@@ -46,7 +46,7 @@ angular.module('unleashApp', [
     });
   })
 
-.controller('MainController', ['$scope', 'fbutil', 'Auth', 'userService', function($scope, fbutil, Auth, userService) {
+.controller('MainController', function($rootScope, $scope, fbutil, Auth, userService) {
     $scope.auth = Auth;
     $scope.user = $scope.auth.$getAuth();
 
@@ -60,4 +60,8 @@ angular.module('unleashApp', [
         console.err(err);
       });
     }
-  }]);
+
+    $rootScope.$on('auth-change', function() {
+      $scope.user = $scope.auth.$getAuth();
+    });
+  });
