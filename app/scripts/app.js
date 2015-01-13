@@ -32,9 +32,10 @@ angular.module('unleashApp', [
   })
 
 .config(function(growlProvider) {
-    growlProvider.globalTimeToLive(5000);
+    growlProvider.globalTimeToLive(3000);
     growlProvider.globalDisableCountDown(true);
     growlProvider.globalDisableCloseButton(true);
+    growlProvider.globalInlineMessages(true);
   })
 
 .run(function($rootScope, $route) {

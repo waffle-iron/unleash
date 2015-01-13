@@ -14,10 +14,13 @@ angular.module('unleashApp')
          * Updates text in the button basing on whether the card has been achieved already.
          * @param isAchieved
          */
+
+        var $button = angular.element(element.find('button'));
+
         var updateButton = function() {
           var newText = !scope.card.achieved ? 'Mark as achieved' : 'Mark as not achieved';
 
-          element.text(newText);
+          $button.text(newText);
         };
 
         updateButton();
@@ -26,17 +29,22 @@ angular.module('unleashApp')
           updateButton();
         });
 
-        element.on('click', function() {
+        $button.on('click', function() {
           if (scope.currentUser === scope.cardOwner) {
             cardsService.toggleAchieved(scope.card).then(function(isAchieved) {
               if (isAchieved) {
-                growl.success('Great job, keep it up!');
+                growl.success('Great job, keep it up!', {
+                  referenceId: 1,
+                  disableIcons: true
+                });
               }
             });
           }
         });
 
       },
-      scope: true
+      scope: true,
+      replace: true,
+      templateUrl: 'views/partials/achieve.html'
     };
   });

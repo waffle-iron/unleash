@@ -15,9 +15,11 @@ describe('Directive: unleashAchieve', function () {
   var mySpy;
   var outerScope;
   var innerScope;
+  var button;
 
   beforeEach(module('unleashApp'));
   beforeEach(module('views/home.html'));
+  beforeEach(module('views/partials/achieve.html'));
 
   beforeEach(inject(function($rootScope, $compile) {
     element = angular.element('<unleash-achieve></unleash-achieve>');
@@ -32,11 +34,13 @@ describe('Directive: unleashAchieve', function () {
     innerScope = element.isolateScope();
 
     outerScope.$digest();
+
+    button = element.find('button')[0];
   }));
 
   describe('directive in unachieved state', function() {
     it('render a proper button label', function() {
-      expect(element[0].innerHTML).to.equal('Mark as achieved');
+      expect(button.innerHTML).to.equal('Mark as achieved');
     });
   });
 
@@ -47,7 +51,7 @@ describe('Directive: unleashAchieve', function () {
     });
 
     it('render a proper button label', function() {
-      expect(element[0].innerHTML).to.equal('Mark as not achieved');
+      expect(button.innerHTML).to.equal('Mark as not achieved');
     });
   });
 
@@ -71,7 +75,7 @@ describe('Directive: unleashAchieve', function () {
 
     describe('when the directive is clicked', function() {
       beforeEach(function() {
-        clickElement(element[0]);
+        clickElement(button);
       });
 
       it('should be called', function() {
