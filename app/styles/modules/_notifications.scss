@@ -1,14 +1,20 @@
 /*
  * Variables
  */
-$success-bg: #dff0d8;
+
+$alert-bg: (
+  success: #dff0d8,
+  info: #d9edf7,
+  warning: #fcf8e3,
+  error: #f2dede
+);
 
 /*
  * Main styles
  */
 
 // Global notifications
-body > .growl-container {
+.growl-global .growl-container {
   position: fixed;
   top: 0;
   left: 0;
@@ -63,8 +69,10 @@ body > .growl-container {
   padding: .6em 0;
 }
 
-.alert-success {
-  background-color: $success-bg;
+@each $alert in success, info, warning, error {
+  .alert-#{$alert} {
+    background-color: map-get($alert-bg, #{$alert});
+  }
 }
 
 

@@ -8,7 +8,7 @@
  * Methods related to controlling user authentication.
  */
 angular.module('unleashApp')
-  .factory('userService', function($window, FBURL, Auth, $q) {
+  .factory('userService', function($window, FBURL, Auth, $compile, $q, growl) {
     var ref = new $window.Firebase(FBURL);
 
     /**
@@ -61,8 +61,7 @@ angular.module('unleashApp')
           if (isValidLogin) {
             ref.child('users').child(authData.uid).set(authData);
           } else {
-            // @todo: Display a notification
-            console.error('Try using an x-team email address. Not registered.');
+            growl.error('Try using an x-team email address. Not registered.');
             this.logout();
           }
         }
@@ -96,6 +95,8 @@ angular.module('unleashApp')
               if(!doesExist) {
                 authData.username = parseEmail(authData.google.email);
                 self.register(authData);
+              } else {
+                growl.success('Welcome back, ' + authData.google.displayName + '!');
               }
             });
           }
@@ -106,6 +107,7 @@ angular.module('unleashApp')
 
       logout: function() {
         ref.unauth();
+        growl.success('Logged out successfully.');
       },
 
       /**
@@ -164,8 +166,11 @@ angular.module('unleashApp')
         ref.onAuth(function(authData) {
           // Only detect changes
           // @todo: Display notifications related to auth changes
-          if (authData && !isLoggedInInitially || !authData && isLoggedInInitially) {
-            $window.location.href = '/';
+          if (authData && !isLoggedInInitially) {
+            //$window.location.href = '/';
+            console.log('logged in: ', authData);
+          } else if (!authData && isLoggedInInitially) {
+            console.log('logged out: ', authData);
           }
         });
       }
