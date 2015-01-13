@@ -1,0 +1,124 @@
+{
+  "0" : {
+    "level" : 1,
+    "task" : "Read the latest posts on the X-Team.com blog. Read \"How to write development posts & talks\" to start getting familiar with the process and why it's important to blog.",
+    "type" : "Blogging"
+  },
+  "1" : {
+    "task" : "Attend at least 1 meeting",
+    "type" : "Meetup Attender"
+  },
+  "2" : {
+    "task" : "Speak at a meetup",
+    "type" : "Meetup Speaker"
+  },
+  "3" : {
+    "task" : "Speak at a conference",
+    "type" : "Conference Speaker"
+  },
+  "4" : {
+    "task" : "Contribute to an Open Source project",
+    "type" : "Open Source Contributor"
+  },
+  "5" : {
+    "level" : 1,
+    "type" : "Proactive"
+  },
+  "6" : {
+    "level" : 1,
+    "type" : "Mentoring"
+  },
+  "7" : {
+    "level" : 1,
+    "type" : "Leadership"
+  },
+  "8" : {
+    "level" : 1,
+    "type" : "Open Source Advocate"
+  },
+  "-JfUHGZ7ph93HzW3_Txz" : {
+    "level" : "2",
+    "task" : "Start tracking ideas you have around tech and development in a notes app for one week.",
+    "type" : "Blogging"
+  },
+  "-JfUqPMqBCwpv_LTEsH3" : {
+    "level" : "1",
+    "task" : "Learn about the X-Team culture, its history and what we believe in. Visit x-team.com/culture to learn all you need to know.",
+    "type" : "Culture Historian"
+  },
+  "-JfUqS39ppApd4k2KYuw" : {
+    "level" : "1",
+    "task" : "Receive your invite and signup with your firstname.lastname.\nUpload a picture of yourself in your Slack account settings.\nSet up the Slack app on your mobile device.",
+    "type" : "Slack Samurai"
+  },
+  "-JfUqWQLaYLkWJml_Qvh" : {
+    "level" : "1",
+    "task" : "Gain access to the X-Team xHQ Wiki on Github. The wiki gives you access to a growing wealth of information to help you as an X-Teamer. Step: Read the Developers FAQ page.",
+    "type" : "New Tool: The Wiki"
+  },
+  "-JfUqZRA9I6U_oJINAp4" : {
+    "level" : "1",
+    "task" : "Join the league of the extraordinary on x-team.com by creating your own X-Team.com profile with your bio, skills, picture, and portfolio.",
+    "type" : "X-Team.com Profile"
+  },
+  "-JfUqhrmPL5X9hRB0WZt" : {
+    "level" : "3",
+    "task" : "Outline the structure for your post. Provide context, 'the meat', and an opportunity for others to contribute.",
+    "type" : "Blogging"
+  },
+  "-JfUqkAnRiM3Bg1KGpU9" : {
+    "level" : "4",
+    "task" : "Publish your blog to x-team.com and/or your own site (Tumblr, for example). Promote the post on LinkedIn, Twitter, Facebook and reddit.",
+    "type" : "Blogging"
+  },
+  "-JfUqmxcLqbxu8IGwaVK" : {
+    "level" : "1",
+    "task" : "Learn how to use the X-Team invoice system to get paid. Setup your profile and submit your first invoice. You will also learn how to get reimbursed for expenses.",
+    "type" : "Earn Your Keep"
+  },
+  "-JfUqpygw6jLgcddzbZ9" : {
+    "level" : "1",
+    "task" : "Watch a past Happy Hour video in the xHQ wiki and then attend one of our weekly Happy Hours in the #xhq.",
+    "type" : "Happy Hour Hero"
+  },
+  "-JfUqu2wLv6jCRvk28JI" : {
+    "level" : "1",
+    "task" : "Visit the Open Source Projects page on the X-Team Wiki and see all of the open source projects that other X-Teamers work on. Feel free to post your own project to this page.",
+    "type" : "Open Source Advocate"
+  },
+  "-JfUqwMJYU3x5XCkBElp" : {
+    "level" : "2",
+    "task" : "Contribute to any open source project. Read \"How to contribute to open source communities\" to learn the many ways to contribute.",
+    "type" : "Open Source Advocate"
+  },
+  "-JfUqzp4Gj8lRPrYUr3n" : {
+    "level" : "3",
+    "task" : "Contribute to an open source project that other X-Teamers contribute to (visit the Wiki to see projects).",
+    "type" : "Open Source Advocate"
+  },
+  "-JfUr1d23m8ErEFWa3ms" : {
+    "level" : "4",
+    "task" : "Host a ContributeX event for a local open source community. Read the post \"ContributeX: A Jetpack for Open Source Communities\" to learn more about it.",
+    "type" : "Open Source Advocate"
+  },
+  "-JfUr4wx4sOK_oZ_wSJ5" : {
+    "level" : "1",
+    "task" : "Take a photo or be in a photo with you raising 'The X' with your arms to let the world know that X-Team is there when they need us.",
+    "type" : "Raise Your X"
+  },
+  "-JfUr7U9XLSeJW2X0UzK" : {
+    "level" : "1",
+    "task" : "Subscribe to X-Team on Facebook and Twitter to stay up to date with the happenings in the community.",
+    "type" : "Social Media Superhero"
+  },
+  "-JfUr9amk62d_WDs_f-m" : {
+    "level" : "1",
+    "task" : "Learn about how X-Labs works and past work that's come out of X-Labs. Also visit http://x-team.com/x-labs. Start thinking about what you can contribute to X-Labs.",
+    "type" : "X-Labs"
+  },
+  "-JfUrCX6PLawoOh9Ucke" : {
+    "level" : "2",
+    "task" : "Become an official X-Labber and finish a project for X-Labs.",
+    "type" : "X-Labs"
+  }
+}

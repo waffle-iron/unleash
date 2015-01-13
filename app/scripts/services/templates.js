@@ -8,7 +8,7 @@
  * Methods related to adding or removing user templates.
  */
 angular.module('unleashApp')
-  .factory('templatesService', function($window, $q, FBURL, $firebase, cardsService) {
+  .factory('templatesService', function($window, $q, $http, FBURL, $firebase, cardsService, dataPath) {
     var ref = new $window.Firebase(FBURL).child('templates');
     var templates = {};
 
@@ -16,53 +16,18 @@ angular.module('unleashApp')
 
     templates.stored = $firebase(ref.orderByChild('type'));
 
-    templates.initial = [
-      {
-        'type': 'Blogging',
-        'level': 1,
-        'task': 'Start tracking ideas'
-      },
-      {
-        'type': 'Meetup Attender',
-        'task': 'Attend at least 1 meeting'
-      },
-      {
-        'type': 'Meetup Speaker',
-        'task': 'Speak at a meetup'
-      },
-      {
-        'type': 'Conference Speaker',
-        'task': 'Speak at a conference'
-      },
-      {
-        'type': 'Open Source Contributor',
-        'task': 'Contribute to an Open Source project'
-      },
-      {
-        'type': 'Proactive',
-        'level': 1
-      },
-      {
-        'type': 'Mentoring',
-        'level': 1
-      },
-      {
-        'type': 'Leadership',
-        'level': 1
-      },
-      {
-        'type': 'Open Source Advocate',
-        'level': 1
-      }
-    ];
-
     /**
      * Populate a predefined set of templates to the database
-     * @param data Predefined templates
-     * @returns {Promise}
+     * @returns {Promise} A reference to the Firebase object
      */
-    var populateTemplates = function(data) {
-      return templates.stored.$set(data);
+    var populateTemplates = function() {
+      return $q(function() {
+        $http.get(dataPath + 'templates.json').then(function(obj) {
+          return templates.stored.$set(obj.data);
+        }).catch(function() {
+          console.error('There was a problem loading the templates data file.');
+        });
+      });
     };
 
     /**
@@ -97,7 +62,7 @@ angular.module('unleashApp')
       /**
        * List initial templates
        */
-      list: $q(function(resolve, reject) {
+      list: $q(function(resolve) {
         var list = templates.stored.$asArray();
 
         list.$loaded().then(function() {
@@ -107,11 +72,7 @@ angular.module('unleashApp')
 
           else {
             // No templates stored in Firebase, instantiate
-            populateTemplates(templates.initial).then(function() {
-              resolve(templates.initial);
-            }, function(error) {
-              reject(new Error(error));
-            });
+            return populateTemplates();
           }
 
         });
