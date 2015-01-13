@@ -27,8 +27,4 @@ angular.module('unleashApp')
     $scope.templates.add = function() {
       templatesService.newTemplates.push([]);
     };
-
-    $scope.templates.restore = function() {
-      templatesService.restore();
-    };
   });

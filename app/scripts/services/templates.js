@@ -177,13 +177,6 @@ angular.module('unleashApp')
       },
 
       /**
-       * Restore initial template templates
-       */
-      restore: function() {
-        populateTemplates(templates.initial);
-      },
-
-      /**
        * Gets user cards and all initial card templates. Returns templates that still can be used
        * @returns {Promise}
        */
