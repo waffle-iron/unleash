@@ -26,10 +26,10 @@
           <unleash-auth></unleash-auth>
 
           <nav>
-            <ul>
-              <li><a ng-href="/paths">All paths</a></li>
-              <li ng-show="user" ng-cloak><a ng-href="/account">Your path</a> <a ng-href="/paths/{{ user.username }}">(public)</a></li>
-              <li ng-show="user" ng-cloak><a ng-href="/templates">Edit card templates</a></li>
+            <ul ng-show="user" ng-cloak>
+              <li><a ng-href="/account">Account</a></li>
+              <li><a ng-href="/paths/{{ user.username }}">Your public path</a></li>
+              <li><a ng-href="/templates">Edit card templates</a></li>
             </ul>
           </nav>
         </header>
@@ -66,7 +66,7 @@
     <script src="scripts/constants.js"></script>
     <script src="scripts/angularfire/config.js"></script>
     <script src="scripts/angularfire/firebase.utils.js"></script>
-    <script src="scripts/controllers/paths.js"></script>
+    <script src="scripts/controllers/path.js"></script>
     <script src="scripts/controllers/account.js"></script>
     <script src="scripts/controllers/templates.js"></script>
     <script src="scripts/directives/achieve.js"></script>

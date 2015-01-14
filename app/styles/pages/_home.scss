@@ -1,10 +1,25 @@
-.welcome {
-  padding: 4em;
-  text-align: center;
+/*
+ * Main styles
+ */
+.page-home {
+  .person {
+    margin: 2em 0;
+  }
 
-  h1 {
-    font-size: 21px;
-    font-weight: 600;
-    margin: 0 0 1em;
+  .paths-list {
+    text-align: center;
+
+    li {
+      display: inline-block;
+      margin: 2em;
+    }
+
+    a {
+      color: $body-text-color;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
   }
 }

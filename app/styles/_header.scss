@@ -41,14 +41,12 @@ $logo-height: 32px;
 
   nav {
     clear: both;
+    min-height: 5em;
+    padding: 2em;
 
     ul {
-      list-style: none;
-      padding: 2em;
-      margin: 0;
-
       @include breakpoint(phablet) {
-        padding-left: 3em;
+        padding-left: 1em;
       }
     }
 
@@ -56,7 +54,7 @@ $logo-height: 32px;
       display: inline-block;
       margin-right: 1em;
     }
-    
+
     .active {
       font-weight: bold;
     }

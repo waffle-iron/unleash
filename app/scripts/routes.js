@@ -42,20 +42,10 @@ angular.module('unleashApp')
         }
       })
 
-      .when('/paths', {
-        templateUrl: 'views/paths.html',
-        className: 'paths',
-        resolve: {
-          currentAuth: ['Auth', function(Auth) {
-            return Auth.$waitForAuth();
-          }]
-        }
-      })
-
       .when('/paths/:userId', {
-        templateUrl: 'views/path-single.html',
+        templateUrl: 'views/path.html',
         controller: 'SinglePathController',
-        className: 'path-single',
+        className: 'path',
         resolve: {
           currentAuth: ['Auth', function(Auth) {
             return Auth.$waitForAuth();
