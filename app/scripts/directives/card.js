@@ -7,7 +7,7 @@
  * # Displays a card
  */
 angular.module('unleashApp')
-  .directive('unleashCard', function($compile) {
+  .directive('unleashCard', function($compile, fbutil) {
     /**
      * Check if a given card is already being viewed
      * @param id Card $id
@@ -54,6 +54,14 @@ angular.module('unleashApp')
     };
 
     var linkFn = function(scope, element, attr) {
+      var comments = fbutil.syncArray('users/' + scope.cardOwnerId + '/cards/' + scope.card.$id + '/comments');
+
+      scope.commentCount = comments.length;
+
+      comments.$watch(function() {
+        scope.commentCount = comments.length;
+      });
+
       if(attr.view === 'public') {
         element.on('click', function() {
           if (isCardAlreadyOpened(scope.card.$id)) {

@@ -40,7 +40,7 @@ $ninja-height:       $ninja-width;
   user-select: none;
   border-radius: 3px;
   box-shadow: 0 3px 0 0 darken($card-default-bg, 20%);
-  transition: color .3s, background-color .3s;
+  transition: color .3s, background-color .3s, box-shadow .3s;
 
   &--is-clickable {
     cursor: pointer;
@@ -64,6 +64,11 @@ $ninja-height:       $ninja-width;
     opacity: .2;
   }
 
+  &__level,
+  &__comments {
+    transition: color .3s;
+  }
+
   &__type {
     font-size: 14px;
     font-weight: 600;
@@ -74,14 +79,20 @@ $ninja-height:       $ninja-width;
     padding: 0 5%;
   }
 
-  &__level {
+  &__level,
+  &__comments {
     position: absolute;
-    bottom: 15px;
+    top: 15px;
     left: 0;
     width: 100%;
     font-style: normal;
     font-weight: 600;
     color: darken($card-default-bg, 20%);
+  }
+
+  &__comments {
+    top: auto;
+    bottom: 15px;
   }
 
   &.dragging {
@@ -118,7 +129,8 @@ $ninja-height:       $ninja-width;
     color: $card-achieved-txt;
     box-shadow: 0 3px 0 0 darken($card-achieved-bg, 20%);
 
-    .card__level {
+    .card__level,
+    .card__comments {
       color: darken($card-achieved-bg, 20%);
     }
   }
@@ -138,6 +150,8 @@ $ninja-height:       $ninja-width;
 
     .card__level {
       text-align: center;
+      top: auto;
+      bottom: 15px;
     }
 
     .card__desc {
@@ -169,11 +183,17 @@ $ninja-height:       $ninja-width;
 
     .card__type {
       position: static;
+      font-weight: normal;
     }
 
-    .card__type,
     .card__level {
+      top: auto;
+      bottom: 15px;
       font-weight: normal;
+    }
+
+    .card__comments {
+      display: none;
     }
   }
 
