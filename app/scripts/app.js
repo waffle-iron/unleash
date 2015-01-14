@@ -48,20 +48,21 @@ angular.module('unleashApp', [
 
 .controller('MainController', function($rootScope, $scope, fbutil, Auth, userService) {
     $scope.auth = Auth;
-    $scope.user = $scope.auth.$getAuth();
-
     $scope.allUsers = fbutil.syncArray('users');
 
-    // @todo: Find a workaround for the delay
-    if($scope.user) {
-      userService.getUsername.then(function(data) {
+    var setUserData = function() {
+      $scope.user = $scope.auth.$getAuth();
+
+      userService.getUsername().then(function(data) {
         $scope.user.username = data;
       }, function(err) {
         console.err(err);
       });
-    }
+    };
+
+    setUserData();
 
     $rootScope.$on('auth-change', function() {
-      $scope.user = $scope.auth.$getAuth();
+      setUserData();
     });
   });

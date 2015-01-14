@@ -118,22 +118,24 @@ angular.module('unleashApp')
       /**
        * Gets username of a logged in user
        */
-      getUsername: $q(function(resolve, reject) {
-        if(Auth.$getAuth()) {
-          var queryRef = ref.child('users');
+      getUsername: function() {
+        return $q(function (resolve, reject) {
+          if (Auth.$getAuth()) {
+            var queryRef = ref.child('users');
 
-          queryRef.once('value', function(snapshot) {
-            var storedUsers = snapshot.val() || {};
-            var currentUser = Auth.$getAuth().uid;
+            queryRef.once('value', function (snapshot) {
+              var storedUsers = snapshot.val() || {};
+              var currentUser = Auth.$getAuth().uid;
 
-            if (Object.keys(storedUsers).length) {
-              resolve(storedUsers[currentUser].username);
-            } else {
-              reject(Error('Object is empty'));
-            }
-          });
-        }
-      }),
+              if (Object.keys(storedUsers).length) {
+                resolve(storedUsers[currentUser].username);
+              } else {
+                reject(Error('Object is empty'));
+              }
+            });
+          }
+        });
+      },
 
       /**
        * Gets UID from an username
