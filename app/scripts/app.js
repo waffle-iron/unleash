@@ -39,17 +39,17 @@ angular.module('unleashApp', [
   })
 
 .run(function($rootScope, $route, fbutil, Auth, userService) {
-    $rootScope.auth = Auth;
+    $rootScope.user = {};
     $rootScope.allUsers = fbutil.syncArray('users');
 
     var setUserData = function() {
-      $rootScope.user = $rootScope.auth.$getAuth();
+      $rootScope.user = Auth.$getAuth();
 
-      userService.getUsername().then(function(data) {
-        $rootScope.user.username = data;
-      }, function(err) {
-        console.err(err);
-      });
+      if ($rootScope.user) {
+        userService.getUsername().then(function(data) {
+          $rootScope.user.username = data;
+        });
+      }
     };
 
     setUserData();

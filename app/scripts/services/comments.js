@@ -21,8 +21,6 @@ angular.module('unleashApp')
        * @returns {*}
        */
       setup: function(userId, cardId) {
-        var self = this;
-
         return $q(function(resolve, reject) {
 
           if(userId && cardId) {
@@ -33,7 +31,7 @@ angular.module('unleashApp')
             comments = $firebase(ref.child('comments')).$asArray();
 
             comments.$loaded().then(function() {
-              resolve(self);
+              resolve();
             });
           }
 
