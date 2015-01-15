@@ -18,7 +18,7 @@ angular.module('unleashApp')
       $scope.currentPathOwner = fbutil.syncObject('users/' + uid);
 
       $scope.currentPathOwner.$loaded().then(function() {
-        if ($scope.currentPathOwner.uid === $rootScope.user.uid) {
+        if ($rootScope.user && $scope.currentPathOwner.uid === $rootScope.user.uid) {
           $scope.currentPathOwner.isCurrentUser = true;
         }
       });

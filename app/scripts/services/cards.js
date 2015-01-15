@@ -55,6 +55,19 @@ angular.module('unleashApp')
       },
 
       /**
+       * Pulls card details
+       * @param userId Card owner ID
+       * @param cardId Card ID
+       * @returns {*} Card details
+       */
+      getCard: function(userId, cardId) {
+        var ref = new $window.Firebase(FBURL).child('users').child(userId).child('cards').child(cardId);
+        var sync = $firebase(ref);
+
+        return sync.$asObject();
+      },
+
+      /**
        * List user cards
        * @returns {*}
        */

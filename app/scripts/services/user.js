@@ -116,25 +116,35 @@ angular.module('unleashApp')
       },
 
       /**
-       * Gets username of a logged in user
+       * Returns an username for a given UID or for a currently signed in user
+       * @param data
+       * @returns {Promise} Username
        */
-      getUsername: function() {
-        return $q(function (resolve, reject) {
-          if (Auth.$getAuth()) {
-            var queryRef = ref.child('users');
+      getUsername: function(data) {
+        var deferred = $q.defer();
+        var uid;
 
-            queryRef.once('value', function (snapshot) {
-              var storedUsers = snapshot.val() || {};
-              var currentUser = Auth.$getAuth().uid;
+        if(data || Auth.$getAuth()) {
+          uid = data || Auth.$getAuth().uid;
 
-              if (Object.keys(storedUsers).length) {
-                resolve(storedUsers[currentUser].username);
-              } else {
-                reject(Error('Object is empty'));
-              }
-            });
-          }
-        });
+          var queryRef = ref.child('users');
+
+          queryRef.once('value', function (snapshot) {
+            var storedUsers = snapshot.val() || {};
+
+            if (Object.keys(storedUsers).length) {
+              deferred.resolve(storedUsers[uid].username);
+            } else {
+              deferred.reject(new Error('There was a problem reading data'));
+            }
+          });
+        }
+
+        else {
+          deferred.reject(new Error('No data provided.'));
+        }
+
+        return deferred.promise;
       },
 
       /**
