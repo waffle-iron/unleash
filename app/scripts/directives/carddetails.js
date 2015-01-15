@@ -7,7 +7,7 @@
  * # Renders card details
  */
 angular.module('unleashApp')
-  .directive('unleashCardDetails', function($rootScope, templatesService, $compile) {
+  .directive('unleashCardDetails', function($rootScope, growl, $compile) {
     var closeSidebar = function() {
       angular.element(document.body).removeClass('has-menu');
 
@@ -16,7 +16,7 @@ angular.module('unleashApp')
       }, 250);
     };
 
-    var ctrlFn = function($window, $scope, FBURL, $firebase, $timeout) {
+    var ctrlFn = function($window, $scope, FBURL, $firebase) {
       var ref = new $window.Firebase(FBURL).child('users').child($scope.cardOwnerId).child('cards').child($scope.cardId);
       var sync = $firebase(ref);
       $scope.card = sync.$asObject();
@@ -47,16 +47,9 @@ angular.module('unleashApp')
             timestamp: $window.Firebase.ServerValue.TIMESTAMP
           })
             // display any errors
-            .catch(alert);
+            .catch(growl.error);
         }
       };
-
-      function alert(msg) {
-        $scope.err = msg;
-        $timeout(function() {
-          $scope.err = null;
-        }, 5000);
-      }
     };
 
     var linkFn = function($scope) {

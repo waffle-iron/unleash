@@ -38,23 +38,15 @@ angular.module('unleashApp', [
     growlProvider.globalInlineMessages(true);
   })
 
-.run(function($rootScope, $route) {
-    $rootScope.$on('$routeChangeSuccess', function(newVal, oldVal) {
-      if (oldVal !== newVal) {
-        $rootScope.routeClassName = 'page-' + $route.current.className;
-      }
-    });
-  })
-
-.controller('MainController', function($rootScope, $scope, fbutil, Auth, userService) {
-    $scope.auth = Auth;
-    $scope.allUsers = fbutil.syncArray('users');
+.run(function($rootScope, $route, fbutil, Auth, userService) {
+    $rootScope.auth = Auth;
+    $rootScope.allUsers = fbutil.syncArray('users');
 
     var setUserData = function() {
-      $scope.user = $scope.auth.$getAuth();
+      $rootScope.user = $rootScope.auth.$getAuth();
 
       userService.getUsername().then(function(data) {
-        $scope.user.username = data;
+        $rootScope.user.username = data;
       }, function(err) {
         console.err(err);
       });
@@ -64,5 +56,11 @@ angular.module('unleashApp', [
 
     $rootScope.$on('auth-change', function() {
       setUserData();
+    });
+
+    $rootScope.$on('$routeChangeSuccess', function(newVal, oldVal) {
+      if (oldVal !== newVal) {
+        $rootScope.routeClassName = 'page-' + $route.current.className;
+      }
     });
   });

@@ -1,10 +1,10 @@
-<div ng-if="users.notfound">User not found!</div>
+<h2 ng-if="pathNotFound">User not found!</h2>
 
-<unleash-person name="{{ users.current.google.displayName }}" thumb="{{ users.current.google.cachedUserProfile.picture }}"></unleash-person>
+<unleash-person name="{{ currentPathOwner.google.displayName }}" thumb="{{ currentPathOwner.google.cachedUserProfile.picture }}"></unleash-person>
 
-<div class="path" ng-show="users.current">
+<div class="path" ng-class="{'path--is-owner': currentPathOwner.isCurrentUser}" ng-show="currentPathOwner">
   <ul ng-show="cards.length">
-    <li ng-repeat="card in cards" class="card--is-clickable" data-view="public" data-card="card" data-card-owner-id="{{ users.current.uid }}" data-username="{{ user.username }}" unleash-card></li>
+    <li ng-repeat="card in cards" class="card--is-clickable" data-view="public" data-card="card" data-card-owner-id="{{ currentPathOwner.uid }}" data-username="{{ user.username }}" unleash-card></li>
   </ul>
 
   <p ng-show="!cards.length">No cards set!</p>
