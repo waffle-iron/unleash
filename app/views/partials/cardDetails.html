@@ -1,11 +1,12 @@
 <section class="achievement">
+  <h2 class="structural">Path details</h2>
   <button ng-click="close()" class="close" title="Close">Close</button>
 
-  <div class="wrapper">
+  <figure class="wrapper">
     <div class="card card--tiny" ng-class="{'card--is-achieved': card.achieved}"></div>
 
-    <h2 class="achievement__name">{{ card.type }}</h2>
-  </div>
+    <figcaption class="achievement__name">{{ card.type }}</figcaption>
+  </figure>
 
   <div class="achievement__steps">
     <div ng-if="card.task">

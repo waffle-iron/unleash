@@ -93,6 +93,11 @@ $comment-border-color:  #f1f1f2;
     font-size: 14px;
   }
 
+  &__comments {
+    max-height: 53vh;
+    overflow-y: auto;
+  }
+
   &__form {
     font-size: 14px;
     padding-top: 1.5em;
