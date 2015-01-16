@@ -53,6 +53,34 @@ $logo-height: 32px;
     li {
       display: inline-block;
       margin-right: 1em;
+
+      a:hover {
+        text-decoration: none;
+      }
+    }
+
+    .comments {
+      position: relative;
+      top: -8px;
+      border-radius: 10px;
+      display: inline-block;
+      background-color: $red;
+      font-size: 12px;
+      font-weight: bold;
+      color: #fff;
+      padding: 3px 6px;
+      margin-top: -5px;
+      transition: opacity;
+
+      &.ng-enter,
+      &.ng-leave.ng-leave-active {
+        opacity: 0;
+      }
+
+      &.ng-leave,
+      &.ng-enter-active {
+        opacity: 1;
+      }
     }
 
     .active {

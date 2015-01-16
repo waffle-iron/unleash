@@ -1,5 +1,12 @@
 'use strict';
 
+/**
+ * @ngdoc function
+ * @name unleashApp.controller:AccountController
+ * @description
+ * # AccountController
+ * Controls data for the /account page
+ */
 angular.module('unleashApp')
   .controller('AccountController', function ($window, $scope, $firebase, FBURL, fbutil, templatesService, cardsService) {
     $scope.cards = null;

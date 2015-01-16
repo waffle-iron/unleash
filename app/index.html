@@ -25,10 +25,19 @@
           <unleash-auth></unleash-auth>
 
           <nav>
-            <ul ng-show="user" ng-cloak>
-              <li><a ng-href="#/account">Account</a></li>
-              <li><a ng-href="#/paths/{{ user.username }}">Your public path</a></li>
-              <li><a ng-href="#/templates">Edit card templates</a></li>
+            <ul ng-show="user" ng-controller="NavController" ng-cloak>
+              <li>
+                <a ng-href="#/account">Account</a>
+              </li>
+              <li>
+                <a ng-href="#/paths/{{ user.username }}">
+                  Your public path
+                  <em ng-if="newComments.length" class="comments animate-if">{{ newComments.length }}</em>
+                </a>
+              </li>
+              <li>
+                <a ng-href="#/templates">Edit card templates</a>
+              </li>
             </ul>
           </nav>
         </header>
@@ -67,6 +76,7 @@
     <script src="scripts/angularfire/firebase.utils.js"></script>
     <script src="scripts/controllers/path.js"></script>
     <script src="scripts/controllers/account.js"></script>
+    <script src="scripts/controllers/nav.js"></script>
     <script src="scripts/controllers/templates.js"></script>
     <script src="scripts/directives/achieve.js"></script>
     <script src="scripts/directives/auth.js"></script>

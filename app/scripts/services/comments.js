@@ -73,8 +73,7 @@ angular.module('unleashApp')
 
       /**
        * Add a comment
-       * @param newComment
-       * @param user
+       * @param data An array containing a comment, its author and the card owner
        */
       add: function(data) {
         if (data.message) {
@@ -86,7 +85,7 @@ angular.module('unleashApp')
           })
             .then(function(ref) {
               if(data.author !== currentUser) {
-                cardsService.iterateCommentCount(ref);
+                cardsService.incrementCommentCount(ref);
               }
             })
             // display any errors

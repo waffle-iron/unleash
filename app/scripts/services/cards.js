@@ -22,6 +22,23 @@ angular.module('unleashApp')
       return _.find(cards, { type: data.type, level: data.level }) ? true : false;
     };
 
+    /**
+     * Marks all comments in a given cards as read and removes them from users’ newComments object
+     * @param {Object} card
+     * @param {Object} newComments
+     */
+    var updateUnreadCount = function(card, newComments) {
+      var readComments = card.comments ? Object.keys(card.comments) : [];
+
+      for (var prop in newComments) {
+        if(_.isString(newComments[prop]) && _.contains(readComments, newComments[prop])) {
+          delete newComments[prop];
+        }
+      }
+
+      newComments.$save();
+    };
+
     return {
       /**
        * Setup service with basic user data and download user cards
@@ -65,13 +82,19 @@ angular.module('unleashApp')
         var sync = $firebase(ref);
 
         var card = sync.$asObject();
+        var newComments = $firebase(ref.parent().parent().child('newComments')).$asObject();
 
-        card.$loaded().then(function() {
-          if (data.ownerId === data.userId) {
+        // If current user is the card owner
+        if (data.ownerId === data.userId) {
+          card.$loaded().then(function () {
             card.unread = 0;
             card.$save();
-          }
-        });
+
+            return newComments.$loaded();
+          }).then(function () {
+            updateUnreadCount(card, newComments);
+          });
+        }
 
         return sync.$asObject();
       },
@@ -136,14 +159,18 @@ angular.module('unleashApp')
       },
 
       /**
-       * Iterate an amount of unread comments
+       * Increments the number of unread comments
        * @param ref Firebase reference to the comment
        */
-      iterateCommentCount: function(ref) {
-        var card = $firebase(ref.parent().parent()).$asObject();
+      incrementCommentCount: function(commentRef) {
+        var ref = commentRef.parent().parent();
 
+        var card = $firebase(ref).$asObject();
+        var newComments = $firebase(ref.parent().parent().child('newComments'));
+
+        // Increments unread comment count for a given card
         card.$loaded().then(function() {
-          if (!card.unread) {
+          if (!card.unread || !_.isNumber(card.unread)) {
             card.unread = 1;
           }
 
@@ -153,6 +180,9 @@ angular.module('unleashApp')
 
           card.$save();
         });
+
+        // Push comment ID to an array of unread comments
+        newComments.$push(commentRef.key());
       }
     };
   });
