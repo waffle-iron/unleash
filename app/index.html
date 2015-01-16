@@ -6,14 +6,13 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,700,300,600,400" rel="stylesheet" type="text/css">
-    <!-- build:css(.) /styles/vendor.css -->
+    <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
     <!-- endbower -->
     <!-- endbuild -->
-    <!-- build:css(.tmp) /styles/main.css -->
-    <link rel="stylesheet" href="/styles/main.css">
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
-    <base href="/">
   </head>
   <body ng-class="routeClassName">
 
@@ -21,15 +20,15 @@
       <div class="container">
         <header class="masthead">
 
-          <h1 class="logo"><a ng-href="/" rel="home">Unleash</a></h1>
+          <h1 class="logo"><a ng-href="#/" rel="home">Unleash</a></h1>
 
           <unleash-auth></unleash-auth>
 
           <nav>
             <ul ng-show="user" ng-cloak>
-              <li><a ng-href="/account">Account</a></li>
-              <li><a ng-href="/paths/{{ user.username }}">Your public path</a></li>
-              <li><a ng-href="/templates">Edit card templates</a></li>
+              <li><a ng-href="#/account">Account</a></li>
+              <li><a ng-href="#/paths/{{ user.username }}">Your public path</a></li>
+              <li><a ng-href="#/templates">Edit card templates</a></li>
             </ul>
           </nav>
         </header>
