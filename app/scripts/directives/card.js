@@ -27,9 +27,9 @@ angular.module('unleashApp')
 
       // Create sidebar element
       var $sidebar = angular.element('<unleash-card-details></unleash-card-details>')
-        .attr('data-card-owner-id', scope.cardOwnerId)
-        .attr('data-username', scope.username)
-        .attr('data-card-id', scope.card.$id);
+        .attr('data-card-owner-id', scope.cardOwnerId || '')
+        .attr('data-current-user-id', scope.currentUserId || '')
+        .attr('data-card-id', scope.card.$id || '');
 
       // Hide the existing sidebar, if any
       closeSidebar();
@@ -45,6 +45,9 @@ angular.module('unleashApp')
       }, 250);
     };
 
+    /**
+     * Closes all existing sidebars
+     */
     var closeSidebar = function() {
       angular.element(document.body).removeClass('has-menu');
 
@@ -53,13 +56,25 @@ angular.module('unleashApp')
       }, 250);
     };
 
+    /**
+     * Update the comment count and the indicator for new comments
+     * @param scope Directive scope
+     * @param card Current card
+     */
+    var updateCommentCount = function(scope, card) {
+      scope.commentCount = _.size(card.comments);
+      if (scope.cardOwnerId === scope.currentUserId) {
+        scope.showUnread = !!card.unread;
+      }
+    };
+
     var linkFn = function(scope, element, attr) {
-      var comments = fbutil.syncArray('users/' + scope.cardOwnerId + '/cards/' + scope.card.$id + '/comments');
+      var card = fbutil.syncObject('users/' + scope.cardOwnerId + '/cards/' + scope.card.$id);
 
-      scope.commentCount = comments.length;
+      updateCommentCount(scope, card);
 
-      comments.$watch(function() {
-        scope.commentCount = comments.length;
+      card.$watch(function() {
+        updateCommentCount(scope, card);
       });
 
       if(attr.view === 'public') {
@@ -78,7 +93,7 @@ angular.module('unleashApp')
       scope: {
         card: '=',
         cardOwnerId: '@',
-        username: '@'
+        currentUserId: '@'
       },
       replace: true,
       link: linkFn

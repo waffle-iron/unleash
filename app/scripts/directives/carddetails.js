@@ -41,7 +41,16 @@ angular.module('unleashApp')
      */
     var linkFn = function($scope) {
       // Download card data
-      $scope.card = cardsService.getCard($scope.cardOwnerId, $scope.cardId);
+      $scope.card = cardsService.getCard({
+        ownerId: $scope.cardOwnerId,
+        userId: $scope.currentUserId,
+        cardId: $scope.cardId
+      });
+
+      // Get an username of the current user
+      userService.getUsername($scope.currentUserId).then(function(username) {
+        $scope.currentUser = username;
+      });
 
       // Get an username of the card owner
       userService.getUsername($scope.cardOwnerId).then(function(username) {
@@ -58,7 +67,10 @@ angular.module('unleashApp')
 
       // Provide a method for adding a message
       $scope.addMessage = function(message) {
-        commentsService.add(message, $scope.currentUser);
+        commentsService.add({
+          message: message,
+          author: $scope.currentUser
+        });
       };
 
       // Add an archieved button
@@ -82,7 +94,7 @@ angular.module('unleashApp')
       link: linkFn,
       scope: {
         cardOwnerId: '@',
-        currentUser: '@username',
+        currentUserId: '@',
         cardId: '@'
       }
     };

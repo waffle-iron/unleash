@@ -29,7 +29,7 @@
     </article>
   </div>
 
-  <form class="achievement__form" ng-if="currentUser">
+  <form class="achievement__form" ng-if="currentUserId">
     <input placeholder="Add a comment…" ng-model="newMessage">
     <button type="submit" ng-click="addMessage(newMessage);newMessage = null;">send</button>
   </form>

@@ -56,13 +56,22 @@ angular.module('unleashApp')
 
       /**
        * Pulls card details
-       * @param userId Card owner ID
-       * @param cardId Card ID
+       * If logged in user is an owner of the card, reset the unread count
+       * @param data An object containing owner ID, current user ID and card ID
        * @returns {*} Card details
        */
-      getCard: function(userId, cardId) {
-        var ref = new $window.Firebase(FBURL).child('users').child(userId).child('cards').child(cardId);
+      getCard: function(data) {
+        var ref = new $window.Firebase(FBURL).child('users').child(data.ownerId).child('cards').child(data.cardId);
         var sync = $firebase(ref);
+
+        var card = sync.$asObject();
+
+        card.$loaded().then(function() {
+          if (data.ownerId === data.userId) {
+            card.unread = 0;
+            card.$save();
+          }
+        });
 
         return sync.$asObject();
       },
@@ -123,6 +132,26 @@ angular.module('unleashApp')
           card.$save().then(function() {
             resolve(card.achieved);
           });
+        });
+      },
+
+      /**
+       * Iterate an amount of unread comments
+       * @param ref Firebase reference to the comment
+       */
+      iterateCommentCount: function(ref) {
+        var card = $firebase(ref.parent().parent()).$asObject();
+
+        card.$loaded().then(function() {
+          if (!card.unread) {
+            card.unread = 1;
+          }
+
+          else {
+            card.unread++;
+          }
+
+          card.$save();
         });
       }
     };

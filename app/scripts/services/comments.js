@@ -8,10 +8,12 @@
  * Factory in the unleashApp.
  */
 angular.module('unleashApp')
-  .factory('commentsService', function ($window, FBURL, $firebase, $q, growl) {
+  .factory('commentsService', function ($window, FBURL, $firebase, $q, growl, cardsService, userService) {
     var ref = null;
     var currentUser = null;
-    var comments = {};
+    var currentUserId = null;
+    var card = {};
+    var comments = [];
 
     return {
       /**
@@ -25,17 +27,23 @@ angular.module('unleashApp')
 
           if(userId && cardId) {
             // Initialize setup
-            currentUser = userId;
 
             ref = new $window.Firebase(FBURL).child('users').child(userId).child('cards').child(cardId);
+            card = $firebase(ref).$asObject();
             comments = $firebase(ref.child('comments')).$asArray();
+
+            currentUserId = userId;
+
+            userService.getUsername(currentUserId).then(function(username) {
+              currentUser = username;
+            });
 
             comments.$loaded().then(function() {
               resolve();
             });
           }
 
-          else if(currentUser) {
+          else if(currentUserId) {
             // Setup has already been done
             resolve();
           }
@@ -68,14 +76,19 @@ angular.module('unleashApp')
        * @param newComment
        * @param user
        */
-      add: function(newComment, user) {
-        if (newComment) {
+      add: function(data) {
+        if (data.message) {
           // push a message to the end of the array
-         comments.$add({
-            text: newComment,
-            author: user,
+          comments.$add({
+            text: data.message,
+            author: data.author,
             timestamp: $window.Firebase.ServerValue.TIMESTAMP
           })
+            .then(function(ref) {
+              if(data.author !== currentUser) {
+                cardsService.iterateCommentCount(ref);
+              }
+            })
             // display any errors
             .catch(growl.error);
         }

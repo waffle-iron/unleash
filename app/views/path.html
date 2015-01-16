@@ -4,7 +4,7 @@
 
 <div class="path" ng-class="{'path--is-owner': currentPathOwner.isCurrentUser}" ng-show="currentPathOwner">
   <ul ng-show="cards.length">
-    <li ng-repeat="card in cards" class="card--is-clickable" data-view="public" data-card="card" data-card-owner-id="{{ currentPathOwner.uid }}" data-username="{{ user.username }}" unleash-card></li>
+    <li ng-repeat="card in cards" class="card--is-clickable" data-view="public" data-card="card" data-card-owner-id="{{ currentPathOwner.uid }}" data-current-user-id="{{ user.uid }}" unleash-card></li>
   </ul>
 
   <p ng-show="!cards.length">No cards set!</p>
