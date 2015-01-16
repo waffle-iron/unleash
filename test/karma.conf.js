@@ -18,6 +18,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+      'bower_components/lodash/dist/lodash.js',
       'bower_components/angular/angular.js',
       'bower_components/angular-mocks/angular-mocks.js',
       'bower_components/firebase/firebase.js',
@@ -32,7 +33,7 @@ module.exports = function(config) {
       'bower_components/ngDraggable/ngDraggable.js',
       'bower_components/angular-relative-date/angular-relative-date.js',
       'bower_components/angular-growl-2/build/angular-growl.js',
-      'bower_components/mockfirebase/dist/mockfirebase.js',
+      'bower_components/mockfirebase/browser/mockfirebase.js',
       'app/scripts/**/*.js',
       'test/mock/**/*.js',
       'test/spec/**/*.js',

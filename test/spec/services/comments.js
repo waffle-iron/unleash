@@ -11,8 +11,8 @@ describe('Service: commentsService', function () {
     commentsService = _commentsService_;
   }));
 
-  it('should do something', function () {
-    expect(!!commentsService).toBe(true);
-  });
+  //it('should do something', function () {
+  //  expect(!!commentsService).toBe(true);
+  //});
 
 });
