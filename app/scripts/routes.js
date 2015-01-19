@@ -42,7 +42,7 @@ angular.module('unleashApp')
         }
       })
 
-      .when('/paths/:userId', {
+      .when('/paths/:userId/:cardId?', {
         templateUrl: 'views/path.html',
         controller: 'SinglePathController',
         className: 'path',

@@ -35,6 +35,12 @@ angular.module('unleashApp')
 
     .then(function(data) {
       $scope.cards = data;
+
+      if($scope.params.cardId) {
+        $timeout(function() {
+          angular.element('.card').eq(0).trigger('click');
+        }, 100);
+      }
     });
 
   });
