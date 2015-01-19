@@ -40,11 +40,17 @@ angular.module('unleashApp')
      * @param $scope
      */
     var linkFn = function($scope) {
+
       // Download card data
-      $scope.card = cardsService.getCard({
+      cardsService.getCard({
         ownerId: $scope.cardOwnerId,
         userId: $scope.currentUserId,
         cardId: $scope.cardId
+      }).then(function(data) {
+        $scope.card = data;
+
+        // Add an archieved button
+        addAchievedButton($scope);
       });
 
       // Get an username of the current user
@@ -72,11 +78,6 @@ angular.module('unleashApp')
           author: $scope.currentUser
         });
       };
-
-      // Add an archieved button
-      $scope.card.$loaded().then(function() {
-        addAchievedButton($scope);
-      });
 
       // Close sidebar
       $scope.close = function() {

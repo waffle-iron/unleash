@@ -7,7 +7,7 @@
  * # Displays a card
  */
 angular.module('unleashApp')
-  .directive('unleashCard', function($compile, fbutil) {
+  .directive('unleashCard', function($compile, fbutil, cardsService) {
     /**
      * Check if a given card is already being viewed
      * @param id Card $id
@@ -59,22 +59,24 @@ angular.module('unleashApp')
     /**
      * Update the comment count and the indicator for new comments
      * @param scope Directive scope
-     * @param card Current card
      */
-    var updateCommentCount = function(scope, card) {
-      scope.commentCount = _.size(card.comments);
-      if (scope.cardOwnerId === scope.currentUserId) {
-        scope.showUnread = !!card.unread;
-      }
+    var updateCommentCount = function(scope) {
+      cardsService.getComments({
+        ownerId: scope.cardOwnerId,
+        cardId: scope.card.$id
+      }).then(function(card) {
+        scope.commentCount = _.size(card.comments);
+        if (scope.cardOwnerId === scope.currentUserId) {
+          scope.showUnread = !!card.unread;
+        }
+      });
     };
 
     var linkFn = function(scope, element, attr) {
-      var card = fbutil.syncObject('users/' + scope.cardOwnerId + '/cards/' + scope.card.$id);
-
-      updateCommentCount(scope, card);
-
-      card.$watch(function() {
-        updateCommentCount(scope, card);
+      scope.$watch('cardOwnerId', function(data) {
+        if(data) {
+          updateCommentCount(scope);
+        }
       });
 
       if(attr.view === 'public') {

@@ -141,11 +141,11 @@ angular.module('unleashApp')
        * Gets user cards and all initial card templates. Returns templates that still can be used
        * @returns {Promise}
        */
-      getAvailableTemplates: function() {
+      getAvailableTemplates: function(uid) {
         var self = this;
 
         return new Promise(function (resolve) {
-          var userCards = cardsService.listCards();
+          var userCards = cardsService.listCards(uid);
           var templates = self.list;
 
           var availableTemplates = $q(function(resolve, reject) {

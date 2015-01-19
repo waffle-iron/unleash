@@ -9,7 +9,6 @@
  */
 angular.module('unleashApp')
   .factory('cardsService', function ($window, FBURL, $q, $firebase) {
-    var isInitialized = false;
     var currentUser = null;
     var cards = null;
 
@@ -27,7 +26,7 @@ angular.module('unleashApp')
      * @param {Object} card
      * @param {Object} newComments
      */
-    var updateUnreadCount = function(card, newComments) {
+    var markAllCommentsAsRead = function(card, newComments) {
       var readComments = card.comments ? Object.keys(card.comments) : [];
 
       for (var prop in newComments) {
@@ -41,78 +40,64 @@ angular.module('unleashApp')
 
     return {
       /**
-       * Setup service with basic user data and download user cards
-       * @param uid
-       * @returns {Promise} Resolve if cards have finished fetching
+       * Pulls card details
+       * If logged in user is an owner of the card, reset the unread count
+       * @param params An object containing owner ID, current user ID and card ID
+       * @returns {Promise} Card details
        */
-      setup: function(uid) {
-        return new Promise(function(resolve, reject) {
-          // If uid is present, setup the service
-          if (uid) {
-            var ref = new $window.Firebase(FBURL).child('users').child(uid).child('cards');
-            cards = $firebase(ref).$asArray();
+      getCard: function(params) {
+        return $q(function(resolve) {
+          var ref = new $window.Firebase(FBURL).child('users').child(params.ownerId).child('cards').child(params.cardId);
+          var sync = $firebase(ref);
 
-            isInitialized = true;
-            currentUser = uid;
+          var card = sync.$asObject();
+          var newComments = $firebase(ref.parent().parent().child('newComments')).$asObject();
 
-            cards.$loaded().then(function() {
-              resolve();
-            });
-          }
+          card.$loaded().then(function (data) {
 
-          // If setup setter hasn’t been called yet
-          else if (!uid && !isInitialized) {
-            reject(new Error('You need to setup cardsService first!'));
-          }
+            // If current user is the card owner
+            if (params.ownerId === params.userId) {
+              // Save unread count
+              card.unread = 0;
+              card.$save();
 
-          cards.$loaded().then(function() {
-            resolve();
+              newComments.$loaded().then(function () {
+                markAllCommentsAsRead(card, newComments);
+
+                resolve(data);
+              });
+            }
+
+            else {
+              resolve(data);
+            }
           });
         });
       },
 
       /**
-       * Pulls card details
-       * If logged in user is an owner of the card, reset the unread count
-       * @param data An object containing owner ID, current user ID and card ID
-       * @returns {*} Card details
+       * Pulls card comments
+       * @param params An object containing owner ID and card ID
+       * @returns {Promise} Card details
        */
-      getCard: function(data) {
-        var ref = new $window.Firebase(FBURL).child('users').child(data.ownerId).child('cards').child(data.cardId);
-        var sync = $firebase(ref);
+      getComments: function(params) {
+        return $q(function(resolve) {
+          var ref = new $window.Firebase(FBURL).child('users').child(params.ownerId).child('cards').child(params.cardId);
+          var comments = $firebase(ref).$asObject();
 
-        var card = sync.$asObject();
-        var newComments = $firebase(ref.parent().parent().child('newComments')).$asObject();
-
-        // If current user is the card owner
-        if (data.ownerId === data.userId) {
-          card.$loaded().then(function () {
-            card.unread = 0;
-            card.$save();
-
-            return newComments.$loaded();
-          }).then(function () {
-            updateUnreadCount(card, newComments);
+          comments.$loaded().then(function (data) {
+            resolve(data);
           });
-        }
-
-        return sync.$asObject();
+        });
       },
 
       /**
        * List user cards
-       * @returns {*}
+       * @returns {Promise} Promise containing user cards
        */
-      listCards: function() {
-        var self = this;
-
-        return $q(function (resolve, reject) {
-          self.setup().then(function () {
-            resolve(cards);
-          }, function (error) {
-            reject(error);
-          });
-        });
+      listCards: function(uid) {
+        var ref = new $window.Firebase(FBURL).child('users').child(uid).child('cards');
+        return $firebase(ref).$asArray().$loaded();
       },
 
       /**
@@ -160,7 +145,7 @@ angular.module('unleashApp')
 
       /**
        * Increments the number of unread comments
-       * @param ref Firebase reference to the comment
+       * @param commentRef Firebase reference to the comment
        */
       incrementCommentCount: function(commentRef) {
         var ref = commentRef.parent().parent();

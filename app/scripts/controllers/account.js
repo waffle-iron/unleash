@@ -8,7 +8,7 @@
  * Controls data for the /account page
  */
 angular.module('unleashApp')
-  .controller('AccountController', function ($window, $scope, $firebase, FBURL, fbutil, templatesService, cardsService) {
+  .controller('AccountController', function ($window, $scope, $firebase, FBURL, fbutil, growl, templatesService, cardsService) {
     $scope.cards = null;
     $scope.templates = {};
 
@@ -16,7 +16,7 @@ angular.module('unleashApp')
 
     // List templates that are still available to use for the current user
     var getTemplates = function() {
-      templatesService.getAvailableTemplates().then(function(templates) {
+      templatesService.getAvailableTemplates($scope.user.uid).then(function(templates) {
         $scope.templates.available = templates;
         $scope.$apply();
       }).catch(function(error) {
@@ -28,14 +28,11 @@ angular.module('unleashApp')
     templatesService.list.then(function(templates) {
       $scope.templates.initial = templates;
     }).catch(function(error) {
-      console.error(error);
+      growl.error(error);
     });
 
-    // Setup cardsService with user ID
-    cardsService.setup($scope.user.uid);
-
     // List cards that user has been assigned with
-    cardsService.listCards().then(function(cards) {
+    cardsService.listCards($scope.user.uid).then(function(cards) {
       $scope.cards = cards;
 
       getTemplates();
