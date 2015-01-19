@@ -8,7 +8,7 @@
  * View a single path
  */
 angular.module('unleashApp')
-  .controller('SinglePathController', function($rootScope, $scope, $q, fbutil, $timeout, $routeParams, userService) {
+  .controller('SinglePathController', function($scope, $q, fbutil, $timeout, $routeParams, userService) {
     // Todo: move functionality to services
     $scope.params = $routeParams;
 
@@ -18,7 +18,7 @@ angular.module('unleashApp')
       $scope.currentPathOwner = fbutil.syncObject('users/' + uid);
 
       $scope.currentPathOwner.$loaded().then(function() {
-        if ($rootScope.user && $scope.currentPathOwner.uid === $rootScope.user.uid) {
+        if ($scope.user && $scope.currentPathOwner.uid === $scope.user.uid) {
           $scope.currentPathOwner.isCurrentUser = true;
         }
       });

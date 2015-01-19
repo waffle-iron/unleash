@@ -7,7 +7,7 @@
  * # Renders card details
  */
 angular.module('unleashApp')
-  .directive('unleashCardDetails', function($rootScope, $compile, growl, userService, cardsService, commentsService) {
+  .directive('unleashCardDetails', function($compile, growl, userService, cardsService, commentsService) {
     /**
      * Renders a button for toggling the 'achieved' state in the card
      */
@@ -83,7 +83,7 @@ angular.module('unleashApp')
         closeSidebar();
       };
 
-      $rootScope.$on('$routeChangeStart', function() {
+      $scope.$on('$routeChangeStart', function() {
         closeSidebar();
       });
     };

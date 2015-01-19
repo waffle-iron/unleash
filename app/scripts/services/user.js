@@ -36,7 +36,7 @@ angular.module('unleashApp')
         var domain = '@x-team.com';
         var email = data.google.email || '';
 
-        return email.indexOf(domain) !== -1 ? 1 : 0;
+        return email.indexOf(domain) !== -1;
       }
     };
 
@@ -59,10 +59,17 @@ angular.module('unleashApp')
 
         if (authData) {
           if (isValidLogin) {
+            authData.username = parseEmail(authData.google.email);
+
             ref.child('users').child(authData.uid).set(authData);
+
+            return true;
           } else {
             growl.error('Try using an x-team email address. Not registered.');
-            this.logout();
+
+            this.logout({
+              silent: true
+            });
           }
         }
       },
@@ -93,8 +100,9 @@ angular.module('unleashApp')
 
             checkIfUserExists(function(doesExist) {
               if(!doesExist) {
-                authData.username = parseEmail(authData.google.email);
-                self.register(authData);
+                if(self.register(authData)) {
+                  growl.success('Make yourself at home, ' + authData.google.displayName + '!');
+                }
               } else {
                 growl.success('Welcome back, ' + authData.google.displayName + '!');
               }
@@ -108,10 +116,16 @@ angular.module('unleashApp')
       /**
        * Actions related to logout
        */
-      logout: function() {
+      logout: function(options) {
+        options = options || {};
+
         // @todo: add animations
         ref.unauth();
-        growl.success('Logged out successfully.');
+
+        if(!options.silent) {
+          growl.success('Logged out successfully.');
+        }
+
         $location.path('/');
       },
 
@@ -132,10 +146,10 @@ angular.module('unleashApp')
           queryRef.once('value', function (snapshot) {
             var storedUsers = snapshot.val() || {};
 
-            if (Object.keys(storedUsers).length) {
+            if (Object.keys(storedUsers) && storedUsers[uid]) {
               deferred.resolve(storedUsers[uid].username);
             } else {
-              deferred.reject(new Error('There was a problem reading data'));
+              deferred.reject(new Error('No user with uid:"' + uid + '" registered.'));
             }
           });
         }
