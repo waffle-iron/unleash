@@ -102,7 +102,7 @@ angular.module('unleashApp')
       .then(function(data) {
         $scope.cards = data;
 
-        if(Object.keys($location.search())) {
+        if(Object.keys($location.search()).length) {
           $timeout(function() {
             renderCard(Object.keys($location.search())[0]);
           }, 100);
