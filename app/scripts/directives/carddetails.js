@@ -7,7 +7,7 @@
  * # Renders card details
  */
 angular.module('unleashApp')
-  .directive('unleashCardDetails', function($compile, growl, userService, cardsService, commentsService) {
+  .directive('unleashCardDetails', function($compile, $location, growl, userService, cardsService, commentsService) {
     /**
      * Renders a button for toggling the 'achieved' state in the card
      */
@@ -51,6 +51,8 @@ angular.module('unleashApp')
 
         // Add an archieved button
         addAchievedButton($scope);
+      }).catch(function() {
+        growl.error('Sorry, this card doesn’t exist.');
       });
 
       // Get an username of the current user
@@ -81,7 +83,7 @@ angular.module('unleashApp')
 
       // Close sidebar
       $scope.close = function() {
-        closeSidebar();
+        $location.search('');
       };
 
       $scope.$on('$routeChangeStart', function() {

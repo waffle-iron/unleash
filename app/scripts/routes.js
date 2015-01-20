@@ -42,10 +42,11 @@ angular.module('unleashApp')
         }
       })
 
-      .when('/paths/:userId/:cardId?', {
+      .when('/paths/:userId/', {
         templateUrl: 'views/path.html',
         controller: 'SinglePathController',
         className: 'path',
+        reloadOnSearch: false,
         resolve: {
           currentAuth: ['Auth', function(Auth) {
             return Auth.$waitForAuth();
