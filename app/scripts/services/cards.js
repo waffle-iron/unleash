@@ -12,6 +12,10 @@ angular.module('unleashApp')
     var currentUser = null;
     var cards = null;
 
+    var getCardsRef = function(ownerId) {
+      return new $window.Firebase(FBURL).child('users').child(ownerId).child('cards');
+    };
+
     /**
      * Check if given card already exists in user cards
      * @param data Card object
@@ -40,37 +44,65 @@ angular.module('unleashApp')
 
     return {
       /**
+       * Checks whether a list exists in a system
+       * @param ownerId
+       * @param cardId
+       * @returns {Promise}
+       */
+      isCardRegistered: function(ownerId, cardId) {
+        var cardsRef = getCardsRef(ownerId);
+
+        return $q(function(resolve, reject) {
+          cardsRef.once('value', function(snapshot) {
+            if (snapshot.hasChild(cardId)) {
+              resolve();
+            } else {
+              reject();
+            }
+          });
+        });
+      },
+
+      /**
        * Pulls card details
        * If logged in user is an owner of the card, reset the unread count
        * @param params An object containing owner ID, current user ID and card ID
        * @returns {Promise} Card details
        */
       getCard: function(params) {
-        return $q(function(resolve) {
-          var ref = new $window.Firebase(FBURL).child('users').child(params.ownerId).child('cards').child(params.cardId);
-          var sync = $firebase(ref);
+        var self = this;
+        var ownerId = params.ownerId;
+        var userId = params.userId;
+        var cardId = params.cardId;
 
-          var card = sync.$asObject();
-          var newComments = $firebase(ref.parent().parent().child('newComments')).$asObject();
+        var cardsRef = getCardsRef(ownerId);
 
-          card.$loaded().then(function (data) {
+        return $q(function(resolve, reject) {
+          self.isCardRegistered(ownerId, cardId).then(function() {
 
-            // If current user is the card owner
-            if (params.ownerId === params.userId) {
-              // Save unread count
-              card.unread = 0;
-              card.$save();
+            var card = $firebase(cardsRef.child(cardId)).$asObject();
+            var newComments = $firebase(cardsRef.parent().child('newComments')).$asObject();
 
-              newComments.$loaded().then(function () {
-                markAllCommentsAsRead(card, newComments);
+            card.$loaded().then(function (data) {
+              // If current user is the card owner
+              if (ownerId === userId) {
+                // Save unread count
+                card.unread = 0;
+                card.$save();
 
+                newComments.$loaded().then(function () {
+                  markAllCommentsAsRead(card, newComments);
+
+                  resolve(data);
+                });
+              }
+
+              else {
                 resolve(data);
-              });
-            }
-
-            else {
-              resolve(data);
-            }
+              }
+            });
+          }, function() {
+            reject();
           });
         });
       },
