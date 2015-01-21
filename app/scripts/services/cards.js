@@ -129,7 +129,10 @@ angular.module('unleashApp')
        */
       listCards: function(uid) {
         var ref = new $window.Firebase(FBURL).child('users').child(uid).child('cards');
-        return $firebase(ref).$asArray().$loaded();
+        currentUser = uid;
+        cards = $firebase(ref).$asArray();
+
+        return cards.$loaded();
       },
 
       /**
@@ -157,7 +160,9 @@ angular.module('unleashApp')
        * @param card
        */
       remove: function(card) {
-        cards.$remove(card);
+        var index = cards.$indexFor(card.$id);
+
+        cards.$remove(cards.$indexFor(card.$id));
       },
 
       /**
