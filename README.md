@@ -2,6 +2,8 @@
 
 This is a work in progress. Things are subject to change.
 
+[![Build Status](https://travis-ci.org/x-team/unleash.svg?branch=master)](https://travis-ci.org/x-team/unleash)
+
 ## TODO
 
 1. Add more unit tests!
