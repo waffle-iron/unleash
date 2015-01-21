@@ -113,14 +113,8 @@ angular.module('unleashApp')
        * @returns {Promise} Card details
        */
       getComments: function(params) {
-        return $q(function(resolve) {
-          var ref = new $window.Firebase(FBURL).child('users').child(params.ownerId).child('cards').child(params.cardId);
-          var comments = $firebase(ref).$asObject();
-
-          comments.$loaded().then(function (data) {
-            resolve(data);
-          });
-        });
+        var ref = new $window.Firebase(FBURL).child('users').child(params.ownerId).child('cards').child(params.cardId);
+        return $firebase(ref).$asObject();
       },
 
       /**
@@ -162,7 +156,7 @@ angular.module('unleashApp')
       remove: function(card) {
         var index = cards.$indexFor(card.$id);
 
-        cards.$remove(cards.$indexFor(card.$id));
+        cards.$remove(index);
       },
 
       /**

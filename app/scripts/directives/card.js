@@ -11,25 +11,30 @@ angular.module('unleashApp')
     /**
      * Update the comment count and the indicator for new comments
      * @param scope Directive scope
+     * @param card Current card
      */
-    var updateCommentCount = function(scope) {
-      cardsService.getComments({
-        ownerId: scope.cardOwnerId,
-        cardId: scope.card.$id
-      }).then(function(card) {
-        scope.commentCount = _.size(card.comments);
-        if (scope.cardOwnerId === scope.currentUserId) {
-          scope.showUnread = !!card.unread;
-        }
-      });
+    var updateCommentCount = function(scope, card) {
+      scope.commentCount = _.size(card.comments);
+      if (scope.cardOwnerId === scope.currentUserId) {
+        scope.showUnread = !!card.unread;
+      }
     };
 
-    var linkFn = function(scope) {
-      scope.$watch('cardOwnerId', function(data) {
-        if(data) {
-          updateCommentCount(scope);
-        }
-      });
+    var linkFn = function(scope, element, attrs) {
+      if (attrs.view === 'public') {
+        var card = cardsService.getComments({
+          ownerId: scope.cardOwnerId,
+          cardId: scope.card.$id
+        });
+
+        card.$loaded().then(function () {
+          updateCommentCount(scope, card);
+        });
+
+        scope.$watch('card.comments', function () {
+          updateCommentCount(scope, card);
+        });
+      }
     };
 
     return {
