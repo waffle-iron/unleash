@@ -42,10 +42,22 @@ Browse to the app at `http://localhost:9000`.
 
 The project is being deployed to https://unleash-app.firebaseapp.com.
 
-## Unit testing
+## Testing
+
+### Unit tests
+
+Unit tests use Karma, Mocha, Chai and Sinon.JS.
 
 ```
-grunt test
+npm run test:unit
+```
+
+### E2E tests
+
+End to end tests use Protractor, Mocha, Chai and Chai as Promised.
+
+```
+npm run test:e2e
 ```
 
 ## Coding Standards

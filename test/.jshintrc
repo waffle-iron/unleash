@@ -37,6 +37,9 @@
     "inject",
     "expect",
     "spyOn",
-    "sinon"
+    "sinon",
+    "browser",
+    "element",
+    "by"
   ]
 }

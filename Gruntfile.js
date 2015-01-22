@@ -39,9 +39,13 @@ module.exports = function (grunt) {
           livereload: '<%= connect.options.livereload %>'
         }
       },
-      jsTest: {
+      unitTest: {
         files: ['test/spec/{,*/}*.js'],
-        tasks: ['newer:jshint:test', 'karma']
+        tasks: ['newer:jshint:unitTest', 'karma']
+      },
+      e2eTest: {
+        files: ['test/e2e/{,*/}*.js'],
+        tasks: ['newer:jshint:e2eTest']
       },
       compass: {
         files: ['<%= unleash.app %>/styles/{,*/}*.{scss,sass}'],
@@ -121,11 +125,17 @@ module.exports = function (grunt) {
           '<%= unleash.app %>/scripts/{,*/}*.js'
         ]
       },
-      test: {
+      unitTest: {
         options: {
           jshintrc: 'test/.jshintrc'
         },
         src: ['test/spec/{,*/}*.js']
+      },
+      e2eTest: {
+        options: {
+          jshintrc: 'test/.jshintrc'
+        },
+        src: ['test/e2e/{,*/}*.js']
       }
     },
 
