@@ -41,7 +41,7 @@ describe('Directive: unleashCard', function () {
 
     it('should display its task description as title', function() {
       expect(element[0].getAttribute('title')).to.equal(card.task);
-    })
+    });
   });
 
   describe('card with no level', function() {
