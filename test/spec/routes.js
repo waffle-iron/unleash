@@ -8,7 +8,7 @@ describe('Routes test', function()  {
   var rootScope;
 
   beforeEach(inject(
-    function(_$location_, _$route_, _$rootScope_) {
+    function (_$location_, _$route_, _$rootScope_) {
       location = _$location_;
       route = _$route_;
       rootScope = _$rootScope_;
@@ -21,6 +21,7 @@ describe('Routes test', function()  {
           .respond(200, 'main HTML');
       }));
 
+
     it('should load the index page on successful load of /', function() {
       location.path('/');
       rootScope.$digest();
@@ -31,6 +32,42 @@ describe('Routes test', function()  {
 
     it('should redirect to the index path on non-existent route', function() {
       location.path('/definitely/not/a/_route');
+      rootScope.$digest();
+
+      expect(route.current.className)
+        .equal('home');
+    });
+  });
+
+  describe('profile route logged out', function() {
+    beforeEach(inject(
+      function($httpBackend) {
+        $httpBackend.expectGET('views/path.html')
+          .respond(200, 'path HTML');
+        $httpBackend.expectGET('views/home.html')
+          .respond(200, 'home HTML');
+      }));
+
+    it('should load the home path page', function() {
+      location.path('/paths/xxx');
+      rootScope.$digest();
+
+      expect(route.current.className)
+        .equal('home');
+    });
+  });
+
+  describe('account route logged out', function() {
+    beforeEach(inject(
+      function($httpBackend) {
+        $httpBackend.expectGET('views/account.html')
+          .respond(200, 'path HTML');
+        $httpBackend.expectGET('views/home.html')
+          .respond(200, 'home HTML');
+      }));
+
+    it('should load the home path page', function() {
+      location.path('/account');
       rootScope.$digest();
 
       expect(route.current.className)
