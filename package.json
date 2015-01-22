@@ -45,6 +45,8 @@
     "node": ">=0.10.0"
   },
   "scripts": {
+    "postinstall": "./node_modules/protractor/bin/webdriver-manager update",
+
     "test:unit": "grunt test",
     "test:e2e": "./node_modules/protractor/bin/protractor test/protractor.conf.js"
   }
