@@ -1,9 +1,16 @@
-<h2 class="structural">List of paths:</h2>
+<header ng-if="!user" class="animate-if">
+  <h2 class="primary">Path to #Unleash</h2>
+  <h3 class="secondary">“Wherever you are, the path is in front of you.”</h3>
+</header>
 
-<ul class="paths-list" ng-show="allUsers.length">
-  <li ng-repeat="user in allUsers">
-    <a ng-href="#/paths/{{ user.username }}">
-      <unleash-person name="{{ user.google.displayName }}" thumb="{{ user.google.cachedUserProfile.picture }}"></unleash-person>
-    </a>
-  </li>
-</ul>
+<div ng-if="user" class="animate-if">
+  <h2 class="structural">List of paths:</h2>
+
+  <ul class="paths-list" ng-show="allUsers.length">
+    <li ng-repeat="user in allUsers">
+      <a ng-href="#/paths/{{ user.username }}">
+        <unleash-person name="{{ user.google.displayName }}" thumb="{{ user.google.cachedUserProfile.picture }}"></unleash-person>
+      </a>
+    </li>
+  </ul>
+</div>

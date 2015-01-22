@@ -49,7 +49,7 @@ angular.module('unleashApp')
         reloadOnSearch: false,
         resolve: {
           currentAuth: ['Auth', function(Auth) {
-            return Auth.$waitForAuth();
+            return Auth.$requireAuth();
           }]
         }
       })
