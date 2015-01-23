@@ -6,11 +6,11 @@ This is a work in progress. Things are subject to change.
 
 ## TODO
 
-1. Add more unit tests!
-2. Don’t show higher card levels if level 1 hasn’t been started yet
-3. Add notifications
-4. Analyse all code against [Angular.js guidelines](#coding-standards) more closely
-5. Write end to end tests
+1. Add more unit and e2e tests
+2. Introduce admin rights and enable admin to edit every users’ path
+3. Don’t show higher card levels if level 1 hasn’t been started yet
+4. Add nice URLs for cards
+5. Analyse all code against [Angular.js guidelines](#coding-standards) more closely
 
 ## Setup
 
@@ -42,22 +42,22 @@ Browse to the app at `http://localhost:9000`.
 
 The project is being deployed to https://unleash-app.firebaseapp.com.
 
-## Testing
+## Running tests
 
-### Unit tests
+### Unit
 
 Unit tests use Karma, Mocha, Chai and Sinon.JS.
 
 ```
-npm run test:unit
+grunt test
 ```
 
-### E2E tests
+### End to end
 
-End to end tests use Protractor, Mocha, Chai and Chai as Promised.
+E2E tests use Protractor, Mocha, Chai and Chai as Promised.
 
 ```
-npm run test:e2e
+grunt test:e2e
 ```
 
 ## Coding Standards

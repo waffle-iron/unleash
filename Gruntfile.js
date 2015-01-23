@@ -45,7 +45,7 @@ module.exports = function (grunt) {
       },
       e2eTest: {
         files: ['test/e2e/{,*/}*.js'],
-        tasks: ['newer:jshint:e2eTest']
+        tasks: ['newer:jshint:e2eTest', 'protractor']
       },
       compass: {
         files: ['<%= unleash.app %>/styles/{,*/}*.{scss,sass}'],
@@ -370,6 +370,13 @@ module.exports = function (grunt) {
         configFile: 'test/karma.conf.js',
         singleRun: true
       }
+    },
+
+    protractor: {
+      e2e: {
+        configFile: "test/protractor.conf.js",
+        keepAlive: true
+      }
     }
   });
 
@@ -400,6 +407,13 @@ module.exports = function (grunt) {
     'autoprefixer',
     'connect:test',
     'karma'
+  ]);
+
+  grunt.registerTask('test:e2e', [
+    'clean:server',
+    'concurrent:test',
+    'autoprefixer',
+    'protractor'
   ]);
 
   grunt.registerTask('build', [
