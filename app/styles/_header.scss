@@ -1,15 +1,16 @@
 /*
  * Variables
  */
-$logo-width: 40px;
-$logo-height: 32px;
+$logo-width: 80px;
+$logo-height: 80px;
 
 /*
  * Main styles
  */
 .masthead {
   @include pie-clearfix;
-  padding: 0 1em;
+  padding: 16px 50px;
+  background: #fff;
   border-bottom: 1px solid $body-border-color;
 
   .logo {
@@ -22,46 +23,68 @@ $logo-height: 32px;
       color: $body-text-color;
       font-size: 36px;
       line-height: 1;
-      position: relative;
-      padding-left: $logo-width + 4px;
-
-      &:after {
-        content: '';
-        display: block;
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: $logo-width;
-        height: $logo-height;
-        background: transparent url(../images/logo.svg) no-repeat;
-        background-size: 100% 100%;
-      }
+      width: $logo-width;
+      height: $logo-height;
+      background: transparent url(../images/logo.svg) -11px -16px no-repeat;
+      background-size: 129% 140%;
+      text-indent: -9999px;
     }
   }
+}
 
-  nav {
-    clear: both;
-    min-height: 5em;
-    padding: 2em;
+.nav {
+  float: right;
+  line-height: 80px;
 
-    ul {
-      @include breakpoint(phablet) {
-        padding-left: 1em;
-      }
+  &__menu {
+    position: relative;
+    float: left;
+    padding: 0 10px 0 0;
+
+    &:after {
+      content: ' ';
+      position: absolute;
+      top: 22px;
+      right: 0;
+      width: 1px;
+      height: 36px;
+      background: $body-border-color-light;
     }
 
     li {
       display: inline-block;
       margin-right: 1em;
+    }
 
-      a:hover {
+    a {
+      display: inline-block;
+      position: relative;
+      padding: 10px;
+      border-radius: 4px;
+      line-height: 1.2;
+
+      &:hover {
         text-decoration: none;
       }
     }
 
+    .page-home & .item--home a,
+    .page-path & .item--path a,
+    .page-account & .item--account a,
+    .page-templates & .item--templates a {
+      color: #fff;
+      background: $body-link-bg;
+    }
+
+    .item--account,
+    .item--templates {
+      opacity: .5;
+    }
+
     .comments {
-      position: relative;
-      top: -8px;
+      position: absolute;
+      top: -2px;
+      right: -10px;
       border-radius: 10px;
       display: inline-block;
       background-color: $red;
@@ -88,18 +111,19 @@ $logo-height: 32px;
     }
   }
 
-  .auth {
-    clear: both;
-    padding-top: 1em;
-
-    @include breakpoint(phablet) {
-      clear: none;
-      padding: 0;
-      float: right;
-    }
+  &__auth {
+    float: left;
+    padding-left: 35px;
 
     p {
       margin: 0;
+    }
+
+    img {
+      max-width: 30px;
+      max-height: 30px;
+      vertical-align: middle;
+      margin: -3px 5px 0 0;
     }
 
     button {

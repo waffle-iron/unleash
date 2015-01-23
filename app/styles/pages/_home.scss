@@ -41,18 +41,35 @@
 
   .paths-list {
     text-align: center;
+    margin: 0 5%;
+    font-size: 14px;
 
     li {
       display: inline-block;
-      margin: 2em;
+      vertical-align: top;
+      margin: 1.5em 2em;
+      width: 110px;
     }
 
     a {
-      color: $body-text-color;
+      color: $body-text-alt-color-3;
+      line-height: 1.4;
+
+      img {
+        transition: transform .2s;
+      }
 
       &:hover {
         text-decoration: none;
+
+        img {
+          transform: scale(1.1, 1.1);
+        }
       }
+    }
+
+    .person__name {
+      margin-top: 10px;
     }
   }
 }

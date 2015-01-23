@@ -15,6 +15,7 @@ html {
 }
 
 body {
+  background: $body-bg-color;
   font-family: 'Open Sans', sans-serif;
   color: $body-text-color;
   min-height: 100%;
@@ -39,30 +40,18 @@ ul, ol {
   padding: 0;
 }
 
-body > .wrapper {
-  min-width: 100%;
-  min-height: 100%;
-  background-color: white;
-  position: relative;
-  top: 0;
-  bottom: 100%;
-  right: 0;
-  z-index: 0;
-  padding: 0 2em;
-}
-
 .container {
   @include pie-clearfix;
   max-width: 71.25em;
   min-height: 100%;
-  padding: 3em 0 1em;
-  margin: 0 auto;
-  border: 1px solid $body-border-color;
-  border-width: 0 1px;
+  min-width: 860px;
+  padding: 0 0 1em;
+  margin: 0 auto;;
 }
 
 main {
   padding: 0 $padding-container;
+  background: #f2f3f3;
 }
 
 /*
@@ -114,13 +103,16 @@ main {
   text-align: center;
 
   &__thumb {
-    max-width: 7em;
+    max-width: 95px;
     vertical-align: middle;
+    border-radius: 50%;
+    object-fit: cover;
   }
 
   &__name {
     font-size: 14px;
     font-weight: normal;
     margin: .5em 0 0;
+    text-shadow: 1px 1px 0 rgba(255, 255, 255, .5);
   }
 }
