@@ -13,6 +13,10 @@ $logo-height: 80px;
   background: #fff;
   border-bottom: 1px solid $body-border-color;
 
+  .container {
+    padding-bottom: 0;
+  }
+
   .logo {
     margin: 0;
     font-weight: bold;
