@@ -53,10 +53,10 @@
   white-space: nowrap;
   text-align: center;
   font: bold 12px/36px 'Roboto', sans-serif;
+  cursor: pointer;
 
   &:hover {
     background: #e74b37;
-    cursor: hand;
   }
 
   &:before {
