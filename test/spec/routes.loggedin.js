@@ -58,19 +58,19 @@ describe('Routes test', function()  {
     });
   });
 
-  describe('account route logged in', function() {
+  describe('path edit route logged in', function() {
     beforeEach(inject(
       function($httpBackend) {
-        $httpBackend.expectGET('views/account.html')
-          .respond(200, 'account HTML');
+        $httpBackend.expectGET('views/edit.html')
+          .respond(200, 'path edit HTML');
       }));
 
-    it('should load the account page', function() {
-      location.path('/account');
+    it('should load the path edit page', function() {
+      location.path('/paths/xxx/edit');
       rootScope.$digest();
 
       expect(route.current.className)
-        .equal('account');
+        .equal('edit');
     });
   });
 });

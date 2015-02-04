@@ -57,17 +57,17 @@ describe('Routes test', function()  {
     });
   });
 
-  describe('account route logged out', function() {
+  describe('path edit route logged out', function() {
     beforeEach(inject(
       function($httpBackend) {
-        $httpBackend.expectGET('views/account.html')
-          .respond(200, 'path HTML');
+        $httpBackend.expectGET('views/edit.html')
+          .respond(200, 'edit HTML');
         $httpBackend.expectGET('views/home.html')
           .respond(200, 'home HTML');
       }));
 
     it('should load the home path page', function() {
-      location.path('/account');
+      location.path('/paths/xxx/edit');
       rootScope.$digest();
 
       expect(route.current.className)

@@ -3,6 +3,7 @@
 This is a work in progress. Things are subject to change.
 
 [![Build Status](https://travis-ci.org/x-team/unleash.svg?branch=master)](https://travis-ci.org/x-team/unleash)
+[![devDependency Status](https://david-dm.org/x-team/unleash/dev-status.svg)](https://david-dm.org/x-team/unleash#info=devDependencies)
 
 ## TODO
 
