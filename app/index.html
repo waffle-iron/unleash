@@ -26,7 +26,7 @@
         <nav class="nav">
           <ul ng-show="user" class="nav__menu" ng-controller="NavController as nav" ng-cloak>
             <li class="item--home">
-              <a ng-href="#/">Home</a>
+              <a ng-href="#/">All paths</a>
             </li>
             <li class="item--path">
               <a ng-href="#/paths/{{ user.username }}/">
@@ -34,11 +34,8 @@
                 <em ng-if="newComments.length" class="comments animate-if">{{ newComments.length }}</em>
               </a>
             </li>
-            <li class="item--account">
-              <a ng-href="#/account">Edit paths</a>
-            </li>
             <li class="item--templates">
-              <a ng-href="#/templates">Edit templates</a>
+              For Kuba: <a ng-href="#/templates">Edit templates</a>
             </li>
           </ul>
 
@@ -81,7 +78,7 @@
     <script src="scripts/angularfire/config.js"></script>
     <script src="scripts/angularfire/firebase.utils.js"></script>
     <script src="scripts/controllers/path.js"></script>
-    <script src="scripts/controllers/account.js"></script>
+    <script src="scripts/controllers/edit.js"></script>
     <script src="scripts/controllers/nav.js"></script>
     <script src="scripts/controllers/templates.js"></script>
     <script src="scripts/directives/achieve.js"></script>

@@ -31,10 +31,11 @@ angular.module('unleashApp')
         }
       })
 
-      .when('/account', {
-        templateUrl: 'views/account.html',
-        controller: 'AccountController',
-        className: 'account',
+      .when('/paths/:userId/', {
+        templateUrl: 'views/path.html',
+        controller: 'SinglePathController',
+        className: 'path',
+        reloadOnSearch: false,
         resolve: {
           currentAuth: ['Auth', function(Auth) {
             return Auth.$requireAuth();
@@ -42,10 +43,10 @@ angular.module('unleashApp')
         }
       })
 
-      .when('/paths/:userId/', {
-        templateUrl: 'views/path.html',
-        controller: 'SinglePathController',
-        className: 'path',
+      .when('/paths/:userId/edit', {
+        templateUrl: 'views/edit.html',
+        controller: 'EditPathController',
+        className: 'edit',
         reloadOnSearch: false,
         resolve: {
           currentAuth: ['Auth', function(Auth) {

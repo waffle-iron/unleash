@@ -11,6 +11,7 @@ angular.module('unleashApp')
   .controller('SinglePathController', function($scope, $q, $compile, fbutil, $location, $timeout, $routeParams, growl, userService, cardsService) {
     // @todo: move a part of functionality to services and directives
     $scope.params = $routeParams;
+    $scope.initializing = true;
 
     /**
      * Closes all existing sidebars
@@ -97,9 +98,11 @@ angular.module('unleashApp')
     })
       .catch(function() {
         // No users found!
+        $scope.initializing = false;
         $scope.pathNotFound = true;
       })
       .then(function(data) {
+        $scope.initializing = false;
         $scope.cards = data;
 
         if(Object.keys($location.search()).length) {

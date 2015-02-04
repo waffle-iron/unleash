@@ -1,4 +1,9 @@
-<!--<unleash-person name="{{ user.google.displayName }}" thumb="{{ user.google.cachedUserProfile.picture }}"></unleash-person>-->
+<div class="toggle-edit-action">
+  <strong>For Kuba:</strong>
+  <a ng-href="#/paths/{{ params.userId }}">Go back to {{ params.userId }}’s public profile</a>
+</div>
+
+<unleash-person name="{{ currentPathOwner.google.displayName }}" thumb="{{ currentPathOwner.google.cachedUserProfile.picture }}"></unleash-person>
 
 <div class="inner">
   <section class="drop drop--primary" ng-drop="true" ng-drop-success="onDropComplete($data,$event)">

@@ -74,13 +74,11 @@ $logo-height: 80px;
 
     .page-home & .item--home a,
     .page-path & .item--path a,
-    .page-account & .item--account a,
     .page-templates & .item--templates a {
       color: #fff;
       background: $body-link-bg;
     }
 
-    .item--account,
     .item--templates {
       opacity: .5;
     }
