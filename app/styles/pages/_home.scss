@@ -35,10 +35,10 @@
 
   // Introduction for admin users
   .admin-intro {
-    opacity: .6;
+    color: adjust-lightness($body-text-color, 30%);
     margin: 30px auto 0;
     padding: 20px;
-    background: rgba(255,255,255,.8);
+    background: rgba(255,255,255,.6);
     border-radius: 10px;
     box-shadow: 0 0 20px #ccc;
 
