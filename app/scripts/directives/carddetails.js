@@ -7,15 +7,11 @@
  * # Renders card details
  */
 angular.module('unleashApp')
-  .directive('unleashCardDetails', function($compile, $location, growl, userService, cardsService, commentsService) {
+  .directive('unleashCardDetails', function($rootScope, $compile, $location, growl, userService, cardsService, commentsService) {
     /**
      * Renders a button for toggling the 'achieved' state in the card
      */
     var addAchievedButton = function($scope) {
-      if (!$scope.cardOwner || $scope.currentUser !== $scope.cardOwner) {
-        return;
-      }
-
       var location = angular.element('.achievement .wrapper');
 
       var $button = angular.element('<button unleash-achieve></button>')
@@ -50,19 +46,21 @@ angular.module('unleashApp')
         $scope.card = data;
 
         // Add an archieved button
-        addAchievedButton($scope);
+        if($rootScope.user.isAdmin) {
+          addAchievedButton($scope);
+        }
       }).catch(function() {
         growl.error('Sorry, this card doesn’t exist.');
       });
 
       // Get an username of the current user
-      userService.getUsername($scope.currentUserId).then(function(username) {
-        $scope.currentUser = username;
+      userService.getUserDetails($scope.currentUserId).then(function(data) {
+        $scope.currentUser = data.username;
       });
 
       // Get an username of the card owner
-      userService.getUsername($scope.cardOwnerId).then(function(username) {
-        $scope.cardOwner = username;
+      userService.getUserDetails($scope.cardOwnerId).then(function(data) {
+        $scope.cardOwner = data.username;
       });
 
       // Sets up comments service

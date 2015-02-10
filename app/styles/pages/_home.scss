@@ -4,7 +4,6 @@
 .page-home {
 
   // Typography
-
   .primary {
     text-align: center;
     font-size: 24px;
@@ -31,6 +30,30 @@
 
     &.ng-leave, &.ng-enter.ng-enter-active {
       opacity: 1;
+    }
+  }
+
+  // Introduction for admin users
+  .admin-intro {
+    opacity: .6;
+    margin: 30px auto 0;
+    padding: 20px;
+    background: rgba(255,255,255,.8);
+    border-radius: 10px;
+    box-shadow: 0 0 20px #ccc;
+
+    h2 {
+      font-weight: bold;
+      margin: 0 0 20px;
+    }
+
+    ul {
+      margin: 20px 0;
+    }
+
+    li {
+      list-style-type: disc;
+      margin-left: 1.5em;
     }
   }
 

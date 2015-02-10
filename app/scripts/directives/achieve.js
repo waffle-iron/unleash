@@ -7,7 +7,7 @@
  * # Renders the button for toggling achieved state in the card
  */
 angular.module('unleashApp')
-  .directive('unleashAchieve', function (cardsService, growl) {
+  .directive('unleashAchieve', function (cardsService) {
     return {
       link: function postLink(scope, element) {
         /**
@@ -31,14 +31,7 @@ angular.module('unleashApp')
 
         $button.on('click', function() {
           if (scope.currentUser === scope.cardOwner) {
-            cardsService.toggleAchieved(scope.card).then(function(isAchieved) {
-              if (isAchieved) {
-                growl.success('Great job, keep it up!', {
-                  referenceId: 1,
-                  disableIcons: true
-                });
-              }
-            });
+            cardsService.toggleAchieved(scope.card);
           }
         });
 

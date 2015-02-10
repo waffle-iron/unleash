@@ -34,8 +34,8 @@
                 <em ng-if="newComments.length" class="comments animate-if">{{ newComments.length }}</em>
               </a>
             </li>
-            <li class="item--templates">
-              For Kuba: <a ng-href="#/templates">Edit templates</a>
+            <li ng-if="user.isAdmin" class="item--templates">
+              <a ng-href="#/templates">Edit templates</a>
             </li>
           </ul>
 

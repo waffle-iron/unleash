@@ -136,5 +136,10 @@ $logo-height: 80px;
     &__google {
       @include google-button();
     }
+
+    &__level {
+      font-size: 12px;
+      opacity: .5;
+    }
   }
 }

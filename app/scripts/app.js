@@ -46,8 +46,9 @@ angular.module('unleashApp', [
       $rootScope.user = Auth.$getAuth();
 
       if ($rootScope.user) {
-        userService.getUsername().then(function(data) {
-          $rootScope.user.username = data;
+        userService.getUserDetails().then(function(data) {
+          $rootScope.user.username = data.username;
+          $rootScope.user.isAdmin = data.isAdmin;
         });
       }
     };

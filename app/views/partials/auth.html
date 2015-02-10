@@ -5,6 +5,7 @@
   <p ng-if="user">
     <img ng-src="{{ user.google.cachedUserProfile.picture }}" alt=""/>
     {{ user.google.displayName }}
+    <em class="nav__auth__level admin-only" ng-if="user.isAdmin">(admin)</em>
     <button ng-click="logout()">Logout</button>
   </p>
 </div>

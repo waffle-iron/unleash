@@ -9,10 +9,16 @@
 
 'use strict';
 angular.module('unleashApp')
-  .controller('EditPathController', function ($window, $scope, $firebase, FBURL, fbutil, $routeParams, growl, templatesService, cardsService, userService) {
+  .controller('EditPathController', function ($window, $rootScope, $scope, $location, $firebase, FBURL, fbutil, $routeParams, growl, templatesService, cardsService, userService) {
     $scope.params = $routeParams;
     $scope.cards = null;
     $scope.templates = {};
+
+    if (!$rootScope.user.isAdmin) {
+      growl.error('You are not authorized to see this page!');
+
+      $location.path('/');
+    }
 
     var setupPath = function(uid) {
       // List cards that user has been assigned with

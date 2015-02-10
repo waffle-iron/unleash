@@ -130,11 +130,11 @@ angular.module('unleashApp')
       },
 
       /**
-       * Returns an username for a given UID or for a currently signed in user
+       * Returns an username and an account level for a given UID or for a currently signed in user
        * @param data
        * @returns {Promise} Username
        */
-      getUsername: function(data) {
+      getUserDetails: function(data) {
         var deferred = $q.defer();
         var uid;
 
@@ -147,7 +147,12 @@ angular.module('unleashApp')
             var storedUsers = snapshot.val() || {};
 
             if (Object.keys(storedUsers) && storedUsers[uid]) {
-              deferred.resolve(storedUsers[uid].username);
+              deferred.resolve({
+                username: storedUsers[uid].username,
+                /*jshint camelcase: false */
+                isAdmin: storedUsers[uid].is_admin
+                /*jshint camelcase: true */
+              });
             } else {
               deferred.reject(new Error('No user with uid:"' + uid + '" registered.'));
             }

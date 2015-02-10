@@ -34,8 +34,8 @@ angular.module('unleashApp')
 
             currentUserId = userId;
 
-            userService.getUsername(currentUserId).then(function(username) {
-              currentUser = username;
+            userService.getUserDetails(currentUserId).then(function(data) {
+              currentUser = data.username;
             });
 
             comments.$loaded().then(function() {
