@@ -9,33 +9,34 @@
     <!--<meta name="viewport" content="width=device-width">-->
 
     <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,700,300,600,400" rel="stylesheet" type="text/css">
-    <!-- build:css(.) styles/vendor.css -->
+    <!-- build:css(.) /styles/vendor.css -->
     <!-- bower:css -->
     <!-- endbower -->
     <!-- endbuild -->
-    <!-- build:css(.tmp) styles/main.css -->
-    <link rel="stylesheet" href="styles/main.css">
+    <!-- build:css(.tmp) /styles/main.css -->
+    <link rel="stylesheet" href="/styles/main.css">
     <!-- endbuild -->
+    <base href="/"/>
   </head>
   <body ng-class="routeClassName">
 
     <header class="masthead">
       <div class="container">
-        <h1 class="logo"><a ng-href="#/" rel="home">Unleash</a></h1>
+        <h1 class="logo"><a ng-href="/" rel="home">Unleash</a></h1>
 
         <nav class="nav">
           <ul ng-show="user" class="nav__menu" ng-controller="NavController as nav" ng-cloak>
             <li class="item--home">
-              <a ng-href="#/">All paths</a>
+              <a ng-href="/">All paths</a>
             </li>
             <li class="item--path">
-              <a ng-href="#/paths/{{ user.username }}/">
+              <a ng-href="/paths/{{ user.username }}/">
                 Your public path
                 <em ng-if="newComments.length" class="comments animate-if">{{ newComments.length }}</em>
               </a>
             </li>
             <li ng-if="user.isAdmin" class="item--templates animate-if">
-              <a ng-href="#/templates">Edit templates</a>
+              <a ng-href="/templates">Edit templates</a>
             </li>
           </ul>
 

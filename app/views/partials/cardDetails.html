@@ -21,7 +21,7 @@
   <div class="achievement__comments" ng-show="messages.length">
     <article class="comment" ng-class="{'is-owner': message.author === cardOwner}" ng-repeat="message in messages | reverse">
       <div class="comment__meta">
-        <address class="comment__author"><a ng-href="/#/paths/{{ message.author }}">{{ message.author }}</a></address>
+        <address class="comment__author"><a ng-href="/paths/{{ message.author }}">{{ message.author }}</a></address>
         <time class="comment__time" ng-if="message.timestamp">{{ message.timestamp | relativeDate }}</time>
       </div>
 

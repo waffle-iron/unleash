@@ -9,17 +9,17 @@
  */
 angular.module('unleashApp')
 
-  .run(['$rootScope', '$location', function($rootScope, $location) {
+  .run(function($rootScope, $location) {
     $rootScope.$on('$routeChangeError', function(event, next, previous, error) {
       if (error === 'AUTH_REQUIRED') {
         $location.path('/');
       }
     });
-  }])
+  })
 
   // configure views; the authRequired parameter is used for specifying pages
   // which should only be available while logged in
-  .config(['$routeProvider', function($routeProvider) {
+  .config(function($locationProvider, $routeProvider) {
     $routeProvider
       .when('/', {
         templateUrl: 'views/home.html',
@@ -67,4 +67,6 @@ angular.module('unleashApp')
       })
 
       .otherwise({redirectTo: '/'});
-  }]);
+
+    $locationProvider.html5Mode(true);
+  });
