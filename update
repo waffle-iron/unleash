@@ -1,0 +1,5 @@
+#!/bin/bash
+
+sudo -u deploy npm install
+sudo -u deploy bower install
+sudo -u deploy grunt build --force
