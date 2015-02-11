@@ -61,6 +61,13 @@ E2E tests use Protractor, Mocha, Chai and Chai as Promised.
 grunt test:e2e
 ```
 
+## Deployments
+
+Deployments are set up using <https://www.npmjs.com/deploy>.
+Follow the instructions there to add the `deploy` remote, then you can do `git push deploy master` to push the master branch to the hosted server.
+After the push completes the [update](./update) script will be run on the hosted server.
+
+
 ## Coding Standards
 
 * CSS: http://bem.info/method/
