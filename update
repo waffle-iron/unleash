@@ -1,5 +1,3 @@
 #!/bin/bash
 
-sudo -u deploy npm install
-sudo -u deploy bower install
-sudo -u deploy grunt build --force
+sudo -iu deploy bash -c 'cd /var/www/unleash/ && npm install && bower install && grunt build --force'
