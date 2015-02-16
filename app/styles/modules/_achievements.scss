@@ -83,11 +83,6 @@ $comment-border-color:  #f1f1f2;
     margin: 0 0 2em;
   }
 
-  &__history {
-    margin: 2em 0 1em;
-    font-weight: bold;
-  }
-
   &__desc,
   &__comments {
     font-size: 14px;
@@ -96,6 +91,12 @@ $comment-border-color:  #f1f1f2;
   &__comments {
     max-height: 53vh;
     overflow-y: auto;
+
+    h3 {
+      font-size: 16px;
+      margin: 2em 0 1em;
+      font-weight: bold;
+    }
   }
 
   &__form {

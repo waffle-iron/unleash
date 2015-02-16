@@ -16,9 +16,9 @@
     <p ng-if="!card.task">No card description set.</p>
   </div>
 
-  <h3 class="achievement__history">Path History</h3>
-
   <div class="achievement__comments" ng-show="messages.length">
+    <h3>Comments</h3>
+
     <article class="comment" ng-class="{'is-owner': message.author === cardOwner}" ng-repeat="message in messages | reverse">
       <div class="comment__meta">
         <address class="comment__author"><a ng-href="/paths/{{ message.author }}">{{ message.author }}</a></address>
