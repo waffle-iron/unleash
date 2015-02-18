@@ -291,16 +291,16 @@ module.exports = function (grunt) {
       }
     },
 
-    svgmin: {
-      dist: {
-        files: [{
-          expand: true,
-          cwd: '<%= unleash.app %>/images',
-          src: '{,*/}*.svg',
-          dest: '<%= unleash.dist %>/images'
-        }]
-      }
-    },
+    //svgmin: {
+    //  dist: {
+    //    files: [{
+    //      expand: true,
+    //      cwd: '<%= unleash.app %>/images',
+    //      src: '{,*/}*.svg',
+    //      dest: '<%= unleash.dist %>/images'
+    //    }]
+    //  }
+    //},
 
     // ng-annotate tries to make the code safe for minification automatically
     // by using the Angular long form for dependency injection.
@@ -335,7 +335,7 @@ module.exports = function (grunt) {
             '.htaccess',
             '*.html',
             'views/{,*/}*.html',
-            'images/{,*/}*.{webp}',
+            'images/{,*/}*.{svg,webp}',
             'fonts/*'
           ]
         }, {

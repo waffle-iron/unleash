@@ -41,7 +41,7 @@ Browse to the app at `http://localhost:9000`.
 
 ### Public version
 
-The project is being deployed to https://unleash-app.firebaseapp.com.
+The project is being deployed to https://unleash.x-team.com.
 
 ## Running tests
 
