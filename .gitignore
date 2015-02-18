@@ -1,4 +1,9 @@
+# Angularfire config
+app/scripts/angularfire/config.js
+
+# Utility scripts
 /scripts/
+
 logs/*
 !.gitkeep
 node_modules/

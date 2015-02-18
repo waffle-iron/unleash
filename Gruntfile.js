@@ -20,7 +20,8 @@ module.exports = function (grunt) {
   // Configurable paths for the application
   var appConfig = {
     app: require('./bower.json').appPath || 'app',
-    dist: 'dist'
+    dist: 'dist',
+    env: process.env.UNLEASH_ENV
   };
 
   // Define the configuration for all the tasks
@@ -28,6 +29,32 @@ module.exports = function (grunt) {
 
     // Project settings
     unleash: appConfig,
+
+    replace: {
+      dist: {
+        options: {
+          patterns: [
+            {
+              match: 'UNLEASH_ENV',
+              replacement: '<%= unleash.env %>'
+            }
+          ]
+        },
+        files: [
+          {
+            expand: true,
+            flatten: true,
+            src: [
+              '<%= unleash.app %>/scripts/angularfire/config-template.js'
+            ],
+            dest: '<%= unleash.app %>/scripts/angularfire/',
+            rename: function(dest) {
+              return dest + 'config.js';
+            }
+          }
+        ]
+      }
+    },
 
     // Watches files for changes and runs tasks based on the changed files
     watch: {
@@ -392,6 +419,7 @@ module.exports = function (grunt) {
 
     grunt.task.run([
       'clean:server',
+      'replace',
       'wiredep',
       'concurrent:server',
       'autoprefixer',
@@ -422,6 +450,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', [
     'clean:dist',
+    'replace',
     'wiredep',
     'useminPrepare',
     'concurrent:dist',
