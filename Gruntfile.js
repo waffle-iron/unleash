@@ -411,6 +411,7 @@ module.exports = function (grunt) {
     }
   });
 
+  grunt.log.writeln('Current environment:', appConfig.env || 'staging');
 
   grunt.registerTask('serve', 'Compile then start a connect web server', function (target) {
     if (target === 'dist') {
