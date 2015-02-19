@@ -1,3 +1,4 @@
 #!/bin/bash
 
+source ./setup-env
 sudo -iu deploy bash -c 'cd /var/www/unleash/ && npm install && bower install && grunt build --force'
