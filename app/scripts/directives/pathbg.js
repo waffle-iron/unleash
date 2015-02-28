@@ -41,21 +41,24 @@ angular.module('unleashApp')
       var cardsInRow;
       var isOdd;
       var isFullRow;
+      var hasMore;
       var newX;
 
       for (var i = 0; i < rowCount; i++) {
         cardsInRow = Math.min(config.cardsPerRow, length - (i*config.cardsPerRow));
         isOdd = i % 2;
         isFullRow = cardsInRow === config.cardsPerRow;
+        hasMore = length > (i + 1) * cardsInRow;
 
         if (!isOdd) {
-          newX = !isFullRow ?
-            config.gutter.first + (cardsInRow - 1) * config.gutter.default :
-            config.maxWidth;
+          newX = isFullRow && hasMore ?
+            config.maxWidth :
+            config.gutter.first + (cardsInRow - 1) * config.gutter.default;
+
         } else {
-          newX = !isFullRow ?
-            config.maxWidth - config.gutter.first - (cardsInRow - 1) * config.gutter.default :
-            config.margin.left;
+          newX = isFullRow && hasMore ?
+            config.margin.left :
+            config.maxWidth - config.gutter.first - (cardsInRow - 1) * config.gutter.default;
         }
 
         polyline += ' ' +
@@ -63,7 +66,7 @@ angular.module('unleashApp')
           (i * config.gutter.height + config.margin.top);
 
         // Draw a corner
-        if (isFullRow) {
+        if (isFullRow && hasMore) {
           polyline += ' ' +
             newX + ',' +
             ((i + 1) * config.gutter.height + config.margin.top);
