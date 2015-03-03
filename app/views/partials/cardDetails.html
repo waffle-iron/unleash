@@ -3,7 +3,9 @@
   <button ng-click="close()" class="close" title="Close">Close</button>
 
   <figure class="wrapper">
-    <div class="card card--tiny" ng-class="{'card--is-achieved': card.achieved}"></div>
+    <div class="card card--tiny" ng-class="{'card--is-achieved': card.achieved}">
+      <span class="{{ card.icon }}"></span>
+    </div>
 
     <figcaption class="achievement__name">{{ card.type }}</figcaption>
   </figure>

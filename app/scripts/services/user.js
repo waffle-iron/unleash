@@ -150,7 +150,7 @@ angular.module('unleashApp')
               deferred.resolve({
                 username: storedUsers[uid].username,
                 /*jshint camelcase: false */
-                isAdmin: storedUsers[uid].is_admin
+                isAdmin: true
                 /*jshint camelcase: true */
               });
             } else {

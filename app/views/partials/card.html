@@ -1,5 +1,8 @@
 <figure class="card" ng-class="{'card--is-achieved': card.achieved, 'card--is-unread': showUnread}" title="{{ card.task || 'No description.' }}">
   <figcaption class="card__type">{{ card.type }}</figcaption>
+  <div class="card__icon">
+    <span class="{{ card.icon }}"></span>
+  </div>
   <em class="card__level" ng-if="card.level">Level {{ card.level }}</em>
   <span class="card__comments" ng-if="card.comments"><span class="icon-comments"></span> {{ commentCount }}</span>
 </figure>

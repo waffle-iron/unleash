@@ -1,6 +1,6 @@
 /*
- * Variables
- */
+* Variables
+*/
 $card-default-bg:    #fafafa;
 $card-default-txt:   #8f939a;
 
@@ -22,8 +22,8 @@ $ninja-width:        55px;
 $ninja-height:       $ninja-width;
 
 /*
- * Main styles
- */
+* Main styles
+*/
 .card {
   font-size: 11px;
   display: inline-block;
@@ -50,23 +50,17 @@ $ninja-height:       $ninja-width;
     user-select: none;
   }
 
-  &:after {
-    content: ' ';
-    position: absolute;
-    top: 50px;
-    left: 0;
-    right: 0;
-    margin: 0 auto;
-    width: $ninja-width;
-    height: $ninja-height;
-    background: url(../images/ninja.png) no-repeat 0 0;
-    background-size: 100% 100%;
-    opacity: .2;
-  }
-
   &__level,
   &__comments {
     transition: color .3s;
+  }
+
+  &__icon {
+    font-size: 60px;
+
+    span {
+      margin-left: calc(50% - 25px);
+    }
   }
 
   &__type {
@@ -111,8 +105,8 @@ $ninja-height:       $ninja-width;
 }
 
 /*
- * Card modifiers
- */
+* Card modifiers
+*/
 .card {
   &--template {
     background: $card-template-bg;
@@ -164,6 +158,14 @@ $ninja-height:       $ninja-width;
 
     .card__desc {
       text-align: left;
+      height: 34px;
+      overflow: hidden;
+      
+      //Vertical ellipis for -webkit
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      text-overflow: ellipsis;
     }
 
     .level {
@@ -203,6 +205,10 @@ $ninja-height:       $ninja-width;
     .card__comments {
       display: none;
     }
+
+    .card__icon {
+      display: none;
+    }
   }
 
   &--tiny {
@@ -210,6 +216,10 @@ $ninja-height:       $ninja-width;
     height: $card-tiny-height;
     float: left;
     margin: 1em 1em 1em 0;
+
+    span {
+      font-size: 50px;
+    }
 
     &:after {
       width: 30px;
@@ -220,5 +230,19 @@ $ninja-height:       $ninja-width;
 
   &--notransition {
     transition: none;
+  }
+}
+
+/*
+ * cards in /path
+ */
+
+.page-path {
+  .card__icon {
+    margin: 40px auto;
+    
+    span {
+      margin-left: 0;
+    }
   }
 }
