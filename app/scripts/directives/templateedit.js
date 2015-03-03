@@ -25,33 +25,6 @@ angular.module('unleashApp')
       });
     };
 
-    var showModal = function (scope, element) {
-      var $modal = element.find('.modal'),
-          $iconContainer = element.find('.icon'),
-          currentIconClass = '.' + scope.updated.icon;
-
-      $modal.addClass('view');
-
-      if(currentIconClass !== '.') {
-        $modal.find(currentIconClass).parent().addClass('current');
-      }
-      
-      /*
-       * bind modal events;
-       */
-      
-      $modal.find('.modal__icon').on('click', function () {
-        scope.updated.icon = this.children[0].className;
-        $iconContainer[0].children[0].className = (this.children[0].className);
-        $modal.removeClass('view');
-        $modal.find('.modal__icon').unbind('click');
-
-        if(currentIconClass !== '.') {
-          $modal.find(currentIconClass).parent().removeClass('current');
-        }
-      });
-    };
-
     var save = function(id, data, element) {
       var template = getTemplateData(data);
       templatesService.update(id, template).then(function() {
@@ -78,10 +51,6 @@ angular.module('unleashApp')
 
         scope.remove = function() {
           remove(attrs.id);
-        };
-        
-        scope.showModal = function () {
-          showModal(scope,element);
         };
       },
       transclude: true
