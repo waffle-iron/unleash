@@ -30,9 +30,7 @@ angular.module('unleashApp')
         });
 
         $button.on('click', function() {
-          if (scope.currentUser === scope.cardOwner) {
-            cardsService.toggleAchieved(scope.card);
-          }
+          cardsService.toggleAchieved(scope.card);
         });
 
       },
