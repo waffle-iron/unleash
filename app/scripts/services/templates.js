@@ -93,7 +93,8 @@ angular.module('unleashApp')
             var template = {
               'type': data.type,
               'task': data.task || '',
-              'level': data.level || ''
+              'level': data.level || '',
+              'icon': data.icon || ''
             };
 
             templates.stored.$push(template).then(function(ref) {

@@ -1,5 +1,4 @@
 'use strict';
-
 /**
  * @ngdoc directive
  * @name unleashApp.directive:unleashTemplateAdd

@@ -12,21 +12,21 @@ angular.module('unleashApp')
       return {
         'type': template.type,
         'level': template.level || '',
-        'task': template.task || ''
+        'task': template.task || '',
+        'icon': template.icon || ''
       };
     };
 
     var cloneTemplateProps = function(scope) {
       scope.updated = {};
 
-      ['type', 'level', 'task'].forEach(function(prop) {
+      ['type', 'level', 'task', 'icon'].forEach(function(prop) {
         scope.updated[prop] = scope.template[prop];
       });
     };
 
     var save = function(id, data, element) {
       var template = getTemplateData(data);
-
       templatesService.update(id, template).then(function() {
         element.closest('li').removeClass('edit').addClass('view');
         element.remove();
