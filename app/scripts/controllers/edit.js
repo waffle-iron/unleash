@@ -65,7 +65,7 @@ angular.module('unleashApp')
 
     // Handle drag and drop interface
     $scope.add = function(data) {
-      data.$priority = $scope.cards.length + 1;
+      data.order = $scope.cards.length + 1;
 
       cardsService.add(data);
     };

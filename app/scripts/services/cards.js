@@ -8,7 +8,7 @@
  * Methods related to adding or removing user cards.
  */
 angular.module('unleashApp')
-  .factory('cardsService', function ($window, FBURL, $q, $firebase) {
+  .factory('cardsService', function ($window, FBURL, $q, $firebase, $log) {
     var currentUser = null;
     var cards = null;
     var ref;
@@ -41,6 +41,50 @@ angular.module('unleashApp')
       }
 
       newComments.$save();
+    };
+
+    /**
+     * Checks if all cards have equal order
+     * @param cards
+     * @returns {Boolean}
+     */
+    var hasBrokenCardsOrder = function(cards) {
+      if (!cards || !_.isArray(cards)) {
+        return true;
+      }
+
+      return cards.some(function(curr, i, arr) {
+        // First card must have the order of 1
+        if (i === 0) {
+          return curr.order !== 1;
+        }
+        // Next cards must be sequential
+        else {
+          return curr.order !== arr[i-1].order + 1;
+        }
+      });
+    };
+
+    /**
+     * Sets growing order for all cards in the array
+     * @param {Array} data All cards owned by a given user
+     */
+    var fixCardsOrder = function(data) {
+      for (var i = 0; i < data.length; i++) {
+        if (!data[i].$id) {
+          break;
+        }
+
+        // Update current card’s order
+        (function(count) {
+          var currentCard = $firebase(ref.child(data[count].$id)).$asObject();
+
+          currentCard.$loaded().then(function() {
+            currentCard.order = count + 1;
+            currentCard.$save();
+          });
+        })(i);
+      }
     };
 
     return {
@@ -123,11 +167,21 @@ angular.module('unleashApp')
        * @returns {Promise} Promise containing user cards
        */
       listCards: function(uid) {
+        var deferred = $q.defer();
+
         ref = new $window.Firebase(FBURL).child('users').child(uid).child('cards');
         currentUser = uid;
-        cards = $firebase(ref).$asArray();
+        cards = $firebase(ref.orderByChild('order')).$asArray();
 
-        return cards.$loaded();
+        cards.$loaded().then(function(data) {
+          if (hasBrokenCardsOrder(data)) {
+            fixCardsOrder(data);
+          }
+
+          deferred.resolve(data);
+        });
+
+        return deferred.promise;
       },
 
       /**
@@ -157,7 +211,9 @@ angular.module('unleashApp')
       remove: function(card) {
         var index = cards.$indexFor(card.$id);
 
-        cards.$remove(index);
+        cards.$remove(index).then(function() {
+          fixCardsOrder(cards);
+        });
       },
 
       /**
@@ -176,10 +232,10 @@ angular.module('unleashApp')
         };
 
         var swapPriorities = function(cards) {
-          var tmp = cards[0].$priority;
+          var tmp = cards[0].order;
 
-          cards[0].$priority = cards[1].$priority;
-          cards[1].$priority = tmp;
+          cards[0].order = cards[1].order;
+          cards[1].order = tmp;
 
           return $q.all([
             cards[0].$save(),
