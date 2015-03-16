@@ -3,7 +3,6 @@ app/scripts/angularfire/config.js
 
 # Utilities
 /scripts/
-/app/scripts/services/debug.js
 
 logs/*
 !.gitkeep
