@@ -21,12 +21,12 @@ angular.module('unleashApp')
   .directive('unleashPathBg', function ($log) {
     var config = {
       gutter: {
-        height: 270,
+        height: 280,
         first: 150,
         default: 260
       },
       margin: {
-        top: 310,
+        top: 300,
         left: 40
       },
       cardsPerRow: 3,
