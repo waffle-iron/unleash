@@ -8,7 +8,7 @@
  * Methods related to adding or removing user cards.
  */
 angular.module('unleashApp')
-  .factory('cardsService', function ($window, FBURL, $q, $firebase, $log) {
+  .factory('cardsService', function ($window, FBURL, $q, $firebase) {
     var currentUser = null;
     var cards = null;
     var ref;
@@ -70,6 +70,8 @@ angular.module('unleashApp')
      * @param {Array} data All cards owned by a given user
      */
     var fixCardsOrder = function(data) {
+      var currentCard;
+
       for (var i = 0; i < data.length; i++) {
         if (!data[i].$id) {
           break;
@@ -77,7 +79,7 @@ angular.module('unleashApp')
 
         // Update current card’s order
         (function(count) {
-          var currentCard = $firebase(ref.child(data[count].$id)).$asObject();
+          currentCard = $firebase(ref.child(data[count].$id)).$asObject();
 
           currentCard.$loaded().then(function() {
             currentCard.order = count + 1;

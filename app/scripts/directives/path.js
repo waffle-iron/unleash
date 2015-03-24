@@ -7,9 +7,13 @@
  * # unleashSinglePath
  */
 angular.module('unleashApp')
-  .directive('unleashSinglePath', function ($window, $timeout) {
+  .directive('unleashSinglePath', function ($window) {
     var cardWidth = 260;
 
+    /**
+     * Update the path’s DOM every time it’s resized
+     * @param element
+     */
     var setupPath = function(element) {
       var itemsPerRow = getItemsPerRow(element);
 
@@ -25,6 +29,11 @@ angular.module('unleashApp')
       });
     };
 
+    /**
+     * Calculates the amount of items per row based on config
+     * @param element
+     * @returns {Number}
+     */
     var getItemsPerRow = function(element) {
       var path = element.find('.single-path');
 
@@ -33,6 +42,11 @@ angular.module('unleashApp')
       }
     };
 
+    /**
+     * Wraps items in div.row elements to allow for easier CSS modifications
+     * @param element
+     * @param itemsPerRow
+     */
     var updatePath = function(element, itemsPerRow) {
       var rows = element.find('.row');
       var cards = element.find('.card');
@@ -57,13 +71,12 @@ angular.module('unleashApp')
     };
 
     var linkFn = function postLink(scope, element) {
-      scope.$watch('cards', function(value) {
-        var val = value || null;
-
-        if(val) {
-          $timeout(function() {
-            setupPath(element);
-          });
+      scope.$watch(
+        function() {
+          return element.find('.card').length;
+        }, function(newValue) {
+        if(newValue) {
+          setupPath(element);
         }
       });
     };

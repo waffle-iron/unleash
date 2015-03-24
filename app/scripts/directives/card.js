@@ -21,7 +21,7 @@ angular.module('unleashApp')
     };
 
     var linkFn = function(scope, element, attrs) {
-      if (attrs.view === 'public') {
+      if (attrs.view === 'public' && scope.cardOwnerId) {
         var card = cardsService.getComments({
           ownerId: scope.cardOwnerId,
           cardId: scope.card.$id
