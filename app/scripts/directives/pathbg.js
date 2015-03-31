@@ -80,8 +80,6 @@ angular.module('unleashApp')
       var length = scope.cards.length;
 
       scope.bgPoints = buildPolyline(length);
-
-      $log.info('Hi there! Hope you like this app. Please ignore the SVG error for now, it will be fixed ASAP. :-) ~Wojtek');
     };
 
     return {
