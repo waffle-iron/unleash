@@ -43,45 +43,11 @@ angular.module('unleashApp')
       newComments.$save();
     };
 
-    /**
-     * Checks if all cards have equal order
-     * @param cards
-     * @returns {Boolean}
-     */
-    var hasBrokenCardsOrder = function(cards) {
-      if (!cards || !_.isArray(cards)) {
-        return true;
-      }
-
-      return cards.some(function(curr, i, arr) {
-        // First card must have the order of 1
-        if (i === 0) {
-          return curr.order !== 1;
-        }
-        // Next cards must be sequential
-        else {
-          return curr.order !== arr[i-1].order + 1;
-        }
-      });
+    var moveCard = function (id, index) {
+      ref.child(id).child('order').set(index);
     };
 
-    /**
-     * Sets growing order for all cards in the array
-     * @param {Array} data All cards owned by a given user
-     */
-    var fixCardsOrder = function(data) {
-      var order;
-
-      for (var i = 0; i < data.length; i++) {
-        if (!data[i].$id) {
-          break;
-        }
-        order = i + 1;
-        ref.child(data[i].$id).child('order').set(order);
-      }
-    };
-
-    return {
+    var cardsService = {
       /**
        * Checks whether a list exists in a system
        * @param ownerId
@@ -160,21 +126,11 @@ angular.module('unleashApp')
        * @returns {Promise} Promise containing user cards
        */
       listCards: function(uid) {
-        var deferred = $q.defer();
-
         ref = new $window.Firebase(FBURL).child('users').child(uid).child('cards');
         currentUser = uid;
         cards = $firebaseArray(ref.orderByChild('order'));
 
-        cards.$loaded().then(function(data) {
-          if (hasBrokenCardsOrder(data)) {
-            fixCardsOrder(data);
-          }
-
-          deferred.resolve(data);
-        });
-
-        return deferred.promise;
+        return cards.$loaded();
       },
 
       /**
@@ -193,51 +149,71 @@ angular.module('unleashApp')
           return;
         }
 
+        // Update card order
+        if (card.order <= cards.length) {
+          cardsService.reorder(card.order);
+        }
+
         // If all works OK
         cards.$add(card);
       },
 
       /**
        * Remove the given card from user cards
-       * @param card
+       * @param _card
        */
-      remove: function(card) {
-        var index = cards.$indexFor(card.$id);
+      remove: function(_card) {
+        var index = cards.$indexFor(_card.$id);
 
         cards.$remove(index).then(function() {
-          fixCardsOrder(cards);
+          angular.forEach(cards, function(card) {
+            if (card.order > index) {
+              cardsService.moveLeft(card);
+            }
+          });
         });
       },
 
       /**
-       * Reorder two given cards
-       * @param ids {Array} Card IDs
+       * Reorder cards when adding a new card
+       * @param id index to start with
        */
-      reorder: function(ids) {
-        var promises;
+      reorder: function(index) {
+        angular.forEach(cards, function(card) {
+          if (card.order >= index) {
+            cardsService.moveRight(card);
+          }
+        });
+      },
 
-        if (ids.length !== 2) {
-          return;
+      moveRight: function (card) {
+        moveCard(card.$id, card.order + 1);
+      },
+      moveLeft: function (card) {
+        moveCard(card.$id, card.order - 1);
+      },
+
+      /**
+       * Move existing cards, change their order
+       * @param _card {Object} card that was moved
+       * @param index new index of moved card
+       */
+      move: function(_card, index) {
+        if (_card.order !== index) {
+          // When decreasing the card order
+          if (_card.order > index) {
+            index = index + 1;
+          }
+          angular.forEach(cards, function(card) {
+            if (card.order > _card.order && card.order <= index) {
+              cardsService.moveLeft(card);
+            } else if (card.order < _card.order && card.order >= index) {
+              cardsService.moveRight(card);
+            }
+          });
+          // Finally, update the order of changed card
+          moveCard(_card.$id, index);
         }
-
-        var getCard = function(id) {
-          return $firebaseObject(ref.child(id)).$loaded();
-        };
-
-        var swapPriorities = function(cards) {
-          var tmp = cards[0].order;
-
-          cards[0].order = cards[1].order;
-          cards[1].order = tmp;
-
-          return $q.all([
-            cards[0].$save(),
-            cards[1].$save()
-          ]);
-        };
-
-        promises = ids.map(getCard);
-        return $q.all(promises).then(swapPriorities);
       },
 
       /**
@@ -280,4 +256,6 @@ angular.module('unleashApp')
         newComments.push(commentRef.key());
       }
     };
+
+    return cardsService;
   });
