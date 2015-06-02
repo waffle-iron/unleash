@@ -18,7 +18,7 @@
  *   variable is available.
  */
 angular.module('unleashApp')
-  .directive('unleashPathBg', function ($log) {
+  .directive('unleashPathBg', function () {
     var config = {
       gutter: {
         height: 280,
@@ -30,8 +30,11 @@ angular.module('unleashApp')
         left: 40
       },
       cardsPerRow: 3,
-      maxWidth: 860
+      maxWidth: 860,
+      strokeWidth: 7
     };
+
+    var polylineHeight;
 
     var buildPolyline = function(length) {
       var polyline = config.margin.left + ',0 ' +
@@ -42,7 +45,7 @@ angular.module('unleashApp')
       var isOdd;
       var isFullRow;
       var hasMore;
-      var newX;
+      var newX, newY;
 
       for (var i = 0; i < rowCount; i++) {
         cardsInRow = Math.min(config.cardsPerRow, length - (i*config.cardsPerRow));
@@ -61,17 +64,20 @@ angular.module('unleashApp')
             config.maxWidth - config.gutter.first - (cardsInRow - 1) * config.gutter.default;
         }
 
+        newY = i * config.gutter.height + config.margin.top;
+
         polyline += ' ' +
-          newX + ',' +
-          (i * config.gutter.height + config.margin.top);
+          newX + ',' + newY;
 
         // Draw a corner
         if (isFullRow && hasMore) {
+          newY = (i + 1) * config.gutter.height + config.margin.top;
           polyline += ' ' +
-            newX + ',' +
-            ((i + 1) * config.gutter.height + config.margin.top);
+            newX + ',' + newY;
         }
       }
+
+      polylineHeight = newY + config.strokeWidth;
 
       return polyline;
     };
@@ -80,6 +86,10 @@ angular.module('unleashApp')
       var length = scope.cards.length;
 
       scope.bgPoints = buildPolyline(length);
+      scope.polylineHeight = polylineHeight;
+      scope.stroke = {
+        width: config.strokeWidth
+      };
     };
 
     return {
