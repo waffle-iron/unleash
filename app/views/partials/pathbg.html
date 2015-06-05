@@ -4,11 +4,11 @@
 <svg
   version="1.1" id="Layer_1"
   xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-  x="0px" y="0px" width="900px" height="2000px" viewBox="0 0 900 2000"
-  enable-background="new 0 0 900 2000" xml:space="preserve">
+  x="0px" y="0px" width="900px" ng-attr-height="{{ polylineHeight }}px" ng-attr-viewBox="0 0 900 {{ polylineHeight }}"
+  ng-attr-enable-background="new 0 0 900 {{ polylineHeight }}" xml:space="preserve">
 
   <polyline ng-attr-points="{{ bgPoints }}" fill="none"
-            stroke-width="7" stroke-linecap="round"
+            ng-attr-stroke-width="{{ stroke.width }}" stroke-linecap="round"
             stroke="#e8e9e9" stroke-linejoin="round" />
 
 </svg>
