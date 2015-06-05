@@ -64,10 +64,18 @@ angular.module('unleashApp')
     });
 
     // Handle drag and drop interface
-    $scope.add = function(data) {
-      data.order = $scope.cards.length + 1;
+    $scope.dropCard = function(event, index, card, external, type) {
 
-      cardsService.add(data);
+      if (type === 'template') {
+        card.order = index + 1;
+        cardsService.add(card);
+      }
+
+      if (type === 'card') {
+        cardsService.move(card, index);
+      }
+
+      return false;
     };
 
     // @todo Temporary fix to remove available cards flickering
@@ -76,19 +84,10 @@ angular.module('unleashApp')
     };
 
     // Remove specific card from user cards
-    $scope.remove = function(data) {
-      cardsService.remove(data);
-    };
-
-    // Handle reordering
-    $scope.reorder = function(index, obj) {
-      var otherObj = $scope.cards[index];
-
-      var toBeReordered = [obj.$id, otherObj.$id];
-
-      cardsService.reorder(toBeReordered)
-        .catch(function(err) {
-          growl.error('There was a problem reordering cards: ' + err);
-        });
+    $scope.remove = function(event, index, card, external, type) {
+      if (type === 'card') {
+        cardsService.remove(card);
+      }
+      return false;
     };
   });

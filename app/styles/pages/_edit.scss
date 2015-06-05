@@ -1,15 +1,20 @@
 /*
  * Variables
  */
-$drop-bg-color:     #f2f4f3;
-$remove-bg-color:   #dbdbdb;
-$remove-txt-color:   #777;
+$drop-bg-color:           #f2f4f3;
+$remove-bg-color:         #dbdbdb;
+$remove-txt-color:        #777;
+$remove-border-color:     #fc6c7f;
+
+$drag-placeholder-width:  100px;
+$drag-placeholder-height: $drag-placeholder-width;
+$drag-box-min-height:     $drag-placeholder-height;
 
 /*
  * Main styles
  */
 .page-edit {
-  .inner{
+  .inner {
     margin: 0 -2em;
 
     @include breakpoint(tablet) {
@@ -18,7 +23,7 @@ $remove-txt-color:   #777;
       border-right: 1px solid $body-border-color;
     }
   }
-  
+
   .toggle-edit-action {
     padding: 0;
   }
@@ -47,6 +52,32 @@ $remove-txt-color:   #777;
 
   .card {
     cursor: move;
+    margin: 0;
+  }
+
+  ul[dnd-list] {
+    position: relative;
+    float: left;
+    min-height: $drag-box-min-height;
+    width: 100%;
+
+    li {
+      position: relative;
+      display: inline-block;
+      float: left;
+      margin: .5em;
+    }
+
+    .dndDraggingSource {
+      display: none;
+    }
+
+    .dndPlaceholder {
+      width: $drag-placeholder-width;
+      min-height: $drag-placeholder-height;
+      border-radius: 3px;
+      border: 2px dashed #ddd;
+    }
   }
 
   .drop {
@@ -56,45 +87,34 @@ $remove-txt-color:   #777;
     background: $drop-bg-color;
     box-shadow: 0 0 20px #ddd;
     position: relative;
-
-    &--reorder {
-      clear: both;
-      padding-bottom: 1em;
-
-      &__title {
-        text-align: center;
-        margin-bottom: 1em;
-      }
-
-      &__container {
-        display: inline-block;
-        width: 120px;
-        height: 120px;
-      }
-
-      .card {
-        float: left;
-      }
-
-      [ng-drop].drag-enter {
-        outline: 5px solid red;
-      }
-    }
+    float: left;
 
     &--remove {
       height: 5em;
       min-height: 0;
       background: $remove-bg-color;
       color: $remove-txt-color;
+      width: 100%;
 
       .title {
         top: 50%;
         bottom: auto;
       }
-    }
 
-    &.drag-enter {
-      outline: solid 5px red;
+      ul[dnd-list] {
+        &.dndDragover {
+          border: 2px dashed $remove-border-color;
+          border-radius: 5px;
+          width: 90%;
+          height: 70%;
+          min-height: inherit;
+          position: absolute;
+        }
+
+        .dndPlaceholder {
+          display: none;
+        }
+      }
     }
 
     .title {

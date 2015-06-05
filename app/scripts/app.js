@@ -16,7 +16,7 @@ angular.module('unleashApp', [
     'ngTouch',
     'ngSanitize',
     'ngAria',
-    'ngDraggable',
+    'dndLists',
     'relativeDate',
     'angular-growl',
     'firebase',
