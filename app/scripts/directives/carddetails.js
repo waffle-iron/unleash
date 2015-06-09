@@ -60,7 +60,10 @@ angular.module('unleashApp')
 
       // Get an username of the card owner
       userService.getUserDetails($scope.cardOwnerId).then(function(data) {
-        $scope.cardOwner = data.username;
+        $scope.cardOwner = {
+          name: data.username,
+          email: data.email
+        };
       });
 
       // Sets up comments service
@@ -75,8 +78,32 @@ angular.module('unleashApp')
       $scope.addMessage = function(message) {
         commentsService.add({
           message: message,
-          author: $scope.currentUser
+          author: $scope.currentUser,
+          cardOwner: $scope.cardOwner
         });
+      };
+
+      // Provide a method for adding a reply to a comment
+      $scope.addReply = function(message, reply) {
+        // Get email address of comment author
+        userService.getUserUid(message.author)
+          .then(function (userId) {
+            return userService.getUserDetails(userId);
+          })
+          .then(function (commentAuthor) {
+            commentsService.addReply({
+              message: reply,
+              author: $scope.currentUser,
+              cardOwner: $scope.cardOwner,
+              parent: {
+                id: message.$id,
+                author: {
+                  name: commentAuthor.username,
+                  email: commentAuthor.email
+                }
+              }
+            });
+          });
       };
 
       // Close sidebar

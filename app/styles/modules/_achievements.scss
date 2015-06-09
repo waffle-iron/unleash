@@ -3,6 +3,7 @@
  */
 $menu-width:            30%;
 $comment-border-color:  #f1f1f2;
+$reply-indent:          4em;
 
 /*
  * Main styles
@@ -120,7 +121,7 @@ $comment-border-color:  #f1f1f2;
   }
 }
 
-.comment {
+.comment, .reply {
   padding: 2em 0;
   border-top: 1px solid $comment-border-color;
 
@@ -159,5 +160,36 @@ $comment-border-color:  #f1f1f2;
 
   &__body {
     margin: 0;
+  }
+}
+
+.reply {
+  padding-left: $reply-indent;
+
+  &__form {
+    font-size: 14px;
+    padding: 0 0 1.5em $reply-indent;
+
+    input {
+      width: 80%;
+      padding: 5px;
+      line-height: 1.4;
+    }
+
+    button {
+      background: #eee;
+      border: 1px solid #ccc;
+      float: right;
+      line-height: 1.4;
+      width: 18%;
+      padding: 6px 5px 5px;
+    }
+  }
+
+  &__toggle {
+    display: block;
+    margin: 0 0 1.5em $reply-indent;
+    font-size: 0.875em;
+    cursor: pointer;
   }
 }
