@@ -39,7 +39,7 @@
       <p class="reply__body" ng-bind-html="reply.text | linky:'_blank'"></p>
     </div>
 
-    <a class="reply__toggle" ng-click="showReplyForm = !showReplyForm">Reply to this comment</a>
+    <button type="button" class="reply__toggle" ng-click="showReplyForm = !showReplyForm">Reply to this comment</button>
 
     <form ng-repeat-end class="reply__form" ng-if="currentUserId" ng-show="showReplyForm">
       <input placeholder="Add a reply…" ng-model="newReply">

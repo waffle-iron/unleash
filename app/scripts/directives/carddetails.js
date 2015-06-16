@@ -87,9 +87,7 @@ angular.module('unleashApp')
       $scope.addReply = function(message, reply) {
         // Get email address of comment author
         userService.getUserUid(message.author)
-          .then(function (userId) {
-            return userService.getUserDetails(userId);
-          })
+          .then(userService.getUserDetails)
           .then(function (commentAuthor) {
             commentsService.addReply({
               message: reply,
