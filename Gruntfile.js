@@ -21,7 +21,8 @@ module.exports = function (grunt) {
   var appConfig = {
     app: require('./bower.json').appPath || 'app',
     dist: 'dist',
-    env: process.env.UNLEASH_ENV
+    env: process.env.UNLEASH_ENV,
+    mail: process.env.MANDRILL_KEY
   };
 
   // Define the configuration for all the tasks
@@ -37,6 +38,10 @@ module.exports = function (grunt) {
             {
               match: 'UNLEASH_ENV',
               replacement: '<%= unleash.env %>'
+            },
+            {
+              match: 'MANDRILL_KEY',
+              replacement: '<%= unleash.mail %>'
             }
           ]
         },
@@ -50,6 +55,17 @@ module.exports = function (grunt) {
             dest: '<%= unleash.app %>/scripts/angularfire/',
             rename: function(dest) {
               return dest + 'config.js';
+            }
+          },
+          {
+            expand: true,
+            flatten: true,
+            src: [
+              '<%= unleash.app %>/scripts/constants-template.js'
+            ],
+            dest: '<%= unleash.app %>/scripts/',
+            rename: function(dest) {
+              return dest + 'constants.js';
             }
           }
         ]

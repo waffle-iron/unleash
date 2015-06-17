@@ -8,20 +8,27 @@
  * Methods related to sending emails.
  */
 angular.module('unleashApp')
-  .factory('mailService', function($http) {
-    var MAIL_API_URL = 'https://mandrillapp.com/api/1.0/messages/send.json',
-        MAIL_API_KEY = 'DltB2SVuBFn5Z0l3OCOwEg';
+  .factory('mailService', function($http, $q, MAIL_CONFIG) {
 
-    var prepareEmailBody = function (subject, content) {
-      return {
-        key: MAIL_API_KEY,
-        message: {
-          'from_email': 'no-reply@x-team.com',
-          autotext: 'true',
-          subject: subject,
-          html: content
-        }
-      };
+    var prepareEmailBody = function (to, subject, content) {
+      var deferred = $q.defer();
+
+      if (!MAIL_CONFIG.key || 0 === MAIL_CONFIG.key.length) {
+        deferred.reject(new Error('Mail API key is not valid! Please check your configuration.'));
+      } else {
+        deferred.resolve({
+          key: MAIL_CONFIG.key,
+          message: {
+            'from_email': 'no-reply@x-team.com',
+            autotext: 'true',
+            subject: subject,
+            html: content,
+            to: [ getReceiverData(to) ]
+          }
+        });
+      }
+
+      return deferred.promise;
     };
 
     var getReceiverData = function (to) {
@@ -32,20 +39,21 @@ angular.module('unleashApp')
       };
     };
 
+    var sendEmail = function (to, subject, content) {
+      return prepareEmailBody(to, subject, content)
+        .then(function (data) {
+          return $http.post(MAIL_CONFIG.url, data);
+        }, function (error) {
+          console.error('Could not send email.', error);
+        });
+    };
+
     return {
       notifyCardOwner: function (owner) {
-        var emailData = prepareEmailBody('Someone has posted a comment', 'Hi, someone has just posted a comment on card in your path to #unleash.');
-
-        emailData.message.to = [ getReceiverData(owner) ];
-
-        return $http.post(MAIL_API_URL, emailData);
+        return sendEmail(owner, 'Someone has posted a comment', 'Hi, someone has just posted a comment on card in your path to #unleash.');
       },
       notifyCommentAuthor: function (author) {
-        var emailData = prepareEmailBody('Someone has replied to your comment', 'Hi, someone has just replied to your comment.');
-
-        emailData.message.to = [ getReceiverData(author) ];
-
-        return $http.post(MAIL_API_URL, emailData);
+        return sendEmail(author, 'Someone has replied to your comment', 'Hi, someone has just replied to your comment.');
       }
     };
   });
