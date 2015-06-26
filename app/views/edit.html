@@ -4,23 +4,32 @@
 
 <unleash-person name="{{ currentPathOwner.google.displayName }}" thumb="{{ currentPathOwner.google.cachedUserProfile.picture }}"></unleash-person>
 
-<section class="card-templates">
-  <h3 class="structural">Available cards:</h3>
+<section class="card-templates" unleash-sticky control="controlTemplates">
 
-  <p class="message" ng-hide="templates.available">Loading…</p>
-  <p class="message" ng-show="templates.available && !templates.available.length">You’ve already used all available templates. <br>Great job!</p>
+  <div class="tab-controls">
+    <button ng-click="toggleCards()">Toggle Templates/Quick Cards</button>
+    <input type="text" placeholder="Search..." ng-model="filterTemplates" />
+  </div>
 
-  <ul dnd-list="templates.available" dnd-horizontal-list="true" dnd-allowed-types="[]">
-    <li ng-repeat="template in templates.available"
-        dnd-effect-allowed="copy"
-        dnd-draggable="template"
-        dnd-type="'template'">
-      <figure class="card--full card--template card--notransition" data-card="template" unleash-card></figure>
-    </li>
-  </ul>
+  <div ng-show="showTemplates">
+    <h3 class="structural">Available cards:</h3>
+
+    <p class="message" ng-hide="templates.available">Loading…</p>
+    <p class="message" ng-show="templates.available && !templates.available.length">You’ve already used all available templates. <br>Great job!</p>
+
+    <ul dnd-list="templates.available" dnd-horizontal-list="true" dnd-allowed-types="[]">
+      <li ng-repeat="template in templates.available | filter:filterTemplates "
+          dnd-effect-allowed="copy"
+          dnd-draggable="template"
+          dnd-type="'template'">
+        <figure class="card--full card--template card--notransition" data-card="template" unleash-card></figure>
+      </li>
+    </ul>
+  </div>
+  <div ng-hide="showTemplates" class="templates quick-cards" unleash-cards-add></div>
 </section>
 
-<div class="inner">
+<div class="inner" unleash-sticky control="controlCards">
   <section class="drop drop--primary">
     <h3 class="title">Drop area</h3>
 
@@ -35,8 +44,11 @@
     </ul>
   </section>
 
+  <div unleash-scroll-bookmark offset-top="bookmarkTop"></div>
+
   <div class="drop drop--remove">
     <h3 class="title">Remove cards</h3>
     <ul dnd-list="[]" dnd-drop="remove(event, index, item, external, type)" dnd-allowed-types="['card']"></ul>
   </div>
+
 </div>

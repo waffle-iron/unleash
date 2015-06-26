@@ -150,7 +150,7 @@ angular.module('unleashApp')
         }
 
         // If all works OK
-        cards.$add(card);
+        return cards.$add(card);
       },
 
       /**
