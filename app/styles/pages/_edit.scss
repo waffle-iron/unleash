@@ -6,8 +6,8 @@ $remove-bg-color:         #dbdbdb;
 $remove-txt-color:        #777;
 $remove-border-color:     #fc6c7f;
 
-$drag-placeholder-width:  100px;
-$drag-placeholder-height: $drag-placeholder-width;
+$drag-placeholder-width:  160px;
+$drag-placeholder-height: 110px;
 $drag-box-min-height:     $drag-placeholder-height;
 
 /*
@@ -87,8 +87,9 @@ $drag-box-min-height:     $drag-placeholder-height;
 
     &--primary {
       ul[dnd-list] {
-        padding: 1em 2em 4em;
+        padding: 0.25em 0.25em 6em;
         min-height: 20em;
+
         .dndDraggingSource {
           display: none;
         }

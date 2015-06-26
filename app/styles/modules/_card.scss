@@ -12,8 +12,8 @@ $card-template-txt:  $card-achieved-txt;
 
 $card-width:         180px;
 $card-height:        $card-width;
-$card-small-width:   100px;
-$card-small-height:  $card-small-width;
+$card-full-width:    160px;
+$card-full-height:   110px;
 $card-tiny-width:    72px;
 $card-tiny-height:   $card-tiny-width;
 
@@ -108,16 +108,6 @@ $ninja-height:       $ninja-width;
 * Card modifiers
 */
 .card {
-  &--template {
-    background: $card-template-bg;
-    color: $card-template-txt;
-    box-shadow: 0 3px 0 0 darken($card-template-bg, 30%);
-
-    .card__level {
-      color: darken($card-template-bg, 50%);
-    }
-  }
-
   &--is-achieved {
     background: $card-achieved-bg;
     color: $card-achieved-txt;
@@ -183,34 +173,6 @@ $ninja-height:       $ninja-width;
     }
   }
 
-  &--small {
-    width: $card-small-width;
-    height: $card-small-height;
-
-    &:after {
-      display: none;
-    }
-
-    .card__type {
-      position: static;
-      font-weight: normal;
-    }
-
-    .card__level {
-      top: auto;
-      bottom: 15px;
-      font-weight: normal;
-    }
-
-    .card__comments {
-      display: none;
-    }
-
-    .card__icon {
-      display: none;
-    }
-  }
-
   &--tiny {
     width: $card-tiny-width;
     height: $card-tiny-height;
@@ -227,6 +189,60 @@ $ninja-height:       $ninja-width;
       width: 30px;
       height: 30px;
       top: 22px;
+    }
+  }
+
+  &--full {
+    width: $card-full-width;
+    height: $card-full-height;
+
+    &:after {
+      display: none;
+    }
+
+    .card__type {
+      position: static;
+      font-weight: normal;
+
+      small {
+        font-size: 0.75em;
+        line-height: 1.6;
+        display: block;
+        margin-top: 10px;
+      }
+    }
+
+    .card__level {
+      background: $card-default-bg;
+      top: auto;
+      bottom: 0;
+      font-weight: normal;
+      padding: 5px 0 10px 0;
+    }
+
+    .card__comments {
+      display: none;
+    }
+
+    .card__icon {
+      display: none;
+    }
+  }
+
+  &--template {
+    background: $card-template-bg;
+    color: $card-template-txt;
+    box-shadow: 0 3px 0 0 darken($card-template-bg, 30%);
+
+    .card__level {
+      color: darken($card-template-bg, 50%);
+      background: $card-template-bg;
+    }
+  }
+
+  &--no-description {
+    .card__type small {
+      display: none;
     }
   }
 

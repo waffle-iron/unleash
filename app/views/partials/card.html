@@ -1,5 +1,5 @@
 <figure class="card" ng-class="{'card--is-achieved': card.achieved, 'card--is-unread': showUnread}" title="{{ card.task || 'No description.' }}">
-  <figcaption class="card__type">{{ card.type }}</figcaption>
+  <figcaption class="card__type">{{ card.type }} <small>{{ card.task }}</small></figcaption>
   <div class="card__icon">
     <span class="{{ card.icon }}"></span>
   </div>
