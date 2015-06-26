@@ -87,8 +87,9 @@ $drag-box-min-height:     $drag-placeholder-height;
 
     &--primary {
       ul[dnd-list] {
-        padding: 0.25em 0.25em 4em;
+        padding: 0.25em 0.25em 6em;
         min-height: 20em;
+
         .dndDraggingSource {
           display: none;
         }
