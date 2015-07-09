@@ -187,9 +187,13 @@ $reply-indent:          4em;
   }
 
   &__toggle {
-    display: block;
-    margin: 0 0 1.5em $reply-indent;
-    font-size: 0.875em;
+    background: #eee;
+    border: 1px solid #ccc;
     cursor: pointer;
+    display: block;
+    font-size: 0.875em;
+    line-height: 1.4;
+    margin: 0 0 1.5em $reply-indent;
+    padding: 6px 5px 5px;
   }
 }
