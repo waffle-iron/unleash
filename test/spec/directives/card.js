@@ -31,8 +31,11 @@ describe('Directive: unleashCard', function () {
   }));
 
   describe('card', function() {
-    it('should render its type', function() {
-      expect(element[0].querySelector('.card__type').innerHTML).to.equal(card.type);
+    it('should render its type and task', function() {
+      var cardType = element[0].querySelector('.card__type');
+
+      expect(cardType.innerHTML).to.contain(card.type);
+      expect(cardType.innerHTML).to.contain(card.task);
     });
 
     it('should render its level', function() {
