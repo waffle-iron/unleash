@@ -48,12 +48,43 @@ angular.module('unleashApp')
         });
     };
 
+    var cardUrl = function (data) {
+      return 'http://unleash.x-team.com/paths/' + data.cardOwner.name + '/?' + data.cardId;
+    };
+
     return {
-      notifyCardOwner: function (owner) {
-        return sendEmail(owner, 'Someone has posted a comment', 'Hi, someone has just posted a comment on card in your path to #unleash.');
+      notifyCardOwner: function (data) {
+        return sendEmail(data.cardOwner,
+          'Someone has posted a comment',
+          [
+            '<h1>Hello, ' + data.cardOwner.name + '</h1>',
+            '<p>' + data.author + ' just commented your "' + data.cardType + '" step:</p>',
+            '<p>' + data.message + '</p>',
+            '<p><a href="' + cardUrl(data) + '">Click here</a> to visit your Path!</p>'
+          ].join('')
+        );
       },
-      notifyCommentAuthor: function (author) {
-        return sendEmail(author, 'Someone has replied to your comment', 'Hi, someone has just replied to your comment.');
+      notifyCardOwnerReply: function (data) {
+        return sendEmail(data.cardOwner.name,
+          'Someone has posted a comment',
+          [
+            '<h1>Hello, ' + data.cardOwner.name + '</h1>',
+            '<p>' + data.author + ' just replied to the comment on your "' + data.cardType + '" step:</p>',
+            '<p>' + data.message + '</p>',
+            '<p><a href="' + cardUrl(data) + '">Click here</a> to visit your Path!</p>'
+          ].join('')
+        );
+      },
+      notifyCommentAuthor: function (data) {
+        return sendEmail(data.parent.author,
+          'Someone has replied to your comment',
+          [
+            '<h1>Hello, ' + data.parent.author.name + '</h1>',
+            '<p>' + data.author + ' just replied to your "' + data.cardType + '" step comment:</p>',
+            '<p>' + data.message + '</p>',
+            '<p><a href="' + cardUrl(data) + '">Click here</a> to visit your Path!</p>'
+          ].join('')
+        );
       }
     };
   });

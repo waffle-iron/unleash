@@ -79,7 +79,9 @@ angular.module('unleashApp')
         commentsService.add({
           message: message,
           author: $scope.currentUser,
-          cardOwner: $scope.cardOwner
+          cardOwner: $scope.cardOwner,
+          cardType: $scope.card.type,
+          cardId: $scope.card.$id,
         });
       };
 
@@ -93,6 +95,8 @@ angular.module('unleashApp')
               message: reply,
               author: $scope.currentUser,
               cardOwner: $scope.cardOwner,
+              cardType: $scope.card.type,
+              cardId: $scope.card.$id,
               parent: {
                 id: message.$id,
                 author: {

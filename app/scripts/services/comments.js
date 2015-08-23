@@ -86,7 +86,7 @@ angular.module('unleashApp')
             .then(function () {
               // Notify Card Owner if someone else made a comment
               if (data.cardOwner.name !== currentUser) {
-                return mailService.notifyCardOwner(data.cardOwner);
+                return mailService.notifyCardOwner(data);
               }
             })
             .finally(function () {
@@ -113,11 +113,11 @@ angular.module('unleashApp')
 
           // Notify Card Owner only if someone else replied. Do not send, if parentAuthor == cardOwner
           if (data.author !== cardOwner && parentAuthor !== cardOwner) {
-            mailPromises.push( mailService.notifyCardOwner(data.cardOwner) );
+            mailPromises.push( mailService.notifyCardOwnerReply(data));
           }
           // Notify Comment Author if someone else replied
           if (parentAuthor !== data.author) {
-            mailPromises.push( mailService.notifyCommentAuthor(data.parent.author) );
+            mailPromises.push( mailService.notifyCommentAuthor(data));
           }
 
           replies.$add({
