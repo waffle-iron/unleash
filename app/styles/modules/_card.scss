@@ -249,6 +249,18 @@ $ninja-height:       $ninja-width;
   &--notransition {
     transition: none;
   }
+
+  &--overlaid:after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 10;
+    background-color: rgba(255,255,255,0.5);
+  }
 }
 
 /*

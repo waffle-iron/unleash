@@ -204,7 +204,7 @@ module.exports = function (grunt) {
     wiredep: {
       app: {
         src: ['<%= unleash.app %>/index.html'],
-        exclude: [ /angular-translate/ ],
+        exclude: [ /angular-translate/, /qunit/ ],
         ignorePath:  /\.\.\//
       },
       sass: {

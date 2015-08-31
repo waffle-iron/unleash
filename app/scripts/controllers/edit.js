@@ -9,10 +9,12 @@
 
 'use strict';
 angular.module('unleashApp')
-  .controller('EditPathController', function ($window, $rootScope, $scope, $location, FBURL, fbutil, $routeParams, growl, templatesService, cardsService, userService) {
+  .controller('EditPathController', function ($window, $document, $rootScope, $scope, $location, FBURL, fbutil, $routeParams, growl, templatesService, cardsService, userService) {
     $scope.params = $routeParams;
     $scope.cards = null;
     $scope.templates = {};
+    $scope.bookmarkTop = 0;
+    $scope.showTemplates = true;
 
     if (!$rootScope.user.isAdmin) {
       growl.error('You are not authorized to see this page!');
@@ -26,6 +28,7 @@ angular.module('unleashApp')
         $scope.cards = cards;
 
         getTemplates();
+
       }).catch(function(error) {
         console.error(error);
       });
@@ -85,4 +88,25 @@ angular.module('unleashApp')
       }
       return false;
     };
+
+    $scope.toggleCards = function() {
+      $scope.showTemplates = !$scope.showTemplates;
+    }
+
+    $scope.controlTemplates = function() {
+      var top =  $scope.bookmarkTop - $window.innerHeight / 2;
+      return {
+          freeze: ($window.scrollY || $document[0].body.scrollTop) > top,
+          freezeTop: top
+        }
+    };
+
+    $scope.controlCards = function() {
+      var top =  $scope.bookmarkTop - $window.innerHeight / 2;
+      return {
+        freeze: ($window.scrollY || $document[0].body.scrollTop) < top,
+        tetherMode: true,
+        tetherTop: top
+      }
+    }
   });

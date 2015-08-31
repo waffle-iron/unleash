@@ -9,11 +9,21 @@ $remove-border-color:     #fc6c7f;
 $drag-placeholder-width:  160px;
 $drag-placeholder-height: 110px;
 $drag-box-min-height:     $drag-placeholder-height;
+$dnd-list-item-margin: .5em;
+$dnd-list-drop-primary-padding: .25em;
 
 /*
  * Main styles
  */
+
+
+
 .page-edit {
+
+  main {
+    @include pie-clearfix;
+  }
+
   .inner {
     margin: 0 -2em;
 
@@ -30,6 +40,10 @@ $drag-box-min-height:     $drag-placeholder-height;
 
   .person {
     margin: 2em 0;
+  }
+
+  .tab-controls {
+    height: 2em;
   }
 
   .card-templates {
@@ -55,6 +69,19 @@ $drag-box-min-height:     $drag-placeholder-height;
     margin: 0;
   }
 
+  .quick-cards {
+    clear: both;
+
+    ul {
+      margin: 1em 0;
+    }
+
+    li.card {
+      cursor: default;
+      margin: 0 20px 20px 0;
+    }
+  }
+
   ul[dnd-list] {
     position: relative;
     float: left;
@@ -65,7 +92,7 @@ $drag-box-min-height:     $drag-placeholder-height;
       position: relative;
       display: inline-block;
       float: left;
-      margin: .5em;
+      margin: $dnd-list-item-margin;
     }
 
     .dndPlaceholder {
@@ -87,7 +114,7 @@ $drag-box-min-height:     $drag-placeholder-height;
 
     &--primary {
       ul[dnd-list] {
-        padding: 0.25em 0.25em 6em;
+        padding: $dnd-list-drop-primary-padding $dnd-list-drop-primary-padding 6em;
         min-height: 20em;
 
         .dndDraggingSource {
@@ -101,6 +128,7 @@ $drag-box-min-height:     $drag-placeholder-height;
       min-height: 0;
       background: $remove-bg-color;
       color: $remove-txt-color;
+      overflow: hidden;
 
       .title {
         top: 50%;
@@ -139,4 +167,15 @@ $drag-box-min-height:     $drag-placeholder-height;
       z-index: 2;
     }
   }
+
+}
+
+[unleash-sticky] {
+  top: 0;
+  position: relative;
+  transition: top 0.3s;
+}
+
+[unleash-scroll-bookmark] {
+  clear: left;
 }
