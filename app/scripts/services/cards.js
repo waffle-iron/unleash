@@ -160,6 +160,12 @@ angular.module('unleashApp')
         });
       },
 
+      update: function(id, data, onComplete) {
+        var card = ref.child(id);
+
+        return card.update(data, onComplete);
+      },
+
       /**
        * Reorder cards when adding a new card
        * @param id index to start with
