@@ -43,7 +43,7 @@ describe('Directive: unleashAuth', function () {
     });
 
     it('should trigger a click event', function() {
-      clickElement(element[0].children(0));
+      clickElement(element[0].children[0]);
       expect(mySpy.callCount).to.equal(1);
     });
   });
@@ -77,7 +77,7 @@ describe('Directive: unleashAuth', function () {
     });
 
     it('should trigger a click event', function() {
-      clickElement(element[0].children(0).children[1]);
+      clickElement(element[0].children[0].children[1]);
       expect(mySpy.callCount).to.equal(1);
     });
   });

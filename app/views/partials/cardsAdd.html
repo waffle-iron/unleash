@@ -1,11 +1,12 @@
 <button type="button" ng-click="create()">Create a Quick Card</button>
 <ul>
-  <li class="card card--is-editable" ng-class="{'card--overlaid': card.order}" ng-repeat="card in newCards" ng-init="template = card">
+  <li class="card card--is-editable card--quick" ng-class="{'card--overlaid': card.order}" ng-repeat="card in newCards" ng-init="template = card">
     <input type="text" class="type" ng-model="card.type" placeholder="Type">
 
     <div unleash-icons-modal config="add"></div>
     <textarea class="task" cols="25" rows="4" ng-model="card.task" placeholder="Task">{{ card.task }}</textarea>
     <input type="text" class="level" ng-model="card.level" placeholder="Level">
+    <input type="text" class="dueDate" ng-model="card.dueDate" placeholder="Due date" ui-date="dateOptions">
 
     <div class="card__controls">
       <button type="button" ng-click="add(card)">Add</button>

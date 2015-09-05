@@ -63,6 +63,14 @@ $reply-indent:          56px;
     cursor: pointer;
   }
 
+  &__due-date {
+    margin-bottom: 1em;
+
+    .ng-invalid {
+      background: red;
+    }
+  }
+
   &__steps {
     h3 {
       margin: 0 0 10px;

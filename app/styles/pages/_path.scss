@@ -23,6 +23,12 @@ $path-bg-color: #f1f2f2;
     text-align: center;
     overflow: hidden;
   }
+
+  input.disabled {
+    background: transparent;
+    border: none;
+    color: inherit;
+  }
 }
 
 .single-path {
@@ -52,4 +58,21 @@ $path-bg-color: #f1f2f2;
     margin: 0 40px 100px;
     z-index: 3;
   }
+}
+
+._720kb-datepicker-calendar-body,
+._720kb-datepicker-calendar-days-header,
+._720kb-datepicker-calendar-header,
+._720kb-datepicker-calendar-years-pagination-pages,
+.datepicker,[datepicker],datepicker {
+  font-family: 'Open sans', sans-serif;
+}
+
+._720kb-datepicker-calendar-header:nth-child(odd),
+._720kb-datepicker-calendar-header:nth-child(even){
+  background: #fc6c7f;
+}
+
+._720kb-datepicker-calendar-days-header {
+  background: rgba(250,142,142,.08);
 }

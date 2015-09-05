@@ -74,6 +74,7 @@ $ninja-height:       $ninja-width;
   }
 
   &__level,
+  &__daysLeft,
   &__comments {
     position: absolute;
     top: 15px;
@@ -82,6 +83,15 @@ $ninja-height:       $ninja-width;
     font-style: normal;
     font-weight: 600;
     color: darken($card-default-bg, 20%);
+  }
+
+  &__daysLeft {
+    top: auto;
+    left: auto;
+    bottom: 5px;
+    right: 5px;
+    width: 100%;
+    color: darken($card-default-bg, 40%);
   }
 
   &__comments {
@@ -114,6 +124,7 @@ $ninja-height:       $ninja-width;
     box-shadow: 0 3px 0 0 darken($card-achieved-bg, 20%);
 
     .card__level,
+    .card__daysLeft,
     .card__comments {
       color: darken($card-achieved-bg, 20%);
     }
@@ -212,7 +223,8 @@ $ninja-height:       $ninja-width;
       }
     }
 
-    .card__level {
+    .card__level,
+    .card__daysLeft {
       background: $card-default-bg;
       top: auto;
       bottom: 0;
@@ -227,6 +239,10 @@ $ninja-height:       $ninja-width;
     .card__icon {
       display: none;
     }
+  }
+
+  &--quick {
+    height: $card-height + 40px;
   }
 
   &--template {

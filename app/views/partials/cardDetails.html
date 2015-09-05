@@ -10,6 +10,14 @@
     <figcaption class="achievement__name">{{ card.type }}</figcaption>
   </figure>
 
+  <div class="achievement__due-date">
+    Due date:
+    <datepicker date-format="d MMM yyyy">
+      <input ng-model="card.dueDate" ng-disabled="!canSetDueDate" ng-class="{ disabled: !canSetDueDate }" type="text"/>
+    </datepicker>
+    <!--<input ui-date="dateOptions" ng-class="{ disabled: !canSetDueDate }" ng-disabled="!canSetDueDate" ng-model="card.dueDate" />-->
+  </div>
+
   <div class="achievement__steps">
     <div ng-if="card.task">
       <h3>Steps I’m taking:</h3>

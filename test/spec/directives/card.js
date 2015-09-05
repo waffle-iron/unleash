@@ -12,12 +12,47 @@ describe('Directive: unleashCard', function () {
     'task': 'Test task'
   };
 
+  beforeEach(module(function($provide) {
+    $provide.value('$window', {
+      Firebase: window.MockFirebase,
+      Date: function(date) {
+        if (date) {
+          this.valueOf = function () {
+            return +new Date(date);
+          }
+        } else {
+          this.valueOf = function () {
+            return 1442500100100; // 17 September 2015, 16:28:20
+          }
+        }
+      }
+    });
+  }));
+
   beforeEach(module('unleashApp'));
+
+  beforeEach(module(function($provide) {
+    $provide.service('cardsService', function() {
+      return {
+        getComments: function() {
+          return {
+            $loaded: function() {
+              return { // Native promises are not implemented in PhantomJS.
+                then: function() {}
+              }
+            }
+          }
+        }
+      }
+    });
+  }));
+
   beforeEach(module('views/home.html'));
   beforeEach(module('views/partials/card.html'));
 
+
   beforeEach(inject(function($rootScope, $compile) {
-    element = angular.element('<div data-card="card" unleash-card></div>');
+    element = angular.element('<div data-card="card" unleash-card view="public" card-owner-id="1" ></div>');
 
     outerScope = $rootScope;
 
@@ -74,4 +109,20 @@ describe('Directive: unleashCard', function () {
       expect(element[0].className.indexOf('card--is-achieved')).to.be.least(0);
     });
   });
+
+  describe('card helper function', function() {
+    it('should calculate the number of days left', function() {
+      expect(element.isolateScope().daysLeft('21 September 2015 2:20')).to.equal(3);
+    });
+
+    it('should display zero when the achievement is overdue', function() {
+      expect(element.isolateScope().daysLeft('16 September 2015 2:20')).to.equal(0);
+    });
+
+    it('should display a message when no due date is specified', function() {
+      expect(element.isolateScope().daysLeft('')).to.equal('no due date');
+    });
+  });
+
+
 });

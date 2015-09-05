@@ -143,3 +143,12 @@ main {
     text-shadow: 1px 1px 0 rgba(255, 255, 255, .5);
   }
 }
+
+/*
+ * jQuery-ui specific
+ */
+
+.hasDatepicker {
+  position: relative;
+  z-index: 10;
+}
