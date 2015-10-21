@@ -85,7 +85,7 @@ angular.module('unleashApp')
           })
             .then(function () {
               // Notify Card Owner if someone else made a comment
-              if (data.cardOwner.name !== currentUser) {
+              if (data.cardOwner.name !== data.author) {
                 return mailService.notifyCardOwner(data);
               }
             })
@@ -125,6 +125,27 @@ angular.module('unleashApp')
             author: data.author,
             timestamp: $window.Firebase.ServerValue.TIMESTAMP
           })
+            .then(function () {
+              var allReplies = replies
+                .map(function(x) { return x; })
+                .sort(function(a, b) {
+                  a.timestamp - b.timestamp;
+                });
+
+              if ( allReplies.length > 1 ) {
+                var previousAuthor = allReplies[ allReplies.length - 2 ].author;
+
+                return userService.getUserUid( previousAuthor );
+              }
+            })
+            .then(userService.getUserDetails)
+            .then(function(previousAuthor) {
+              previousAuthor.name = previousAuthor.username;
+
+              if ( previousAuthor.name !== data.author ) {
+                mailPromises.push( mailService.notifyReplyAuthor(data, previousAuthor));
+              }
+            })
             .then(function () {
               return $q.all(mailPromises);
             })

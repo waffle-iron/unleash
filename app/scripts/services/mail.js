@@ -65,7 +65,7 @@ angular.module('unleashApp')
         );
       },
       notifyCardOwnerReply: function (data) {
-        return sendEmail(data.cardOwner.name,
+        return sendEmail(data.cardOwner,
           'Someone has posted a comment',
           [
             '<h1>Hello, ' + data.cardOwner.name + '</h1>',
@@ -81,6 +81,17 @@ angular.module('unleashApp')
           [
             '<h1>Hello, ' + data.parent.author.name + '</h1>',
             '<p>' + data.author + ' just replied to your "' + data.cardType + '" step comment:</p>',
+            '<p>' + data.message + '</p>',
+            '<p><a href="' + cardUrl(data) + '">Click here</a> to visit your Path!</p>'
+          ].join('')
+        );
+      },
+      notifyReplyAuthor: function (data, previousAuthor) {
+        return sendEmail(previousAuthor,
+          'Someone has replied to your comment',
+          [
+            '<h1>Hello, ' + previousAuthor.name + '</h1>',
+            '<p>' + data.author + ' just replied to your reply to the "' + data.cardType + '" step comment:</p>',
             '<p>' + data.message + '</p>',
             '<p><a href="' + cardUrl(data) + '">Click here</a> to visit your Path!</p>'
           ].join('')
