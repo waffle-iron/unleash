@@ -126,14 +126,8 @@ angular.module('unleashApp')
             timestamp: $window.Firebase.ServerValue.TIMESTAMP
           })
             .then(function () {
-              var allReplies = replies
-                .map(function(x) { return x; })
-                .sort(function(a, b) {
-                  a.timestamp - b.timestamp;
-                });
-
-              if ( allReplies.length > 1 ) {
-                var previousAuthor = allReplies[ allReplies.length - 2 ].author;
+              if ( replies.length > 1 ) {
+                var previousAuthor = replies[ replies.length - 2 ].author;
 
                 return userService.getUserUid( previousAuthor );
               }
