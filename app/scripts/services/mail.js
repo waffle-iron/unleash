@@ -54,48 +54,44 @@ angular.module('unleashApp')
 
     return {
       notifyCardOwner: function (data) {
-        return sendEmail(data.cardOwner,
-          'Someone has posted a comment',
-          [
-            '<h1>Hello, ' + data.cardOwner.name + '</h1>',
-            '<p>' + data.author + ' just commented your "' + data.cardType + '" step:</p>',
-            '<p>' + data.message + '</p>',
-            '<p><a href="' + cardUrl(data) + '">Click here</a> to visit your Path!</p>'
-          ].join('')
-        );
+        var messageBody = [
+          '<h1>Hello, ' + data.cardOwner.name + '</h1>',
+          '<p>' + data.author + ' just commented your "' + data.cardType + '" step:</p>',
+          '<p>' + data.message + '</p>',
+          '<p><a href="' + cardUrl(data) + '">Visit your Path</a> to read the full conversation!</p>'
+        ].join('');
+
+        return sendEmail(data.cardOwner, 'Someone has posted a comment', messageBody);
       },
       notifyCardOwnerReply: function (data) {
-        return sendEmail(data.cardOwner,
-          'Someone has posted a comment',
-          [
-            '<h1>Hello, ' + data.cardOwner.name + '</h1>',
-            '<p>' + data.author + ' just replied to the comment on your "' + data.cardType + '" step:</p>',
-            '<p>' + data.message + '</p>',
-            '<p><a href="' + cardUrl(data) + '">Click here</a> to visit your Path!</p>'
-          ].join('')
-        );
+        var messagebody = [
+          '<h1>Hello, ' + data.cardOwner.name + '</h1>',
+          '<p>' + data.author + ' just replied to the comment on your "' + data.cardType + '" step:</p>',
+          '<p>' + data.message + '</p>',
+          '<p><a href="' + cardUrl(data) + '">Visit your Path</a> to read the full conversation!</p>'
+        ].join('');
+
+        return sendEmail(data.cardOwner, 'Someone has posted a comment', messagebody);
       },
       notifyCommentAuthor: function (data) {
-        return sendEmail(data.parent.author,
-          'Someone has replied to your comment',
-          [
-            '<h1>Hello, ' + data.parent.author.name + '</h1>',
-            '<p>' + data.author + ' just replied to your "' + data.cardType + '" step comment:</p>',
-            '<p>' + data.message + '</p>',
-            '<p><a href="' + cardUrl(data) + '">Click here</a> to visit your Path!</p>'
-          ].join('')
-        );
+        var messageBody = [
+          '<h1>Hello, ' + data.parent.author.name + '</h1>',
+          '<p>' + data.author + ' just replied to your "' + data.cardType + '" step comment:</p>',
+          '<p>' + data.message + '</p>',
+          '<p><a href="' + cardUrl(data) + '">Visit your Path</a> to read the full conversation!</p>'
+        ].join('');
+
+        return sendEmail(data.parent.author, 'Someone has replied to your comment', messageBody);
       },
       notifyReplyAuthor: function (data, previousAuthor) {
-        return sendEmail(previousAuthor,
-          'Someone has replied to your comment',
-          [
-            '<h1>Hello, ' + previousAuthor.name + '</h1>',
-            '<p>' + data.author + ' just replied to your reply to the "' + data.cardType + '" step comment:</p>',
-            '<p>' + data.message + '</p>',
-            '<p><a href="' + cardUrl(data) + '">Click here</a> to visit your Path!</p>'
-          ].join('')
-        );
+        var messageBody = [
+          '<h1>Hello, ' + previousAuthor.name + '</h1>',
+          '<p>' + data.author + ' just replied to your reply to the "' + data.cardType + '" step comment:</p>',
+          '<p>' + data.message + '</p>',
+          '<p><a href="' + cardUrl(data) + '">Visit your Path</a> to read the full conversation!</p>'
+        ].join('');
+
+        return sendEmail(previousAuthor, 'Someone has replied to your comment', messageBody);
       }
     };
   });
