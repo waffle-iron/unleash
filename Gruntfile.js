@@ -22,7 +22,8 @@ module.exports = function (grunt) {
     app: require('./bower.json').appPath || 'app',
     dist: 'dist',
     env: process.env.UNLEASH_ENV,
-    mail: process.env.MANDRILL_KEY
+    mail: process.env.MANDRILL_KEY,
+    slack: process.env.BOT_URL
   };
 
   // Define the configuration for all the tasks
@@ -42,6 +43,10 @@ module.exports = function (grunt) {
             {
               match: 'MANDRILL_KEY',
               replacement: '<%= unleash.mail %>'
+            },
+            {
+              match: 'BOT_URL',
+              replacement: '<%= unleash.slack %>'
             }
           ]
         },
