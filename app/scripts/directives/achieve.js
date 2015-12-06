@@ -7,9 +7,11 @@
  * # Renders the button for toggling achieved state in the card
  */
 angular.module('unleashApp')
-  .directive('unleashAchieve', function (cardsService) {
+  .directive('unleashAchieve', function (cardsService, slackService) {
     return {
       link: function postLink(scope, element) {
+        scope.slackNotification = false;
+
         /**
          * Updates text in the button basing on whether the card has been achieved already.
          * @param isAchieved
@@ -30,7 +32,17 @@ angular.module('unleashApp')
         });
 
         $button.on('click', function() {
-          cardsService.toggleAchieved(scope.card);
+          cardsService.toggleAchieved(scope.card)
+            .then(function(achieved) {
+
+              if (achieved && scope.slackNotification) {
+                slackService.notifyAchieved({
+                  cardOwner: scope.$parent.cardOwner,
+                  currentUser: scope.$parent.currentUser,
+                  card: scope.card
+                });
+              }
+            });
         });
 
       },
