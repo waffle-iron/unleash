@@ -1,48 +1,70 @@
-# #Unleash your path
+# Unleash your path
 
 A project dedicated to help X-Teamers grow and see a progress they make along the way.
 
 [![Build Status](https://travis-ci.org/x-team/unleash.svg?branch=master)](https://travis-ci.org/x-team/unleash)
 [![devDependency Status](https://david-dm.org/x-team/unleash/dev-status.svg)](https://david-dm.org/x-team/unleash#info=devDependencies)
 
+## Requirements
+
+Basically, you need to install:
+- [Docker Toolbox](https://www.docker.com/docker-toolbox)
+- [docker-machine-nfs](https://github.com/adlogix/docker-machine-nfs#install)
+
+If you're using OS X run the "Docker Quickstart Terminal" application which will create a default Virtual Machine for Docker.
+
+Once in the terminal type:
+```
+docker-machine-nfs default
+```
+This will enable NFS on your Docker default Virtual Machine.
+
+Also type:
+```
+docker-machine ip default
+```
+This will display the ip you need to add to your `/etc/hosts`
+Given `192.168.99.100` is your machines ip add a line like this to your `/etc/hosts`:
+```
+192.168.99.100 unleash.dev
+```
+
 ## Setup
 
-Make sure that you have the newest version of `Compass` in your system.
-
+In the Docker Quickstart Terminal go to the application folder and type:
 ```
-sudo gem update
-```
-
-Install required dependencies:
-
-```
-npm install && bower install
+docker-compose up
 ```
 
-Run a local server:
+Wait for Docker to build and run the application.
+
+Once the application is running and the "watch" task is in a waiting state you can access it at [http://unleash.dev](http://unleash.dev).
+
+## Running as daemon
+
+Optionally you can also run the application as a daemon. Just type:
 
 ```
-grunt serve
+docker-compose up -d
+```
+If you'd like to see if it's running properly just type
+```
+docker-compose logs
 ```
 
-Browse to the app at `http://localhost:9000`.
+## Accessing the container
+
+If you want to get into the container with running application just type:
+```
+docker-compose run web bash
+```
 
 ## Running tests
-
-### Unit
 
 Unit tests use Karma, Mocha, Chai and Sinon.JS.
 
 ```
-grunt test
-```
-
-### End to end
-
-E2E tests use Protractor, Mocha, Chai and Chai as Promised.
-
-```
-grunt test:e2e
+docker-compose run web grunt test
 ```
 
 ## Deployments
