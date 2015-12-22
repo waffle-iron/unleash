@@ -41,8 +41,14 @@ angular.module('unleashApp')
     return {
       notifyAchieved: function(data) {
         notify({
-          text: data.card.type + ' was marked as achieved by ' + data.currentUser,
-          user: data.cardOwner.name
+          text: data.card.type + 'owned by ' + data.cardOwner.name + ' was marked as achieved by ' + data.currentUser,
+          user: 'general'
+        });
+      },
+      notifyOwnerAchieved: function(data) {
+        notify({
+          text: data.currentUser + ': ' + data.message,
+          user: '@' + data.cardOwner.email
         });
       },
       notifyCardOwner: function(data) {
@@ -53,7 +59,7 @@ angular.module('unleashApp')
             data.message,
             '<' + cardUrl(data) + '|Visit your Path to read the full conversation!>'
           ].join('\n'),
-          user: data.cardOwner.name
+          user: '@' + data.cardOwner.email
         });
       },
       notifyCardOwnerReply: function(data) {
@@ -64,7 +70,7 @@ angular.module('unleashApp')
             data.message,
             '<' + cardUrl(data) + '|Visit your Path to read the full conversation!>'
           ].join('\n'),
-          user: data.cardOwner.name
+          user: '@' + data.cardOwner.email
         });
       },
       notifyCommentAuthor: function(data) {
@@ -75,7 +81,7 @@ angular.module('unleashApp')
             data.message,
             '<' + cardUrl(data) + '|Visit your Path to read the full conversation!>'
           ].join('\n'),
-          user: data.parent.author.name
+          user: '@' + data.parent.author.email
         });
       },
       notifyReplyAuthor: function(data) {
