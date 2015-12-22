@@ -11,6 +11,7 @@ angular.module('unleashApp')
     return {
       link: function postLink(scope, element) {
         scope.slackNotification = false;
+        scope.cardOwnerMessage = '';
 
         /**
          * Updates text in the button basing on whether the card has been achieved already.
@@ -41,6 +42,14 @@ angular.module('unleashApp')
                   currentUser: scope.$parent.currentUser,
                   card: scope.card
                 });
+
+                if (scope.cardOwnerMessage) {
+                  slackService.notifyOwnerAchieved({
+                    message: cardOwnerMessage,
+                    cardOwner: scope.$parent.cardOwner,
+                    currentUser: scope.$parent.currentUser
+                  });
+                }
               }
             });
         });
