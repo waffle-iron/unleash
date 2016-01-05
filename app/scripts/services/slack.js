@@ -52,7 +52,7 @@ angular.module('unleashApp')
             'Hello, ' + data.cardOwner.name,
             data.author + ' just commented your "' + data.cardType + '" step:',
             data.message,
-            '<' + cardUrl(data) + '|Visit your Path to read the full conversation!>'
+            '<' + cardUrl(data) + '|Visit the Path to read the full conversation!>'
           ].join('\n'),
           user: '@' + data.cardOwner.email
         });
@@ -63,7 +63,7 @@ angular.module('unleashApp')
             'Hello, ' + data.cardOwner.name,
             data.author + ' just replied to the comment on your "' + data.cardType + '" step:',
             data.message,
-            '<' + cardUrl(data) + '|Visit your Path to read the full conversation!>'
+            '<' + cardUrl(data) + '|Visit the Path to read the full conversation!>'
           ].join('\n'),
           user: '@' + data.cardOwner.email
         });
@@ -72,15 +72,23 @@ angular.module('unleashApp')
         notify({
           text: [
             'Hello, ' + data.parent.author.name,
-            data.author + ' just replied to the comment on your "' + data.cardType + '" step:',
+            data.author + ' just replied to your comment on the "' + data.cardType + '" step:',
             data.message,
-            '<' + cardUrl(data) + '|Visit your Path to read the full conversation!>'
+            '<' + cardUrl(data) + '|Visit the Path to read the full conversation!>'
           ].join('\n'),
           user: '@' + data.parent.author.email
         });
       },
-      notifyReplyAuthor: function(data) {
-
+      notifyReplyAuthor: function(data, previousAuthor) {
+        notify({
+          text: [
+            'Hello, ' + previousAuthor.name,
+            data.author + ' just replied to your reply to the comment on the "' + data.cardType + '" step:',
+            data.message,
+            '<' + cardUrl(data) + '|Visit the Path to read the full conversation!>'
+          ].join('\n'),
+          user: '@' + previousAuthor.email
+        });
       }
     };
   });
