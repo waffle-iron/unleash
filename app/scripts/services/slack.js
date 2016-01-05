@@ -41,14 +41,9 @@ angular.module('unleashApp')
     return {
       notifyAchieved: function(data) {
         notify({
-          text: data.card.type + 'owned by ' + data.cardOwner.name + ' was marked as achieved by ' + data.currentUser,
+          text: data.card.type + 'owned by ' + data.cardOwner.name + ' was marked as achieved by ' + data.currentUser +
+          (data.additionalMessage ? ('\n' + data.additionalMessage) : ''),
           user: 'general'
-        });
-      },
-      notifyOwnerAchieved: function(data) {
-        notify({
-          text: data.currentUser + ': ' + data.message,
-          user: '@' + data.cardOwner.email
         });
       },
       notifyCardOwner: function(data) {

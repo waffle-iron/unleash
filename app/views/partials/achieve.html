@@ -1,4 +1,4 @@
 <div class="achievement__toggle">
   <button></button><span ng-show="!card.achieved" ><input type="checkbox" ng-model="slackNotification" />Notify on Slack</span>
-  <div ng-show="slackNotification && !card.achieved"><p>Message to card owner(optional):</p><textarea ng-model="cardOwnerMessage"></textarea></div>
+  <div ng-show="slackNotification && !card.achieved"><p>Additional message(optional):</p><textarea ng-model="additionalMessage"></textarea></div>
 </div>
