@@ -82,6 +82,16 @@ $reply-indent:          4em;
     position: relative;
     clear: both;
     margin: 0 0 2em;
+
+    button {
+      background: #eee;
+      border: 1px solid #ccc;
+      cursor: pointer;
+      font-size: 0.875em;
+      line-height: 1.4;
+      padding: 6px 5px 5px;
+      position: relative;
+    }
   }
 
   &__desc,

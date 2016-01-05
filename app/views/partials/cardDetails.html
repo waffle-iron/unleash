@@ -43,13 +43,13 @@
 
     <form ng-repeat-end class="reply__form" ng-if="currentUserId" ng-show="showReplyForm">
       <input placeholder="Add a reply…" ng-model="newReply">
-      <button ng-click="addReply(message, newReply); newReply = null;">reply</button>
+      <button ng-click="addReply(message, newReply); newReply = null;">Reply</button>
     </form>
 
   </div>
 
   <form class="achievement__form" ng-if="currentUserId">
     <input placeholder="Add a comment…" ng-model="newMessage">
-    <button type="submit" ng-click="addMessage(newMessage);newMessage = null;">send</button>
+    <button type="submit" ng-click="addMessage(newMessage);newMessage = null;">Send</button>
   </form>
 </section>
