@@ -40,7 +40,7 @@ Wait for Docker to build and run the application.
 
 Once the application is running and the "watch" task is in a waiting state you can access it at [http://unleash.dev](http://unleash.dev).
 
-## Running as daemon
+### Running as daemon
 
 Optionally you can also run the application as a daemon. Just type:
 
@@ -52,7 +52,7 @@ If you'd like to see if it's running properly just type
 docker-compose logs
 ```
 
-## Accessing the container
+### Accessing the container
 
 If you want to get into the container with running application just type:
 ```
