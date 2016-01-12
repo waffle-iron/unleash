@@ -37,6 +37,7 @@
     "karma": "^0.12.28",
     "karma-mocha": "^0.1.10",
     "karma-ng-html2js-preprocessor": "^0.1.2",
+    "phantomjs": "1.9.19",
     "karma-phantomjs-launcher": "^0.1.4",
     "karma-sinon-chai": "^0.3.0",
     "load-grunt-tasks": "^3.0.0",
@@ -49,6 +50,8 @@
   },
   "scripts": {
     "postinstall": "./node_modules/protractor/bin/webdriver-manager update",
+    "prestart": "npm install && bower install --allow-root",
+    "start": "grunt serve",
     "test": "grunt test"
   }
 }
