@@ -7,8 +7,9 @@ RUN gem install sass --version "=3.4.8"
 RUN gem install compass --version "=1.0.1"
 RUN npm install -g bower grunt-cli
 
-ADD . /var/www/unleash
-
 WORKDIR /var/www/unleash
+
+ADD . /var/www/unleash
+RUN npm install && bower install --allow-root
 
 CMD npm start
