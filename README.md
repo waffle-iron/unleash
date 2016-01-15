@@ -31,12 +31,21 @@ Given `192.168.99.100` is your machines ip add a line like this to your `/etc/ho
 
 ## Setup
 
+### Install dependencies
+
+In order to install node & bower dependencies run the command (it might take a while but it's one-time only):
+```
+docker-compose run web npm install && bower install --allow-root
+```
+
+### Running
+
 In the Docker Quickstart Terminal go to the application folder and type:
 ```
 docker-compose up
 ```
 
-Wait for Docker to build and run the application.
+Wait for Docker to run the application.
 
 Once the application is running and the "watch" task is in a waiting state you can access it at [http://unleash.dev](http://unleash.dev).
 
