@@ -76,6 +76,16 @@ Unit tests use Karma, Mocha, Chai and Sinon.JS.
 docker-compose run web grunt test
 ```
 
+## Running the dist version
+
+In order to create the dist version run
+
+```
+docker-compose run web grunt build
+```
+
+Then start the containers with `docker-compose up` and you can access the dist version on port `81` [http://unleash.dev:81](http://unleash.dev:81)
+
 ## Deployments
 
 The project is beying deployed to 2 environments:
