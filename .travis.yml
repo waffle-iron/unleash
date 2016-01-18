@@ -1,4 +1,7 @@
+sudo: required
 language: node_js
+services:
+  - docker
 node_js:
   - '0.10'
 before_script:
@@ -6,3 +9,14 @@ before_script:
   - 'bower install'
   - 'gem install sass --version "=3.4.8"'
   - 'gem install compass --version "=1.0.1"'
+deploy:
+  - provider: script
+    skip_cleanup: true
+    script: ./deploy.sh latest
+    on:
+      branch: master
+  - provider: script
+    skip_cleanup: true
+    script: ./deploy.sh staging
+    on:
+      branch: develop
