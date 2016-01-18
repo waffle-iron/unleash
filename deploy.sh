@@ -1,4 +1,6 @@
 #! /bin/bash
+set -ev
+
 TAG=$1
 if [ "$TRAVIS_BRANCH" == 'develop' ]; then
     export UNLEASH_ENV='staging'
