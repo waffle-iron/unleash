@@ -1,7 +1,13 @@
 web:
-  build: .
+  build: docker/
   ports:
     - "80:9000"
     - "35729:35729"
   volumes:
     - .:/var/www/unleash
+dist:
+  image: nginx:1.9
+  volumes:
+    - ./dist:/usr/share/nginx/html
+  ports:
+    - "81:80"
