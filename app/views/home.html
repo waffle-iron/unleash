@@ -3,20 +3,6 @@
   <h3 class="secondary">“Wherever you are, the path is in front of you.”</h3>
 </header>
 
-<section ng-if="user.isAdmin" class="admin-intro animate-if">
-  <h2>Hi, {{ user.username }}!</h2>
-
-  <p>You’ve been granted with the following admin rights:</p>
-
-  <ul>
-    <li>editing templates,</li>
-    <li>editing user paths,</li>
-    <li>marking cards as achieved.</li>
-  </ul>
-
-  <p>Have fun!</p>
-</section>
-
 <section ng-if="user" class="animate-if">
   <h2 class="structural">List of paths:</h2>
 
