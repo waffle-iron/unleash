@@ -9,5 +9,6 @@ dist:
   image: nginx:1.9
   volumes:
     - ./dist:/usr/share/nginx/html
+    - ./docker/vhost.conf:/etc/nginx/conf.d/default.conf
   ports:
     - "81:80"
