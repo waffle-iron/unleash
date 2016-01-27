@@ -1,5 +1,7 @@
 <h2 ng-if="!initializing && pathNotFound">User not found!</h2>
 
+<span ng-if="initializing" class="initializing-spinner icon-spinner8"></span>
+
 <div class="toggle-edit-action animate-if" ng-if="user.isAdmin && !initializing && !pathNotFound">
   <a ng-href="/paths/{{ params.userId }}/edit" ng-cloak>Edit this path</a>
 </div>
