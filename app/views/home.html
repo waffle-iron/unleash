@@ -6,6 +6,8 @@
 <section ng-if="user" class="animate-if">
   <h2 class="structural">List of paths:</h2>
 
+  <span ng-show="!allUsers.length" class="initializing-spinner icon-spinner8"></span>
+
   <ul class="paths-list" ng-show="allUsers.length">
     <li ng-repeat="user in allUsers">
       <a ng-href="/paths/{{ user.username }}">
