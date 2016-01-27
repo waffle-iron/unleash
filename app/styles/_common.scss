@@ -104,14 +104,14 @@ main {
 }
 
 .initializing-spinner {
-    @include spin();
-    position: absolute;
-    left: 0;
-    top: 130px;
-    width: 100%;
-    text-align: center;
-    font-size: 80px;
-    color: #29cb93;
+  @include spin();
+  position: absolute;
+  left: 0;
+  top: 130px;
+  width: 100%;
+  text-align: center;
+  font-size: 80px;
+  color: #29cb93;
 }
 
 /*
