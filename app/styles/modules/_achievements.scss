@@ -3,7 +3,7 @@
  */
 $menu-width:            30%;
 $comment-border-color:  #f1f1f2;
-$reply-indent:          4em;
+$reply-indent:          56px;
 
 /*
  * Main styles
@@ -102,10 +102,12 @@ $reply-indent:          4em;
   &__comments {
     max-height: 53vh;
     overflow-y: auto;
+    margin-top: 10px;
+    padding-right: 10px;
 
     h3 {
       font-size: 16px;
-      margin: 2em 0 1em;
+      margin: 1em 0;
       font-weight: bold;
     }
   }
@@ -178,7 +180,8 @@ $reply-indent:          4em;
 
   &__form {
     font-size: 14px;
-    padding: 0 0 1.5em $reply-indent;
+    padding: 0 0 1.5em 0;
+    padding-left: $reply-indent - 5px;
 
     input {
       width: 80%;
@@ -203,7 +206,8 @@ $reply-indent:          4em;
     display: block;
     font-size: 0.875em;
     line-height: 1.4;
-    margin: 0 0 1.5em $reply-indent;
+    margin: 0 0 1.5em 0;
+    margin-left: $reply-indent - 5px;
     padding: 6px 5px 5px;
   }
 }
