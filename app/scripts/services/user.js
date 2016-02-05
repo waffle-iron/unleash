@@ -149,6 +149,7 @@ angular.module('unleashApp')
             if (Object.keys(storedUsers) && storedUsers[uid]) {
               deferred.resolve({
                 username: storedUsers[uid].username,
+                email: storedUsers[uid].google.email,
                 /*jshint camelcase: false */
                 isAdmin: storedUsers[uid].is_admin
                 /*jshint camelcase: true */

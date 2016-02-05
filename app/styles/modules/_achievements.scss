@@ -3,6 +3,7 @@
  */
 $menu-width:            30%;
 $comment-border-color:  #f1f1f2;
+$reply-indent:          56px;
 
 /*
  * Main styles
@@ -81,6 +82,16 @@ $comment-border-color:  #f1f1f2;
     position: relative;
     clear: both;
     margin: 0 0 2em;
+
+    button {
+      background: #eee;
+      border: 1px solid #ccc;
+      cursor: pointer;
+      font-size: 0.875em;
+      line-height: 1.4;
+      padding: 6px 5px 5px;
+      position: relative;
+    }
   }
 
   &__desc,
@@ -91,10 +102,12 @@ $comment-border-color:  #f1f1f2;
   &__comments {
     max-height: 53vh;
     overflow-y: auto;
+    margin-top: 10px;
+    padding-right: 10px;
 
     h3 {
       font-size: 16px;
-      margin: 2em 0 1em;
+      margin: 1em 0;
       font-weight: bold;
     }
   }
@@ -120,7 +133,7 @@ $comment-border-color:  #f1f1f2;
   }
 }
 
-.comment {
+.comment, .reply {
   padding: 2em 0;
   border-top: 1px solid $comment-border-color;
 
@@ -159,5 +172,42 @@ $comment-border-color:  #f1f1f2;
 
   &__body {
     margin: 0;
+  }
+}
+
+.reply {
+  padding-left: $reply-indent;
+
+  &__form {
+    font-size: 14px;
+    padding: 0 0 1.5em 0;
+    padding-left: $reply-indent - 5px;
+
+    input {
+      width: 80%;
+      padding: 5px;
+      line-height: 1.4;
+    }
+
+    button {
+      background: #eee;
+      border: 1px solid #ccc;
+      float: right;
+      line-height: 1.4;
+      width: 18%;
+      padding: 6px 5px 5px;
+    }
+  }
+
+  &__toggle {
+    background: #eee;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    display: block;
+    font-size: 0.875em;
+    line-height: 1.4;
+    margin: 0 0 1.5em 0;
+    margin-left: $reply-indent - 5px;
+    padding: 6px 5px 5px;
   }
 }
