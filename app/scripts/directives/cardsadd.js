@@ -8,10 +8,10 @@
 angular.module('unleashApp')
   .directive('unleashCardsAdd', function (cardsService) {
 
-    var add = function(scope, card, eq) {
+    var add = function(scope, card) {
       cardsService.add(card).then(function() {
         scope.newCards.splice(scope.newCards.indexOf(card), 1);
-      }, function(error) {
+      }, function() {
         delete card.order;
       });
     };
@@ -22,12 +22,12 @@ angular.module('unleashApp')
 
     var create = function(scope) {
       scope.newCards.push({});
-    }
+    };
 
     return {
       templateUrl: 'views/partials/cardsAdd.html',
       scope: true,
-      link: function postLink(scope, element, attrs) {
+      link: function postLink(scope) {
         scope.newCards = [];
 
         scope.add = function(card) {

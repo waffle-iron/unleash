@@ -18,15 +18,6 @@ angular.module('unleashApp')
     };
 
     /**
-     * Check if given card already exists in user cards
-     * @param data Card object
-     * @returns {boolean}
-     */
-    var isCardIsAlreadyAdded = function(data) {
-      return _.find(cards, { type: data.type, level: data.level }) ? true : false;
-    };
-
-    /**
      * Marks all comments in a given cards as read and removes them from users’ newComments object
      * @param {Object} card
      * @param {Object} newComments
