@@ -91,14 +91,14 @@ angular.module('unleashApp')
 
     $scope.toggleCards = function() {
       $scope.showTemplates = !$scope.showTemplates;
-    }
+    };
 
     $scope.controlTemplates = function() {
       var top =  $scope.bookmarkTop - $window.innerHeight / 2;
       return {
           freeze: ($window.scrollY || $document[0].body.scrollTop) > top,
           freezeTop: top
-        }
+      };
     };
 
     $scope.controlCards = function() {
@@ -107,6 +107,6 @@ angular.module('unleashApp')
         freeze: ($window.scrollY || $document[0].body.scrollTop) < top,
         tetherMode: true,
         tetherTop: top
-      }
-    }
+      };
+    };
   });
