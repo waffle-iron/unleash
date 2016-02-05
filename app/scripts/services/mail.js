@@ -20,6 +20,7 @@ angular.module('unleashApp')
           key: MAIL_CONFIG.key,
           message: {
             'from_email': 'no-reply@x-team.com',
+            'from_name': 'Unleash Your Path!',
             autotext: 'true',
             subject: subject,
             html: content,
