@@ -23,3 +23,8 @@ deploy:
     script: ./deploy.sh staging
     on:
       branch: develop
+  - provider: script
+    skip_cleanup: true
+    script: ./deploy.sh qa
+    on:
+      branch: qa
