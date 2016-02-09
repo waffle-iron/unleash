@@ -125,7 +125,7 @@ angular.module('unleashApp')
       });
 
       $scope.$watch(function() {
-        return $scope.card.dueDate
+        return $scope.card.dueDate;
       }, function(newVal, oldVal) {
         if (newVal && newVal !== oldVal) {
           cardsService.updateDueDate($scope.cardId, $scope.card.dueDate);

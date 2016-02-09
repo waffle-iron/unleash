@@ -44,7 +44,7 @@ angular.module('unleashApp')
               now = +new $window.Date();
 
           return Math.floor(Math.max(0, (dueDate - now) / (24 * 3600 * 1000) ));
-        }
+        };
       }
     };
 
