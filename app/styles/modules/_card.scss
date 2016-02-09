@@ -85,18 +85,23 @@ $ninja-height:       $ninja-width;
     color: darken($card-default-bg, 20%);
   }
 
-  &__daysLeft {
+  &__comments {
     top: auto;
     left: auto;
-    bottom: 5px;
-    right: 5px;
-    width: 100%;
+    bottom: 10px;
+    right: 10px;
+    width: 20%;
     color: darken($card-default-bg, 40%);
   }
 
-  &__comments {
+  &__daysLeft {
     top: auto;
-    bottom: 15px;
+    left: 10px;
+    bottom: 10px;
+    right: auto;
+    width: 50%;
+    color: darken($card-default-bg, 40%);
+    text-align: left;
   }
 
   &.dragging {

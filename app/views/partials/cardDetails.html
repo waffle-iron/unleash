@@ -15,12 +15,11 @@
     <datepicker date-format="d MMM yyyy">
       <input ng-model="card.dueDate" ng-disabled="!canSetDueDate" ng-class="{ disabled: !canSetDueDate }" type="text"/>
     </datepicker>
-    <!--<input ui-date="dateOptions" ng-class="{ disabled: !canSetDueDate }" ng-disabled="!canSetDueDate" ng-model="card.dueDate" />-->
   </div>
 
   <div class="achievement__steps">
     <div ng-if="card.task">
-      <h3>Steps I’m taking:</h3>
+      <h3>&nbsp;</h3>
       <p ng-bind-html="card.task | linky:'_blank'"></p>
     </div>
     <p ng-if="!card.task">No card description set.</p>

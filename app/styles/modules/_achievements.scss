@@ -4,6 +4,7 @@
 $menu-width:            30%;
 $comment-border-color:  #f1f1f2;
 $reply-indent:          56px;
+$achievement-bg:        rgb(41, 203, 147);
 
 /*
  * Main styles
@@ -86,14 +87,16 @@ $reply-indent:          56px;
   }
 
   &__toggle {
+
     display: block;
     position: relative;
     clear: both;
     margin: 0 0 2em;
 
     button {
-      background: #eee;
-      border: 1px solid #ccc;
+      background: $achievement-bg;
+      border: 2px outset $achievement-bg;
+      color: white;
       cursor: pointer;
       font-size: 0.875em;
       line-height: 1.4;
