@@ -143,3 +143,20 @@ main {
     text-shadow: 1px 1px 0 rgba(255, 255, 255, .5);
   }
 }
+
+._720kb-datepicker-calendar-body,
+._720kb-datepicker-calendar-days-header,
+._720kb-datepicker-calendar-header,
+._720kb-datepicker-calendar-years-pagination-pages,
+.datepicker,[datepicker],datepicker {
+  font-family: 'Open sans', sans-serif;
+}
+
+._720kb-datepicker-calendar-header:nth-child(odd),
+._720kb-datepicker-calendar-header:nth-child(even){
+  background: #fc6c7f;
+}
+
+._720kb-datepicker-calendar-days-header {
+  background: rgba(250,142,142,.08);
+}

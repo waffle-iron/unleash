@@ -49,6 +49,8 @@ angular.module('unleashApp')
         if($rootScope.user.isAdmin) {
           addAchievedButton($scope);
         }
+
+        $scope.canSetDueDate = !!($scope.cardOwnerId === $scope.currentUserId || $rootScope.user.isAdmin);
       }).catch(function() {
         growl.error('Sorry, this card doesn’t exist.');
       });
@@ -115,6 +117,14 @@ angular.module('unleashApp')
 
       $scope.$on('$routeChangeStart', function() {
         closeSidebar();
+      });
+
+      $scope.$watch(function() {
+        return $scope.card.dueDate;
+      }, function(newVal, oldVal) {
+        if (newVal && newVal !== oldVal) {
+          cardsService.updateDueDate($scope.cardId, $scope.card.dueDate);
+        }
       });
     };
 

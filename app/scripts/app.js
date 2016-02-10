@@ -20,7 +20,8 @@ angular.module('unleashApp', [
     'relativeDate',
     'angular-growl',
     'firebase',
-    'firebase.utils'
+    'firebase.utils',
+    '720kb.datepicker'
   ])
 
 .config(function($sceDelegateProvider) {

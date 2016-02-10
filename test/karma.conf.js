@@ -35,6 +35,7 @@ module.exports = function(config) {
       'bower_components/angular-growl-2/build/angular-growl.js',
       'bower_components/mockfirebase/browser/mockfirebase.js',
       'bower_components/angular-drag-and-drop-lists/angular-drag-and-drop-lists.js',
+      'bower_components/angularjs-datepicker/dist/angular-datepicker.min.js',
       'app/scripts/**/*.js',
       'test/mock/**/*.js',
       'test/spec/**/*.js',

@@ -23,6 +23,12 @@ $path-bg-color: #f1f2f2;
     text-align: center;
     overflow: hidden;
   }
+
+  input.disabled {
+    background: transparent;
+    border: none;
+    color: inherit;
+  }
 }
 
 .single-path {

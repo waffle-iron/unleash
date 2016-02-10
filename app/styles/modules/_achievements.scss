@@ -4,6 +4,7 @@
 $menu-width:            30%;
 $comment-border-color:  #f1f1f2;
 $reply-indent:          56px;
+$achievement-bg:        #29cb93;
 
 /*
  * Main styles
@@ -63,16 +64,19 @@ $reply-indent:          56px;
     cursor: pointer;
   }
 
-  &__steps {
+  &__due-date {
     h3 {
-      margin: 0 0 10px;
-      font-size: inherit;
-      font-weight: normal;
+      margin-bottom: 1em;
     }
 
+    .ng-invalid {
+      background: red;
+    }
+  }
+
+  &__steps {
     p {
-      margin: 0;
-      display: inline;
+      margin: 3em 0 0 0;
       line-height: 22px;
     }
   }
@@ -84,8 +88,9 @@ $reply-indent:          56px;
     margin: 0 0 2em;
 
     button {
-      background: #eee;
-      border: 1px solid #ccc;
+      background: $achievement-bg;
+      border: 2px outset $achievement-bg;
+      color: white;
       cursor: pointer;
       font-size: 0.875em;
       line-height: 1.4;
