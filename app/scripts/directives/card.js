@@ -40,8 +40,8 @@ angular.module('unleashApp')
             return 'no due date';
           }
 
-          var dueDate = +new $window.Date(date), // Mockable instantiation
-              now = +new $window.Date();
+          var dueDate = new $window.Date(date).getTime(), // Mockable instantiation
+              now = $window.Date.now();
 
           return Math.floor(Math.max(0, (dueDate - now) / (24 * 3600 * 1000) ));
         };

@@ -50,12 +50,7 @@ angular.module('unleashApp')
           addAchievedButton($scope);
         }
 
-        if($scope.cardOwnerId === $scope.currentUserId ||
-           $rootScope.user.isAdmin) {
-          $scope.canSetDueDate = true;
-        } else {
-          $scope.canSetDueDate = false;
-        }
+        $scope.canSetDueDate = !!($scope.cardOwnerId === $scope.currentUserId || $rootScope.user.isAdmin);
       }).catch(function() {
         growl.error('Sorry, this card doesn’t exist.');
       });
