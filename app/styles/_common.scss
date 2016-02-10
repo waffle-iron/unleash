@@ -144,11 +144,19 @@ main {
   }
 }
 
-/*
- * jQuery-ui specific
- */
+._720kb-datepicker-calendar-body,
+._720kb-datepicker-calendar-days-header,
+._720kb-datepicker-calendar-header,
+._720kb-datepicker-calendar-years-pagination-pages,
+.datepicker,[datepicker],datepicker {
+  font-family: 'Open sans', sans-serif;
+}
 
-.hasDatepicker {
-  position: relative;
-  z-index: 10;
+._720kb-datepicker-calendar-header:nth-child(odd),
+._720kb-datepicker-calendar-header:nth-child(even){
+  background: #fc6c7f;
+}
+
+._720kb-datepicker-calendar-days-header {
+  background: rgba(250,142,142,.08);
 }

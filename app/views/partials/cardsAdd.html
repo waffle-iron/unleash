@@ -6,7 +6,7 @@
     <div unleash-icons-modal config="add"></div>
     <textarea class="task" cols="25" rows="4" ng-model="card.task" placeholder="Task">{{ card.task }}</textarea>
     <input type="text" class="level" ng-model="card.level" placeholder="Level">
-    <input type="text" class="dueDate" ng-model="card.dueDate" placeholder="Due date" ui-date="dateOptions">
+    <input type="text" ng-model="card.dueDate" placeholder="Due date">
 
     <div class="card__controls">
       <button type="button" ng-click="add(card)">Add</button>

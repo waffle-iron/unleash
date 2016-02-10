@@ -225,7 +225,7 @@ module.exports = function (grunt) {
     wiredep: {
       app: {
         src: ['<%= unleash.app %>/index.html'],
-        exclude: [ /angular-translate/, /qunit/ ],
+        exclude: [ /angular-translate/, /qunit/, /angular-datepicker.*\.css/ ],
         ignorePath:  /\.\.\//
       },
       sass: {

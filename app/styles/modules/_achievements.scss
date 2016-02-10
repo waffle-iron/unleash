@@ -4,7 +4,7 @@
 $menu-width:            30%;
 $comment-border-color:  #f1f1f2;
 $reply-indent:          56px;
-$achievement-bg:        rgb(41, 203, 147);
+$achievement-bg:        #29cb93;
 
 /*
  * Main styles
@@ -65,7 +65,9 @@ $achievement-bg:        rgb(41, 203, 147);
   }
 
   &__due-date {
-    margin-bottom: 1em;
+    h3 {
+      margin-bottom: 1em;
+    }
 
     .ng-invalid {
       background: red;
@@ -73,21 +75,13 @@ $achievement-bg:        rgb(41, 203, 147);
   }
 
   &__steps {
-    h3 {
-      margin: 0 0 10px;
-      font-size: inherit;
-      font-weight: normal;
-    }
-
     p {
-      margin: 0;
-      display: inline;
+      margin: 3em 0 0 0;
       line-height: 22px;
     }
   }
 
   &__toggle {
-
     display: block;
     position: relative;
     clear: both;
