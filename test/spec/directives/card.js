@@ -13,19 +13,31 @@ describe('Directive: unleashCard', function () {
   };
 
   beforeEach(module(function($provide) {
-    $provide.value('$window', {
-      Firebase: window.MockFirebase,
-      Date: function(date) {
-        if (date) {
-          this.valueOf = function () {
-            return +new Date(date);
-          }
-        } else {
-          this.valueOf = function () {
-            return 1442500100100; // 17 September 2015, 16:28:20
-          }
+    var date = function(date) {
+      if (date) {
+        var internalDate = new Date(date);
+
+        this.valueOf = function () {
+          return +internalDate;
+        }
+
+        this.getTime = function() {
+          return +internalDate;
+        }
+      } else {
+        this.valueOf = function () {
+          return 1442500100100; // 17 September 2015, 16:28:20
         }
       }
+    };
+
+    date.now = function() {
+      return 1442500100100; // 17 September 2015, 16:28:20
+    }
+
+    $provide.value('$window', {
+      Firebase: window.MockFirebase,
+      Date: date
     });
   }));
 
