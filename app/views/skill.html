@@ -1,0 +1,19 @@
+<h2 class="primary">List of Resources</h2>
+
+<div>
+  <ul class="resources">
+    <li ng-repeat="resource in resources" resource="resource" unleash-resource-view></li>
+  </ul>
+</div>
+
+<section class="animate-if">
+  <h2 class="primary">List of People</h2>
+
+  <ul class="paths-list" ng-show="allUsers.length">
+    <li ng-repeat="user in allUsers">
+      <a ng-href="/paths/{{ user.username }}">
+        <unleash-person name="{{ user.google.displayName }}" thumb="{{ user.google.cachedUserProfile.picture }}"></unleash-person>
+      </a>
+    </li>
+  </ul>
+</section>

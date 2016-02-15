@@ -8,15 +8,12 @@
  * Controller of the unleashApp
  */
 angular.module('unleashApp')
-  .controller('SkillsController', function ($scope) {
-    $scope.skills = [
-      {
-        name: 'React',
-        icon: 'test'
-      },
-      {
-        name: 'Angular',
-        icon: 'test'
-      }
-    ];
+  .controller('SkillsController', function ($scope, skillService) {
+
+    skillService.list.then(function(result) {
+      $scope.skills = result;
+    });
+
+    $scope.skill = {};
+
   });

@@ -7,7 +7,7 @@
  * # unleashSkillView
  */
 angular.module('unleashApp')
-  .directive('unleashSkillView', function ($compile) {
+  .directive('unleashSkillView', function () {
     return {
       templateUrl: 'views/partials/skillView.html',
       scope: {

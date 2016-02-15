@@ -77,6 +77,17 @@ angular.module('unleashApp')
         }
       })
 
+      .when('/skills/:skillId/', {
+        templateUrl: 'views/skill.html',
+        controller: 'SkillController',
+        className: 'skill',
+        resolve: {
+          currentAuth: ['Auth', function(Auth) {
+            return Auth.$requireAuth();
+          }]
+        }
+      })
+
       .otherwise({redirectTo: '/'});
 
     $locationProvider.html5Mode(true);
