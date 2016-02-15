@@ -14,8 +14,8 @@ angular.module('unleashApp')
     var addAchievedButton = function($scope) {
       var location = angular.element('.achievement .wrapper');
 
-      var $button = angular.element('<button unleash-achieve></button>')
-        .addClass('achievement__toggle');
+      var $button = angular.element('<div unleash-achieve></div>')
+        .addClass('achievement__toggle-achieved');
 
       location.after(($compile($button)($scope)));
     };
@@ -63,8 +63,10 @@ angular.module('unleashApp')
       // Get an username of the card owner
       userService.getUserDetails($scope.cardOwnerId).then(function(data) {
         $scope.cardOwner = {
-          name: data.username,
-          email: data.email
+          email: data.email,
+          fullName: data.fullName,
+          picture: data.picture,
+          name: data.username
         };
       });
 

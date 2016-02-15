@@ -7,6 +7,19 @@ $reply-indent:          56px;
 $achievement-bg:        #29cb93;
 
 /*
+ * Mixins
+ */
+@mixin achieve-button() {
+  background: #eee;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  font-size: 0.875em;
+  line-height: 1.4;
+  margin-bottom: 1.5em;
+  padding: 6px 5px 5px;
+}
+
+/*
  * Main styles
  */
 .achievement {
@@ -62,6 +75,21 @@ $achievement-bg:        #29cb93;
     margin: 2em 0 0;
     color: $body-link-color;
     cursor: pointer;
+  }
+
+  // Toggle achieve state
+  &__toggle-achieved {
+    &__btn {
+      @include achieve-button();
+    }
+
+    &__message {
+      margin: -1.5em 0 2em;
+
+      p {
+        margin: 1em 0;
+      }
+    }
   }
 
   &__due-date {
@@ -205,14 +233,7 @@ $achievement-bg:        #29cb93;
   }
 
   &__toggle {
-    background: #eee;
-    border: 1px solid #ccc;
-    cursor: pointer;
-    display: block;
-    font-size: 0.875em;
-    line-height: 1.4;
-    margin: 0 0 1.5em 0;
+    @include achieve-button();
     margin-left: $reply-indent - 5px;
-    padding: 6px 5px 5px;
   }
 }

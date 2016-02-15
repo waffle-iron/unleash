@@ -24,6 +24,8 @@ angular.module('unleashApp')
         uid: userId,
         token: token,
         text: params.text,
+        queryString: params.queryString,
+        attachments: params.attachments,
         user: params.user
       }).success(function(data) {
         deferred.resolve(data);
@@ -39,10 +41,34 @@ angular.module('unleashApp')
     };
 
     return {
+      /*jshint camelcase: false */
       notifyAchieved: function(data) {
         notify({
-          text: data.card.type + 'owned by ' + data.cardOwner.name + ' was marked as achieved by ' + data.currentUser +
-          (data.additionalMessage ? ('\n' + data.additionalMessage) : ''),
+          text: '*' + data.cardOwner.fullName + '* has completed a goal! :sparkles:' +
+            (data.additionalMessage ? ('\n' + data.additionalMessage) : ''),
+          queryString: '/paths/' + data.cardOwner.name + '/?' + data.card.$id,
+
+          attachments: [
+            {
+              color: 'good',
+              fallback: data.cardOwner.fullName + ' has completed the ' + data.card.type + '* goal! :sparkles:',
+              title: data.card.type || '',
+              text: data.card.task || '',
+              fields: [
+                {
+                  title: 'Level',
+                  value: data.card.level || 'none',
+                  short: true
+                },
+                {
+                  title: 'Comments',
+                  value: _.size(data.card.comments) || '0',
+                  short: true
+                }
+              ],
+              thumb_url: data.cardOwner.picture
+            }
+          ],
           user: 'general'
         });
       },
@@ -90,5 +116,6 @@ angular.module('unleashApp')
           user: '@' + previousAuthor.email
         });
       }
+      /*jshint camelcase: false */
     };
   });
