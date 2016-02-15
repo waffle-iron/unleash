@@ -8,16 +8,14 @@
  * Controller of the unleashApp
  */
 angular.module('unleashApp')
-  .controller('SkillController', function ($scope) {
-    $scope.resources = [
-      {
-        url: 'http://onet.pl',
-        description: 'test 123'
+  .controller('SkillController', function ($scope, $routeParams, resourceService) {
 
-      },
-      {
-        url: 'http://wp.pl',
-        description: 'test 234'
-      }
-    ];
+    resourceService.listBySkill($routeParams.skillId).then(function(result) {
+      $scope.resources = result;
+    });
+
+    $scope.resource = {
+      skill: $routeParams.skillId
+    };
+
   });

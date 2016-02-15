@@ -62,7 +62,6 @@ angular.module('unleashApp')
           var skill = {
             'name': data.name
           };
-          console.log(skill);
 
           skillList.$add(skill).then(function () {
             defer.resolve();
