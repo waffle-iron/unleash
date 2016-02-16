@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('unleashApp')
   .directive('unleashScrollBookmark', function() {
     return {
@@ -11,5 +13,5 @@ angular.module('unleashApp')
             scope.offsetTop = newVal;
         });
       }
-    }
+    };
   });

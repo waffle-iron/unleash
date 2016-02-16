@@ -14,8 +14,8 @@ angular.module('unleashApp')
     var addAchievedButton = function($scope) {
       var location = angular.element('.achievement .wrapper');
 
-      var $button = angular.element('<button unleash-achieve></button>')
-        .addClass('achievement__toggle');
+      var $button = angular.element('<div unleash-achieve></div>')
+        .addClass('achievement__toggle-achieved');
 
       location.after(($compile($button)($scope)));
     };
@@ -49,6 +49,8 @@ angular.module('unleashApp')
         if($rootScope.user.isAdmin) {
           addAchievedButton($scope);
         }
+
+        $scope.canSetDueDate = !!($scope.cardOwnerId === $scope.currentUserId || $rootScope.user.isAdmin);
       }).catch(function() {
         growl.error('Sorry, this card doesn’t exist.');
       });
@@ -60,7 +62,12 @@ angular.module('unleashApp')
 
       // Get an username of the card owner
       userService.getUserDetails($scope.cardOwnerId).then(function(data) {
-        $scope.cardOwner = data.username;
+        $scope.cardOwner = {
+          email: data.email,
+          fullName: data.fullName,
+          picture: data.picture,
+          name: data.username
+        };
       });
 
       // Sets up comments service
@@ -75,8 +82,34 @@ angular.module('unleashApp')
       $scope.addMessage = function(message) {
         commentsService.add({
           message: message,
-          author: $scope.currentUser
+          author: $scope.currentUser,
+          cardOwner: $scope.cardOwner,
+          cardType: $scope.card.type,
+          cardId: $scope.card.$id,
         });
+      };
+
+      // Provide a method for adding a reply to a comment
+      $scope.addReply = function(message, reply) {
+        // Get email address of comment author
+        userService.getUserUid(message.author)
+          .then(userService.getUserDetails)
+          .then(function (commentAuthor) {
+            commentsService.addReply({
+              message: reply,
+              author: $scope.currentUser,
+              cardOwner: $scope.cardOwner,
+              cardType: $scope.card.type,
+              cardId: $scope.card.$id,
+              parent: {
+                id: message.$id,
+                author: {
+                  name: commentAuthor.username,
+                  email: commentAuthor.email
+                }
+              }
+            });
+          });
       };
 
       // Close sidebar
@@ -86,6 +119,14 @@ angular.module('unleashApp')
 
       $scope.$on('$routeChangeStart', function() {
         closeSidebar();
+      });
+
+      $scope.$watch(function() {
+        return $scope.card.dueDate;
+      }, function(newVal, oldVal) {
+        if (newVal && newVal !== oldVal) {
+          cardsService.updateDueDate($scope.cardId, $scope.card.dueDate);
+        }
       });
     };
 

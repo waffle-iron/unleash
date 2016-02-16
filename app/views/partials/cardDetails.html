@@ -10,9 +10,15 @@
     <figcaption class="achievement__name">{{ card.type }}</figcaption>
   </figure>
 
+  <div class="achievement__due-date">
+    <h3>Due date</h3>
+    <datepicker date-format="d MMM yyyy">
+      <input ng-model="card.dueDate" ng-disabled="!canSetDueDate" ng-class="{ disabled: !canSetDueDate }" type="text" placeholder="Due date"/>
+    </datepicker>
+  </div>
+
   <div class="achievement__steps">
     <div ng-if="card.task">
-      <h3>Steps I’m taking:</h3>
       <p ng-bind-html="card.task | linky:'_blank'"></p>
     </div>
     <p ng-if="!card.task">No card description set.</p>
@@ -21,7 +27,7 @@
   <div class="achievement__comments" ng-show="messages.length">
     <h3>Comments</h3>
 
-    <article class="comment" ng-class="{'is-owner': message.author === cardOwner}" ng-repeat="message in messages | reverse">
+    <article class="comment" ng-class="{'is-owner': message.author === cardOwner.name}" ng-repeat-start="message in messages | reverse">
       <div class="comment__meta">
         <address class="comment__author"><a ng-href="/paths/{{ message.author }}">{{ message.author }}</a></address>
         <time class="comment__time" ng-if="message.timestamp">{{ message.timestamp | relativeDate }}</time>
@@ -29,10 +35,27 @@
 
       <p class="comment__body" ng-bind-html="message.text | linky:'_blank'"></p>
     </article>
+
+    <div class="reply" ng-repeat="reply in message.replies">
+      <div class="reply__meta">
+        <address class="reply__author"><a ng-href="/paths/{{ reply.author }}">{{ reply.author }}</a></address>
+        <time class="comment__time" ng-if="reply.timestamp">{{ reply.timestamp | relativeDate }}</time>
+      </div>
+
+      <p class="reply__body" ng-bind-html="reply.text | linky:'_blank'"></p>
+    </div>
+
+    <button type="button" class="reply__toggle" ng-click="showReplyForm = !showReplyForm">Reply to this comment</button>
+
+    <form ng-repeat-end class="reply__form" ng-if="currentUserId" ng-show="showReplyForm">
+      <input placeholder="Add a reply…" ng-model="newReply">
+      <button ng-click="addReply(message, newReply); newReply = null;">Reply</button>
+    </form>
+
   </div>
 
   <form class="achievement__form" ng-if="currentUserId">
     <input placeholder="Add a comment…" ng-model="newMessage">
-    <button type="submit" ng-click="addMessage(newMessage);newMessage = null;">send</button>
+    <button type="submit" ng-click="addMessage(newMessage);newMessage = null;">Send</button>
   </form>
 </section>

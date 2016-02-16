@@ -148,6 +148,9 @@ angular.module('unleashApp')
 
             if (Object.keys(storedUsers) && storedUsers[uid]) {
               deferred.resolve({
+                email: storedUsers[uid].google.email,
+                fullName: storedUsers[uid].google.displayName,
+                picture: storedUsers[uid].google.cachedUserProfile.picture,
                 username: storedUsers[uid].username,
                 /*jshint camelcase: false */
                 isAdmin: storedUsers[uid].is_admin

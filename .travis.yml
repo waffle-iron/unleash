@@ -11,6 +11,7 @@ before_script:
   - 'gem install compass --version "=1.0.1"'
 before_deploy:
   - if [ "$TRAVIS_BRANCH" == 'master' ]; then export UNLEASH_ENV='production'; fi
+  - if [ "$TRAVIS_BRANCH" == 'master' ]; then export BOT_URL='http://bot.unleash.x-team.com'; fi
   - grunt build
 deploy:
   - provider: script
