@@ -51,7 +51,7 @@ angular.module('unleashApp', [
       }
 
       userService.getUserDetails().then(function(data) {
-        if (!data.username) {
+        if (!data.username || !$rootScope.user) {
           return;
         }
 
