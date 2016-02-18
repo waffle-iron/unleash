@@ -47,6 +47,7 @@ angular.module('unleashApp')
 
         // Add an archieved button
         if($rootScope.user.isAdmin) {
+          $scope.isCurrentUserAdmin = $rootScope.user.isAdmin;
           addAchievedButton($scope);
         }
 
