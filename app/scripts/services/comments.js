@@ -8,7 +8,7 @@
  * Factory in the unleashApp.
  */
 angular.module('unleashApp')
-  .factory('commentsService', function ($window, FBURL, $firebaseObject, $firebaseArray, $q, growl, cardsService, userService) {
+  .factory('commentsService', function ($window, FBURL, $firebaseObject, $firebaseArray, $q, growl, cardsService, userService, mailService, slackService) {
     var ref = null;
     var currentUser = null;
     var currentUserId = null;
@@ -83,10 +83,70 @@ angular.module('unleashApp')
             author: data.author,
             timestamp: $window.Firebase.ServerValue.TIMESTAMP
           })
-            .then(function(ref) {
-              if(data.author !== currentUser) {
+            .then(function () {
+              // Notify Card Owner if someone else made a comment
+              if (data.cardOwner.name !== data.author) {
+                slackService.notifyCardOwner(data);
+                return mailService.notifyCardOwner(data);
+              }
+            })
+            .finally(function () {
+              if (data.author !== currentUser) {
                 cardsService.incrementCommentCount(ref);
               }
+            })
+            // display any errors
+            .catch(growl.error);
+        }
+      },
+
+      /**
+       * Add a reply to a comment
+       * @param data Object containing a reply comment, its author, card owner and author of the parent comment
+       */
+      addReply: function(data) {
+        if (data.message) {
+          var replies = $firebaseArray(ref.child('comments').child(data.parent.id).child('replies'));
+          var mailPromises = [];
+          var slackPromises = [];
+
+          var cardOwner = data.cardOwner.name,
+              parentAuthor = data.parent.author.name; // Author of the comment, to which someone replied
+
+          // Notify Card Owner only if someone else replied. Do not send, if parentAuthor == cardOwner
+          if (data.author !== cardOwner && parentAuthor !== cardOwner) {
+            mailPromises.push( mailService.notifyCardOwnerReply(data));
+            slackPromises.push( slackService.notifyCardOwnerReply(data));
+          }
+          // Notify Comment Author if someone else replied
+          if (parentAuthor !== data.author) {
+            mailPromises.push( mailService.notifyCommentAuthor(data));
+            slackPromises.push( slackService.notifyCommentAuthor(data));
+          }
+
+          replies.$add({
+            text: data.message,
+            author: data.author,
+            timestamp: $window.Firebase.ServerValue.TIMESTAMP
+          })
+            .then(function () {
+              if ( replies.length > 1 ) {
+                var previousAuthor = replies[ replies.length - 2 ].author;
+
+                return userService.getUserUid( previousAuthor );
+              }
+            })
+            .then(userService.getUserDetails)
+            .then(function(previousAuthor) {
+              previousAuthor.name = previousAuthor.username;
+
+              if ( previousAuthor.name !== data.author ) {
+                mailPromises.push( mailService.notifyReplyAuthor(data, previousAuthor));
+                slackPromises.push( slackService.notifyReplyAuthor(data, previousAuthor));
+              }
+            })
+            .then(function () {
+              return $q.all([].concat(mailPromises, slackPromises));
             })
             // display any errors
             .catch(growl.error);

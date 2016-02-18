@@ -18,7 +18,7 @@ angular.module('unleashApp')
           frozen = false;
 
         if (!scope.control) {
-          scope.control = function() { return {} };
+          scope.control = function() { return {}; };
         }
 
         function scroll(scrollY) {

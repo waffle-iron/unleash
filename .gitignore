@@ -1,6 +1,9 @@
 # Angularfire config
 app/scripts/angularfire/config.js
 
+# App constants
+app/scripts/constants.js
+
 # Utilities
 /scripts/
 
@@ -13,3 +16,5 @@ dist/
 .sass-cache
 .idea/
 .DS_Store
+npm-debug.log
+*.tmp

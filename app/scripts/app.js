@@ -20,7 +20,8 @@ angular.module('unleashApp', [
     'relativeDate',
     'angular-growl',
     'firebase',
-    'firebase.utils'
+    'firebase.utils',
+    '720kb.datepicker'
   ])
 
 .config(function($sceDelegateProvider) {
@@ -50,7 +51,7 @@ angular.module('unleashApp', [
       }
 
       userService.getUserDetails().then(function(data) {
-        if (!data.username) {
+        if (!data.username || !$rootScope.user) {
           return;
         }
 

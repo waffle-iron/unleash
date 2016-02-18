@@ -7,7 +7,7 @@
  * # Displays a card
  */
 angular.module('unleashApp')
-  .directive('unleashCard', function($compile, fbutil, cardsService) {
+  .directive('unleashCard', function($compile, fbutil, cardsService, $window) {
     /**
      * Update the comment count and the indicator for new comments
      * @param scope Directive scope
@@ -34,6 +34,17 @@ angular.module('unleashApp')
         scope.$watch('card.comments', function () {
           updateCommentCount(scope, card);
         });
+
+        scope.daysLeft = function(date) {
+          if (!date) {
+            return 'no due date';
+          }
+
+          var dueDate = new $window.Date(date).getTime(), // Mockable instantiation
+              now = $window.Date.now();
+
+          return Math.floor(Math.max(0, (dueDate - now) / (24 * 3600 * 1000) ));
+        };
       }
     };
 

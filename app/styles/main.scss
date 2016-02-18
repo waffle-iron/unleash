@@ -1,3 +1,5 @@
+@charset "UTF-8";
+
 /*
  * Variables
  */
@@ -51,3 +53,5 @@ $red:                   #fc6c7f;
 @import "modules/_achievements";
 @import "modules/_card";
 @import "modules/_notifications";
+
+@import "../bower_components/angularjs-datepicker/dist/angular-datepicker.min.css";
