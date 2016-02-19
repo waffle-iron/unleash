@@ -80,18 +80,18 @@ angular.module('unleashApp')
           // push a message to the end of the array
           comments.$add({
             text: data.message,
-            author: data.author,
+            author: data.author.name,
             timestamp: $window.Firebase.ServerValue.TIMESTAMP
           })
             .then(function () {
               // Notify Card Owner if someone else made a comment
-              if (data.cardOwner.name !== data.author) {
+              if (data.cardOwner.name !== data.author.name) {
                 slackService.notifyCardOwner(data);
                 return mailService.notifyCardOwner(data);
               }
             })
             .finally(function () {
-              if (data.author !== currentUser) {
+              if (data.author.name !== currentUser) {
                 cardsService.incrementCommentCount(ref);
               }
             })
@@ -113,25 +113,26 @@ angular.module('unleashApp')
           var cardOwner = data.cardOwner.name,
               parentAuthor = data.parent.author.name; // Author of the comment, to which someone replied
 
+
           // Notify Card Owner only if someone else replied. Do not send, if parentAuthor == cardOwner
-          if (data.author !== cardOwner && parentAuthor !== cardOwner) {
+          if (data.author.name !== cardOwner && parentAuthor !== cardOwner) {
             mailPromises.push( mailService.notifyCardOwnerReply(data));
             slackPromises.push( slackService.notifyCardOwnerReply(data));
           }
           // Notify Comment Author if someone else replied
-          if (parentAuthor !== data.author) {
+          if (parentAuthor !== data.author.name) {
             mailPromises.push( mailService.notifyCommentAuthor(data));
             slackPromises.push( slackService.notifyCommentAuthor(data));
           }
 
           replies.$add({
             text: data.message,
-            author: data.author,
+            author: data.author.fullName,
             timestamp: $window.Firebase.ServerValue.TIMESTAMP
           })
             .then(function () {
               if ( replies.length > 1 ) {
-                var previousAuthor = replies[ replies.length - 2 ].author;
+                var previousAuthor = replies[ replies.length - 2 ].author.name;
 
                 return userService.getUserUid( previousAuthor );
               }
@@ -140,7 +141,7 @@ angular.module('unleashApp')
             .then(function(previousAuthor) {
               previousAuthor.name = previousAuthor.username;
 
-              if ( previousAuthor.name !== data.author ) {
+              if ( previousAuthor.name !== data.author.name ) {
                 mailPromises.push( mailService.notifyReplyAuthor(data, previousAuthor));
                 slackPromises.push( slackService.notifyReplyAuthor(data, previousAuthor));
               }

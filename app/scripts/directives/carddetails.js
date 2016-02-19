@@ -58,7 +58,10 @@ angular.module('unleashApp')
 
       // Get an username of the current user
       userService.getUserDetails($scope.currentUserId).then(function(data) {
-        $scope.currentUser = data.username;
+        $scope.currentUser = {
+          name: data.username,
+          fullName: data.fullName
+        };
       });
 
       // Get an username of the card owner
@@ -86,7 +89,7 @@ angular.module('unleashApp')
           author: $scope.currentUser,
           cardOwner: $scope.cardOwner,
           cardType: $scope.card.type,
-          cardId: $scope.card.$id,
+          cardId: $scope.card.$id
         });
       };
 
@@ -106,6 +109,7 @@ angular.module('unleashApp')
                 id: message.$id,
                 author: {
                   name: commentAuthor.username,
+                  fullName: commentAuthor.fullName,
                   email: commentAuthor.email
                 }
               }
