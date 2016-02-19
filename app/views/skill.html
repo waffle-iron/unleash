@@ -1,10 +1,13 @@
 <h2 class="primary">List of Resources</h2>
 
 <div>
-  <ul class="resources">
-    <li ng-repeat="resource in resources" resource="resource" unleash-resource-view></li>
-  </ul>
+  <table>
+    <tr>
+      <th>URL</th>
+      <th>DESCRIPTION</th>
+    </tr>
+    <tr ng-repeat="resource in resources" resource="resource" unleash-resource-view></tr>
+  </table>
   <br>
-
-  <div unleash-resource-add resource="resource"/>
+  <div unleash-resource-add resource="resource"></div>
 </div>
