@@ -35,7 +35,7 @@ angular.module('unleashApp')
     var getReceiverData = function (to) {
       return {
         email: to.email,
-        name: to.name,
+        name: to.fullName,
         type: 'to'
       };
     };
