@@ -35,7 +35,7 @@ angular.module('unleashApp')
     var getReceiverData = function (to) {
       return {
         email: to.email,
-        name: to.name,
+        name: to.fullName,
         type: 'to'
       };
     };
@@ -56,8 +56,8 @@ angular.module('unleashApp')
     return {
       notifyCardOwner: function (data) {
         var messageBody = [
-            '<h1>Hello, ' + data.cardOwner.name + '</h1>',
-            '<p>' + data.author + ' just commented your "' + data.cardType + '" step:</p>',
+            '<h1>Hello, ' + data.cardOwner.fullName + '</h1>',
+            '<p>' + data.author.fullName + ' just commented your "' + data.cardType + '" goal:</p>',
             '<p>' + data.message + '</p>',
             '<p><a href="' + cardUrl(data) + '">Visit the Path</a> to read the full conversation!</p>'
           ].join('');
@@ -66,8 +66,8 @@ angular.module('unleashApp')
       },
       notifyCardOwnerReply: function (data) {
         var messagebody = [
-          '<h1>Hello, ' + data.cardOwner.name + '</h1>',
-          '<p>' + data.author + ' just replied to the comment on your "' + data.cardType + '" step:</p>',
+          '<h1>Hello, ' + data.cardOwner.fullName + '</h1>',
+          '<p>' + data.author.fullName + ' just replied to the comment on your "' + data.cardType + '" goal:</p>',
           '<p>' + data.message + '</p>',
           '<p><a href="' + cardUrl(data) + '">Visit the Path</a> to read the full conversation!</p>'
         ].join('');
@@ -77,7 +77,7 @@ angular.module('unleashApp')
       notifyCommentAuthor: function (data) {
         var messageBody = [
           '<h1>Hello, ' + data.parent.author.name + '</h1>',
-          '<p>' + data.author + ' just replied to your comment on the "' + data.cardType + '" step:</p>',
+          '<p>' + data.author.fullName + ' just replied to your comment on the "' + data.cardType + '" goal:</p>',
           '<p>' + data.message + '</p>',
           '<p><a href="' + cardUrl(data) + '">Visit the Path</a> to read the full conversation!</p>'
         ].join('');
@@ -87,7 +87,7 @@ angular.module('unleashApp')
       notifyReplyAuthor: function (data, previousAuthor) {
         var messageBody = [
           '<h1>Hello, ' + previousAuthor.name + '</h1>',
-          '<p>' + data.author + ' just replied to your reply to the comment on the "' + data.cardType + '" step:</p>',
+          '<p>' + data.author.fullName + ' just replied to your reply to the comment on the "' + data.cardType + '" goal:</p>',
           '<p>' + data.message + '</p>',
           '<p><a href="' + cardUrl(data) + '">Visit the Path</a> to read the full conversation!</p>'
         ].join('');
