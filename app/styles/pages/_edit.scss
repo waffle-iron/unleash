@@ -87,6 +87,7 @@ $dnd-list-drop-primary-padding: .25em;
     li.card {
       cursor: default;
       margin: 0 20px 20px 0;
+      overflow: visible;
     }
   }
 
