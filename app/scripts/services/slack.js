@@ -75,8 +75,8 @@ angular.module('unleashApp')
       notifyCardOwner: function(data) {
         notify({
           text: [
-            'Hello, ' + data.cardOwner.name,
-            data.author + ' just commented your "' + data.cardType + '" step:',
+            'Hello, ' + data.cardOwner.name + '!',
+            data.author.fullName + ' just commented your "' + data.cardType + '" goal:',
             data.message,
             '<' + cardUrl(data) + '|Visit the Path to read the full conversation!>'
           ].join('\n'),
@@ -86,8 +86,8 @@ angular.module('unleashApp')
       notifyCardOwnerReply: function(data) {
         notify({
           text: [
-            'Hello, ' + data.cardOwner.name,
-            data.author + ' just replied to the comment on your "' + data.cardType + '" step:',
+            'Hello, ' + data.cardOwner.name + '!',
+            data.author.fullName + ' just replied to the comment on your "' + data.cardType + '" goal:',
             data.message,
             '<' + cardUrl(data) + '|Visit the Path to read the full conversation!>'
           ].join('\n'),
@@ -97,8 +97,8 @@ angular.module('unleashApp')
       notifyCommentAuthor: function(data) {
         notify({
           text: [
-            'Hello, ' + data.parent.author.name,
-            data.author + ' just replied to your comment on the "' + data.cardType + '" step:',
+            'Hello, ' + data.parent.author.name + '!',
+            data.author.fullName + ' just replied to your comment on the "' + data.cardType + '" goal:',
             data.message,
             '<' + cardUrl(data) + '|Visit the Path to read the full conversation!>'
           ].join('\n'),
@@ -108,8 +108,8 @@ angular.module('unleashApp')
       notifyReplyAuthor: function(data, previousAuthor) {
         notify({
           text: [
-            'Hello, ' + previousAuthor.name,
-            data.author + ' just replied to your reply to the comment on the "' + data.cardType + '" step:',
+            'Hello, ' + previousAuthor.name + '!',
+            data.author.fullName + ' just replied to your reply to the comment on the "' + data.cardType + '" goal:',
             data.message,
             '<' + cardUrl(data) + '|Visit the Path to read the full conversation!>'
           ].join('\n'),
