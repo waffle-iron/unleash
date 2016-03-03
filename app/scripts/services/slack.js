@@ -76,7 +76,7 @@ angular.module('unleashApp')
         notify({
           text: [
             'Hello, ' + data.cardOwner.name + '!',
-            data.author.fullName + ' just commented your "' + data.cardType + '" goal:',
+            data.author.fullName + ' just commented on your "' + data.cardType + '" goal:',
             data.message,
             '<' + cardUrl(data) + '|Visit the Path to read the full conversation!>'
           ].join('\n'),
