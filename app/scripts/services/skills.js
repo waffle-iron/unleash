@@ -87,6 +87,20 @@ angular.module('unleashApp')
         });
       },
 
+      findUsernamesBySkill: function (skillId) {
+        var defer = $q.defer();
+
+        ref.child(skillId).child('users').once('value', function (snapshot) {
+          var usernames = [];
+          snapshot.forEach(function (username) {
+            usernames.push(username.val());
+          });
+          defer.resolve(usernames);
+        });
+
+        return defer.promise;
+      },
+
       addUserToSkill: function (skillId, username) {
         this.isUserAlreadyAddedToSkill(skillId, username).then(function() {
           ref.child(skillId).child('users').push(username);

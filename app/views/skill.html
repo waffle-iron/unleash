@@ -9,6 +9,7 @@
     <tr ng-repeat="resource in resources" resource="resource" unleash-resource-view></tr>
   </table>
   <br>
-  <div unleash-resource-add resource="resource"></div>
-  <div ng-if="user.isAdmin" unleash-skill-person-add skill="resource.skill"></div>
+  <unleash-persons users="users"></unleash-persons>
+  <unleash-resource-add resource="resource"></unleash-resource-add>
+  <unleash-skill-person-add ng-if="user.isAdmin" skill="resource.skill"></unleash-skill-person-add>
 </div>
