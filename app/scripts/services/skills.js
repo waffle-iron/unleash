@@ -69,6 +69,28 @@ angular.module('unleashApp')
         }
 
         return defer.promise;
+      },
+
+      isUserAlreadyAddedToSkill: function (skillId, username) {
+        var usersRef =  ref.child(skillId).child('users');
+
+        return $q(function(resolve, reject) {
+          usersRef.once('value', function(snapshot) {
+            snapshot.forEach(function (childSnapshot){
+              if (childSnapshot.val() === username) {
+                reject();
+              }
+            });
+
+            resolve();
+          });
+        });
+      },
+
+      addUserToSkill: function (skillId, username) {
+        this.isUserAlreadyAddedToSkill(skillId, username).then(function() {
+          ref.child(skillId).child('users').push(username);
+        });
       }
     };
   });

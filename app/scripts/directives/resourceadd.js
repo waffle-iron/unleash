@@ -10,7 +10,8 @@ angular.module('unleashApp')
 
     var add = function(scope, resource) {
       resourceService.add(resource).then(function () {
-        // do nothing
+        scope.resource.url = '';
+        scope.resource.description = '';
       }, function (error) {
         console.error(error);
       });
