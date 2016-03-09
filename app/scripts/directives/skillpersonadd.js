@@ -6,10 +6,13 @@
  * # unleashSkillPersonAdd
  */
 angular.module('unleashApp')
-  .directive('unleashSkillPersonAdd', function (skillService) {
+  .directive('unleashSkillPersonAdd', function (skillService, userService) {
 
     var update = function(scope, skill, username) {
       skillService.addUserToSkill(skill, username);
+      userService.findByUsernames([username]).then(function (users) {
+        scope.users.push(users.shift());
+      });
       scope.username = '';
     };
 
@@ -21,6 +24,7 @@ angular.module('unleashApp')
         };
       },
       scope: {
+        users: '=',
         skill: '='
       }
     };
