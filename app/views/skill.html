@@ -1,6 +1,7 @@
 <h2 class="primary">List of Resources</h2>
 
 <div>
+  <unleash-resource-add resource="resource"></unleash-resource-add>
   <table>
     <tr>
       <th>URL</th>
@@ -9,7 +10,6 @@
     <tr ng-repeat="resource in resources" resource="resource" unleash-resource-view></tr>
   </table>
   <br>
-  <unleash-persons users="users"></unleash-persons>
-  <unleash-resource-add resource="resource"></unleash-resource-add>
   <unleash-skill-person-add ng-if="user.isAdmin" users="users" skill="resource.skill"></unleash-skill-person-add>
+  <unleash-persons users="users"></unleash-persons>
 </div>
