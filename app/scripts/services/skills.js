@@ -72,7 +72,6 @@ angular.module('unleashApp')
       },
 
       getSkillNameById: function(id) {
-        console.log(skillList);
         return this.list.then(function(skills) {
           return _.find(skills, function(skill) {
             return skill.$id === id;
