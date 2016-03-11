@@ -1,15 +1,31 @@
-<h2 class="primary">List of Resources</h2>
+<a href="/skills" class="btn">&laquo; All skills</a>
 
-<div>
-  <unleash-resource-add resource="resource"></unleash-resource-add>
-  <table>
-    <tr>
-      <th>URL</th>
-      <th>DESCRIPTION</th>
-    </tr>
-    <tr ng-repeat="resource in resources" resource="resource" unleash-resource-view></tr>
-  </table>
-  <br>
-  <unleash-skill-person-add ng-if="user.isAdmin" users="users" skill="resource.skill"></unleash-skill-person-add>
+<div ng-if="skill.name">
+  <h2 class="primary">Skill: {{ skill.name }}</h2>
+
+  <div class="resources">
+    <table class="resources__list" ng-if="resources.length">
+      <thead>
+        <tr>
+          <th class="url">Url</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="resource in resources" resource="resource" unleash-resource-view></tr>
+      </tbody>
+    </table>
+
+    <p ng-if="!resources.length">
+      There are no resources here yet. Add the first one!
+    </p>
+
+    {{ resource |json }}
+
+    <unleash-resource-add skill="skill.id"></unleash-resource-add>
+  </div>
+
   <unleash-persons users="users"></unleash-persons>
+
+  <unleash-skill-person-add ng-if="user.isAdmin" users="users" skill="skill.id"></unleash-skill-person-add>
 </div>

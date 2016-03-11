@@ -20,8 +20,11 @@ angular.module('unleashApp')
       });
     });
 
-    $scope.resource = {
-      skill: $routeParams.skillId
+    $scope.skill = {
+      id: $routeParams.skillId
     };
 
+    skillService.getSkillNameById($routeParams.skillId).then(function(data) {
+      $scope.skill.name = data;
+    });
   });

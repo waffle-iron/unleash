@@ -41,22 +41,23 @@ angular.module('unleashApp')
 
       /**
        * Add a new resource
-       * @param data Resource data
+       * @param resource
+       * @param skillId
        * @returns {Promise}
        */
-      add: function(data) {
+      add: function(resource, skillId) {
         var defer = $q.defer();
 
-        if (!data || !data.url || !data.skill) {
+        if (!resource || !resource.url || !skillId) {
           defer.reject(new Error('No resource data given.'));
         } else {
-          var resource = {
-            'url': data.url,
-            'skill': data.skill,
-            'description': data.description || ''
+          var data = {
+            'url': resource.url,
+            'skill': skillId,
+            'description': resource.description || ''
           };
 
-          resourceList.$add(resource).then(function () {
+          resourceList.$add(data).then(function () {
             defer.resolve();
           });
         }

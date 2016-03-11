@@ -8,18 +8,6 @@ $achievement-bg:        #29cb93;
 $duedate-input-width:   130px;
 
 /*
- * Mixins
- */
-@mixin achieve-button() {
-  background: #eee;
-  border: 1px solid #ccc;
-  cursor: pointer;
-  font-size: 0.875em;
-  line-height: 1.4;
-  padding: 6px 5px 5px;
-}
-
-/*
  * Main styles
  */
 .achievement {
@@ -80,10 +68,6 @@ $duedate-input-width:   130px;
   // Toggle achieve state
   &__toggle-achieved {
     font-size: 13px;
-
-    &__btn {
-      @include achieve-button();
-    }
 
     &__message p {
       margin: 1em 0;
@@ -255,7 +239,6 @@ $duedate-input-width:   130px;
   }
 
   &__toggle {
-    @include achieve-button();
     margin-left: $reply-indent - 5px;
     margin-bottom: 1.5em;
   }

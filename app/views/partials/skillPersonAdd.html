@@ -1,5 +1,12 @@
-<input type="hidden" value="{{skill}}" ng-model="skill">
-<select ng-options="user.username for user in allUsers track by user.username" ng-model="user" placeholder="Username"></select>
 <div>
-  <button ng-click="update(skill, user.username)">Add user</button>
+  <p>For admins only:</p>
+
+  <select ng-options="user.username for user in allUsers track by user.username"
+          class="form-control"
+          ng-model="user"
+          placeholder="Username">
+  </select>
+  <div>
+    <button type="button" class="btn" ng-click="update(skill, user.username)">Add user</button>
+  </div>
 </div>

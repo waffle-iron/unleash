@@ -71,6 +71,15 @@ angular.module('unleashApp')
         return defer.promise;
       },
 
+      getSkillNameById: function(id) {
+        console.log(skillList);
+        return this.list.then(function(skills) {
+          return _.find(skills, function(skill) {
+            return skill.$id === id;
+          }).name;
+        });
+      },
+
       isUserAlreadyAddedToSkill: function (skillId, username) {
         var usersRef =  ref.child(skillId).child('users');
 

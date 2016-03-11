@@ -9,7 +9,7 @@ angular.module('unleashApp')
   .directive('unleashResourceAdd', function (resourceService) {
 
     var add = function(scope, resource) {
-      resourceService.add(resource).then(function () {
+      return resourceService.add(resource, scope.skillId).then(function () {
         scope.resource.url = '';
         scope.resource.description = '';
       }, function (error) {
@@ -20,12 +20,25 @@ angular.module('unleashApp')
     return {
       templateUrl: 'views/partials/resourceAdd.html',
       link: function postLink(scope) {
-        scope.add = function(resource) {
-          add(scope, resource);
+        scope.resource = {};
+
+        scope.resourceAdd = function() {
+          scope.isResourceFormVisible = true;
         };
+
+        scope.add = function(resource) {
+          add(scope, resource).then(function() {
+            scope.isResourceFormVisible = false;
+          });
+        };
+
+        scope.cancel = function() {
+          scope.isResourceFormVisible = false;
+        };
+
       },
       scope: {
-        resource: '='
+        skillId: '=skill'
       }
     };
   });

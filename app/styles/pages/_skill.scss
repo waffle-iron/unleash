@@ -1,0 +1,44 @@
+.page-skill {
+  main {
+    padding-top: 1em;
+    padding-bottom: 1em;
+  }
+
+  // Resources table
+  .resources {
+    &__list {
+      width: 100%;
+      margin: 2em 0;
+      font-size: 13px;
+
+      th {
+        font-weight: bold;
+        padding-bottom: 1em;
+      }
+
+      td {
+        padding: .5em 0;
+      }
+
+      .url {
+        width: 20%;
+      }
+    }
+
+    p {
+      font-size: 14px;
+      margin: 0 0 1em;
+    }
+
+    &__add {
+      .form-control {
+        float: none;
+      }
+    }
+
+    .url {
+      font-size: 14px;
+      font-weight: 600;
+    }
+  }
+}
