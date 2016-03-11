@@ -166,15 +166,25 @@ angular.module('unleashApp')
         return card.update(data, onComplete);
       },
 
+      /**
+       *  Updates due date and clears the list
+       *  of already sent notifications,
+       *  so that they can be triggered again
+       */
       updateDueDate: function(id, data) {
-        var dueDate = ref.child(id).child('dueDate');
+        var card = ref.child(id);
+        var dueDate = card.child('dueDate');
+        var notificationsAlreadySent = card.child('notificationsAlreadySent');
 
-        return dueDate.set(data);
+        return $q.all([
+          dueDate.set(data),
+          notificationsAlreadySent.remove()
+        ]);
       },
 
       /**
        * Reorder cards when adding a new card
-       * @param id index to start with
+       * @param index - index to start with
        */
       reorder: function(index) {
         angular.forEach(cards, function(card) {
