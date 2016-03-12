@@ -1,9 +1,11 @@
-<span ng-show="!users.length" class="initializing-spinner icon-spinner8"></span>
+<span ng-show="!users" class="initializing-spinner icon-spinner8"></span>
 
-<ul class="paths-list" ng-show="users.length">
-  <li ng-repeat="user in users track by $index">
+<ul class="paths-list" ng-if="users.length">
+  <li ng-repeat="user in users track by user.username">
     <a ng-href="/paths/{{ user.username }}">
       <unleash-person name="{{ user.google.displayName }}" thumb="{{ user.google.cachedUserProfile.picture }}"></unleash-person>
     </a>
   </li>
 </ul>
+
+<p class="paths-list--empty" ng-if="!users.length">No users yet!</p>

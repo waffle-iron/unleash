@@ -197,6 +197,24 @@ angular.module('unleashApp')
         });
       },
 
+      findByUsernames: function (usernames) {
+        var deferred = $q.defer();
+
+        var queryRef = ref.child('users');
+
+        queryRef.once('value', function (snapshot) {
+          var users = [];
+          snapshot.forEach(function (childSnapshot) {
+            if (usernames.indexOf(childSnapshot.child('username').val()) !== -1) {
+              users.push(childSnapshot.val());
+            }
+          });
+          deferred.resolve(users);
+        });
+
+        return deferred.promise;
+      },
+
       /**
        * Broadcast changes in auth
        */
