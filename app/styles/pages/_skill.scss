@@ -4,6 +4,11 @@
     padding-bottom: 1em;
   }
 
+  // Typography
+  .secondary {
+    margin-top: 2em;
+  }
+
   // Resources table
   .resources {
     &__list {
@@ -17,10 +22,15 @@
       }
 
       td {
-        padding: .5em 0;
+        padding: .5em 1.5em .5em 0;
       }
 
-      .url {
+      &__link {
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .column--url {
         width: 20%;
       }
     }
@@ -34,11 +44,6 @@
       .form-control {
         float: none;
       }
-    }
-
-    .url {
-      font-size: 14px;
-      font-weight: 600;
     }
   }
 }
