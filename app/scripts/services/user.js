@@ -197,19 +197,42 @@ angular.module('unleashApp')
         });
       },
 
-      findByUsernames: function (usernames) {
+      findBySkill: function(slug) {
         var deferred = $q.defer();
 
-        var queryRef = ref.child('users');
+        var usersRef = ref.child('users');
 
-        queryRef.once('value', function (snapshot) {
-          var users = [];
+        usersRef.once('value', function (users) {
+          var matchingUsers = [];
+          users.forEach(function (user) {
+            user.child('skills').forEach(function (skill) {
+              if (skill.val() === slug) {
+                matchingUsers.push(user.val());
+              }
+            });
+          });
+
+          deferred.resolve(matchingUsers);
+        });
+
+        return deferred.promise;
+      },
+
+      addSkillToUser: function(user, skill) {
+        var deferred = $q.defer();
+
+        var skillsRef = ref.child('users').child(user.$id).child('skills');
+        skillsRef.on('value', function(snapshot) {
+          var existing = false;
           snapshot.forEach(function (childSnapshot) {
-            if (usernames.indexOf(childSnapshot.child('username').val()) !== -1) {
-              users.push(childSnapshot.val());
+            if (childSnapshot.val() === skill.slug) {
+              existing = true;
             }
           });
-          deferred.resolve(users);
+          if (!existing) {
+            skillsRef.push(skill.slug);
+          }
+          deferred.resolve();
         });
 
         return deferred.promise;

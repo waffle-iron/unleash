@@ -10,21 +10,16 @@
 angular.module('unleashApp')
   .controller('SkillController', function ($scope, $routeParams, resourceService, skillService, userService) {
 
-    resourceService.listBySkill($routeParams.skillId).then(function(result) {
+    resourceService.listBySkill($routeParams.slug).then(function(result) {
       $scope.resources = result;
     });
 
-    skillService.findUsernamesBySkill($routeParams.skillId).then(function (usernames) {
-      userService.findByUsernames(usernames).then(function (users) {
-        $scope.users = users;
-      });
+    userService.findBySkill($routeParams.slug).then(function (users) {
+      $scope.users = users;
     });
 
-    $scope.skill = {
-      id: $routeParams.skillId
-    };
-
-    skillService.getSkillNameById($routeParams.skillId).then(function(data) {
-      $scope.skill.name = data;
+    skillService.getBySlug($routeParams.slug).then(function(skill) {
+      $scope.skill = skill;
     });
+
   });

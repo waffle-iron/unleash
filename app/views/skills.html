@@ -2,8 +2,8 @@
 
 <div>
   <ul class="skills">
-    <li class="skill" ng-repeat="skill in skills" skill="skill" unleash-skill-view></li>
+    <li class="skill" ng-repeat="skill in skills track by skill.id" skill="skill" unleash-skill-view></li>
   </ul>
 </div>
 
-<form skill="skill" unleash-skill-add></form>
+<form skill="skill" skills="skills" unleash-skill-add></form>

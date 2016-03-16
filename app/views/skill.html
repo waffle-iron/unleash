@@ -22,10 +22,12 @@
       There are no resources here yet. Add the first one!
     </p>
 
-    <unleash-resource-add skill="skill.id"></unleash-resource-add>
+    <unleash-resource-add skill="skill"></unleash-resource-add>
   </div>
+
+  <h3 class="secondary">People that can help you</h3>
 
   <unleash-persons users="users"></unleash-persons>
 
-  <unleash-skill-person-add ng-if="user.isAdmin" users="users" skill="skill.id"></unleash-skill-person-add>
+  <unleash-skill-person-add ng-if="user.isAdmin" users="users" skill="skill"></unleash-skill-person-add>
 </div>

@@ -9,7 +9,7 @@ angular.module('unleashApp')
   .directive('unleashResourceAdd', function (resourceService) {
 
     var add = function(scope, resource) {
-      return resourceService.add(resource, scope.skillId).then(function () {
+      return resourceService.add(resource, scope.skill.slug).then(function () {
         scope.resource.url = '';
         scope.resource.description = '';
       }, function (error) {
@@ -38,7 +38,7 @@ angular.module('unleashApp')
 
       },
       scope: {
-        skillId: '=skill'
+        skill: '='
       }
     };
   });

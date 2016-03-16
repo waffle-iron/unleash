@@ -16,10 +16,10 @@ angular.module('unleashApp')
     resources.stored = ref;
 
     return {
-      listBySkill: function(skillId) {
+      listBySkill: function(slug) {
         var defer = $q.defer();
 
-        resourceList = $firebaseArray(ref.orderByChild('skill').equalTo(skillId));
+        resourceList = $firebaseArray(ref.orderByChild('skill').equalTo(slug));
 
         resourceList.$loaded().then(function() {
           defer.resolve(resourceList);
@@ -45,15 +45,15 @@ angular.module('unleashApp')
        * @param skillId
        * @returns {Promise}
        */
-      add: function(resource, skillId) {
+      add: function(resource, slug) {
         var defer = $q.defer();
 
-        if (!resource || !resource.url || !skillId) {
+        if (!resource || !resource.url || !slug) {
           defer.reject(new Error('No resource data given.'));
         } else {
           var data = {
             'url': resource.url,
-            'skill': skillId,
+            'skill': slug,
             'description': resource.description || ''
           };
 

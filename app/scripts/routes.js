@@ -77,7 +77,7 @@ angular.module('unleashApp')
         }
       })
 
-      .when('/skills/:skillId/', {
+      .when('/skills/:slug/', {
         templateUrl: 'views/skill.html',
         controller: 'SkillController',
         className: 'skill',

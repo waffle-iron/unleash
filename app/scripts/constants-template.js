@@ -7,11 +7,12 @@
   var MANDRILL_API_KEY = '@@MANDRILL_KEY';
 
   var BOT_URL = '@@BOT_URL';
+  var SKILLS_URL = '@@SKILLS_URL';
 
   angular
     .module('unleashApp')
     .constant('dataPath', 'scripts/data/')
-    // Mail API constants
+    .constant('SKILLS_API_URL', SKILLS_URL)
     .constant('MAIL_CONFIG', { url: MANDRILL_URL, key: MANDRILL_API_KEY })
     .constant('SLACK_CONFIG', { botUrl: BOT_URL });
 })();
