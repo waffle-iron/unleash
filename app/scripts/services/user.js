@@ -223,13 +223,13 @@ angular.module('unleashApp')
             skillsRef = ref.child('users').child(user.$id).child('skills');
 
         skillsRef.on('value', function(snapshot) {
-          var existing = false;
+          var isAlreadyAdded = false;
           snapshot.forEach(function (childSnapshot) {
             if (childSnapshot.val() === skill.slug) {
-              existing = true;
+              isAlreadyAdded = true;
             }
           });
-          if (!existing) {
+          if (!isAlreadyAdded) {
             skillsRef.push(skill.slug);
           }
           deferred.resolve();
