@@ -8,23 +8,27 @@
  * Controller of the unleashApp
  */
 angular.module('unleashApp')
-  .controller('SkillController', function ($scope, $routeParams, resourceService, skillService, userService) {
+  .controller('SkillController', function ($scope, $q, $routeParams, growl, resourceService, skillService, userService) {
 
-    resourceService.listBySkill($routeParams.skillId).then(function(result) {
+    $scope.isLoading = true;
+
+    var getSkills = skillService.getBySlug($routeParams.slug).then(function(skill) {
+      if (typeof skill === 'undefined') {
+        growl.error('Skill ' + $routeParams.slug + ' does not exist');
+      }
+      $scope.skill = skill;
+    });
+
+    var getResources = resourceService.listBySkill($routeParams.slug).then(function(result) {
       $scope.resources = result;
     });
 
-    skillService.findUsernamesBySkill($routeParams.skillId).then(function (usernames) {
-      userService.findByUsernames(usernames).then(function (users) {
-        $scope.users = users;
-      });
+    var getUsers = userService.findBySkill($routeParams.slug).then(function (users) {
+      $scope.users = users;
     });
 
-    $scope.skill = {
-      id: $routeParams.skillId
-    };
-
-    skillService.getSkillNameById($routeParams.skillId).then(function(data) {
-      $scope.skill.name = data;
+    $q.all([getSkills, getResources, getUsers]).then(function() {
+      $scope.isLoading = false;
     });
+
   });

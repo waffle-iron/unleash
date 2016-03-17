@@ -6,7 +6,7 @@
  * # unleashSkillPersonAdd
  */
 angular.module('unleashApp')
-  .directive('unleashSkillPersonAdd', function ($rootScope, skillService, userService) {
+  .directive('unleashSkillPersonAdd', function ($rootScope, userService) {
 
     var usersDiff = function (allUsers, addedUsers) {
       return allUsers.filter(function (user) {
@@ -19,10 +19,9 @@ angular.module('unleashApp')
       });
     };
 
-    var update = function(scope, skill, username) {
-      skillService.addUserToSkill(skill, username);
-      userService.findByUsernames([username]).then(function (users) {
-        scope.users.push(users.shift());
+    var update = function(scope, skill, user) {
+      userService.addSkillToUser(user, skill).then(function() {
+        scope.users.push(user);
         scope.user = null;
         scope.allUsers = usersDiff(scope.allUsers, scope.users);
       });
@@ -32,8 +31,8 @@ angular.module('unleashApp')
       templateUrl: 'views/partials/skillPersonAdd.html',
       link: function postLink(scope) {
         scope.allUsers = usersDiff($rootScope.allUsers, scope.users);
-        scope.update = function(skill, username) {
-          update(scope, skill, username);
+        scope.update = function(skill, user) {
+          update(scope, skill, user);
         };
       },
       scope: {

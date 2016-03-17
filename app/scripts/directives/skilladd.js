@@ -9,8 +9,9 @@ angular.module('unleashApp')
   .directive('unleashSkillAdd', function (skillService) {
 
     var add = function(scope, skill) {
-      skillService.add(skill).then(function () {
-        // do nothing
+      skillService.add(skill).then(function (savedSkill) {
+        scope.skills.push(savedSkill);
+        scope.skill = null;
       }, function (error) {
         console.error(error);
       });
@@ -24,6 +25,7 @@ angular.module('unleashApp')
         };
       },
       scope: {
+        skills: '=',
         skill: '='
       }
     };

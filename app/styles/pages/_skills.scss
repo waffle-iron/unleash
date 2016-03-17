@@ -1,9 +1,17 @@
+$skills-margin: 2em 5%;
+
 .page-skills {
   /*
    * List of skills
    */
   .skills {
-    margin: 2em 5%;
+    &__list {
+      margin: $skills-margin;
+    }
+
+    &__add {
+      margin: $skills-margin;
+    }
   }
 
   // Styles for skill items are defined in modules/_skill.scss

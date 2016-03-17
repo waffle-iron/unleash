@@ -49,6 +49,8 @@ Wait for Docker to run the application.
 
 Once the application is running and the "watch" task is in a waiting state you can access it at [http://unleash.dev](http://unleash.dev).
 
+Remember to edit your configuration in `app/scripts/constants.js`!
+
 ### Running as daemon
 
 Optionally you can also run the application as a daemon. Just type:

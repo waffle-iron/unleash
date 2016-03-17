@@ -1,7 +1,5 @@
 <span ng-show="!users" class="initializing-spinner icon-spinner8"></span>
 
-<h3 class="secondary">People that can help you</h3>
-
 <ul class="paths-list" ng-if="users.length">
   <li ng-repeat="user in users track by user.username">
     <a ng-href="/paths/{{ user.username }}">
