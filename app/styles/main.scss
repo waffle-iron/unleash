@@ -45,6 +45,8 @@ $red:                   #fc6c7f;
 @import "pages/_home";
 @import "pages/_edit";
 @import "pages/_path";
+@import "pages/_skills";
+@import "pages/_skill";
 @import "pages/_templates";
 
 /*
@@ -52,6 +54,8 @@ $red:                   #fc6c7f;
  */
 @import "modules/_achievements";
 @import "modules/_card";
+@import "modules/_skill";
+@import "modules/_persons";
 @import "modules/_notifications";
 
 @import "../bower_components/angularjs-datepicker/dist/angular-datepicker.min.css";

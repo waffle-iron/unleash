@@ -20,7 +20,7 @@ angular.module('unleashApp')
           key: MAIL_CONFIG.key,
           message: {
             'from_email': 'no-reply@x-team.com',
-            'from_name': 'Unleash Your Path!',
+            'from_name': 'Unleash Bot',
             autotext: 'true',
             subject: subject,
             html: content,
@@ -57,7 +57,7 @@ angular.module('unleashApp')
       notifyCardOwner: function (data) {
         var messageBody = [
             '<h1>Hello, ' + data.cardOwner.fullName + '</h1>',
-            '<p>' + data.author.fullName + ' just commented your "' + data.cardType + '" goal:</p>',
+            '<p>' + data.author.fullName + ' just commented on your "' + data.cardType + '" goal:</p>',
             '<p>' + data.message + '</p>',
             '<p><a href="' + cardUrl(data) + '">Visit the Path</a> to read the full conversation!</p>'
           ].join('');

@@ -12,12 +12,12 @@ angular.module('unleashApp')
      * Renders a button for toggling the 'achieved' state in the card
      */
     var addAchievedButton = function($scope) {
-      var location = angular.element('.achievement .wrapper');
+      var location = angular.element('.achievement__settings');
 
       var $button = angular.element('<div unleash-achieve></div>')
         .addClass('achievement__toggle-achieved');
 
-      location.after(($compile($button)($scope)));
+      location.append(($compile($button)($scope)));
     };
 
     /**
@@ -117,6 +117,11 @@ angular.module('unleashApp')
           });
       };
 
+      // Unset current due date
+      $scope.clearDueDate = function() {
+        $scope.card.dueDate = null;
+      };
+
       // Close sidebar
       $scope.close = function() {
         $location.search('');
@@ -129,7 +134,8 @@ angular.module('unleashApp')
       $scope.$watch(function() {
         return $scope.card.dueDate;
       }, function(newVal, oldVal) {
-        if (newVal && newVal !== oldVal) {
+        // We want to allow for null explicitly which means "no due date"
+        if (newVal !== undefined && newVal !== oldVal) {
           cardsService.updateDueDate($scope.cardId, $scope.card.dueDate);
         }
       });

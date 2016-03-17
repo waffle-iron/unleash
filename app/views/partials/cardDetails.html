@@ -10,11 +10,24 @@
     <figcaption class="achievement__name">{{ card.type }}</figcaption>
   </figure>
 
-  <div ng-if="isCurrentUserAdmin" class="achievement__due-date">
-    <h3>Due date</h3>
-    <datepicker date-format="d MMM yyyy">
-      <input ng-model="card.dueDate" ng-disabled="!canSetDueDate" ng-class="{ disabled: !canSetDueDate }" type="text" placeholder="Due date"/>
-    </datepicker>
+  <div ng-show="isCurrentUserAdmin" class="achievement__settings">
+    <div ng-if="isCurrentUserAdmin" class="achievement__settings__due-date">
+      <h3>Admin zone</h3>
+      <datepicker date-format="d MMM yyyy">
+        <input ng-model="card.dueDate"
+               class="achievement__settings__due-date__input"
+               ng-disabled="!canSetDueDate"
+               ng-class="{ disabled: !canSetDueDate }"
+               type="text"
+               placeholder="Due date" />
+      </datepicker>
+      <button type="button"
+              class="achievement__settings__due-date__clear"
+              title="Remove due date"
+              ng-click="clearDueDate()">
+        <span class="icon-cross" aria-label="Remove due date"></span>
+      </button>
+    </div>
   </div>
 
   <div class="achievement__steps">
@@ -45,7 +58,7 @@
       <p class="reply__body" ng-bind-html="reply.text | linky:'_blank'"></p>
     </div>
 
-    <button type="button" class="reply__toggle" ng-click="showReplyForm = !showReplyForm">Reply to this comment</button>
+    <button type="button" class="btn reply__toggle" ng-click="showReplyForm = !showReplyForm">Reply to this comment</button>
 
     <form ng-repeat-end class="reply__form" ng-if="currentUserId" ng-show="showReplyForm">
       <input placeholder="Add a reply…" ng-model="newReply">

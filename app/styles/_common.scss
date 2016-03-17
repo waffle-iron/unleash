@@ -58,6 +58,39 @@ main {
 }
 
 /*
+ * Buttons
+ */
+.btn {
+  display: inline-block;
+  background: #eee;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  font-size: 0.875em;
+  line-height: 1.4;
+  padding: 6px 10px 5px;
+}
+
+a.btn {
+  color: $body-text-color;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+/*
+ * Forms
+ */
+.form-control {
+  font-size: 0.875em;
+  line-height: 1.4;
+  border: 1px solid #ccc;
+  padding: 6px 5px 5px;
+  float: left;
+  margin: 0 5px 2px 0;
+}
+
+/*
  * Helpers
  */
 .structural {
@@ -88,6 +121,11 @@ main {
   font-size: 18px;
   margin: 0 0 1em;
   font-weight: bold;
+}
+
+.standalone {
+  margin: 2em 0;
+  text-align: center;
 }
 
 .toggle-edit-action {
