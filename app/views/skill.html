@@ -1,6 +1,8 @@
 <a href="/skills" class="btn">&laquo; All skills</a>
 
-<div ng-if="skill.name">
+<span ng-if="isLoading" class="initializing-spinner icon-spinner8"></span>
+
+<div ng-if="!isLoading && skill.name">
   <h2 class="primary">Skill: {{ skill.name }}</h2>
 
   <h3 class="secondary">Resources</h3>
@@ -31,3 +33,7 @@
 
   <unleash-skill-person-add ng-if="user.isAdmin" users="users" skill="skill"></unleash-skill-person-add>
 </div>
+
+<p class="standalone" ng-if="!isLoading && skill === undefined">
+  We’re sorry. This skill doesn’t exist!
+</p>
