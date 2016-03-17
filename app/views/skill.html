@@ -29,6 +29,8 @@
 
   <h3 class="secondary">People that can help you</h3>
 
+  <p class="paths-list--empty" ng-if="!users.length">No users yet!</p>
+
   <unleash-persons users="users"></unleash-persons>
 
   <unleash-skill-person-add ng-if="user.isAdmin" users="users" skill="skill"></unleash-skill-person-add>
