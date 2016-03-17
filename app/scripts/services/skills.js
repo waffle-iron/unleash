@@ -8,7 +8,7 @@
  * Methods related to adding or removing user skills.
  */
 angular.module('unleashApp')
-  .factory('skillService', function($q, $http, SKILLS_API_URL) {
+  .factory('skillService', function($q, $http, growl, SKILLS_API_URL) {
 
     return {
       /**
@@ -36,7 +36,10 @@ angular.module('unleashApp')
         } else {
           $http.post(SKILLS_API_URL, {name: data.name}).then(function (response) {
             defer.resolve(response.data);
-          }).catch(function() {
+          }).catch(function(response) {
+            if (response.status === 409) {
+              growl.error('Skill ' + data.name + ' already exists');
+            }
             console.error('There was a problem adding the skill.');
             defer.reject(new Error('There was a problem adding the skill.'));
           });
