@@ -9,6 +9,11 @@
     margin-top: 2em;
   }
 
+  p {
+    font-size: 14px;
+    margin: 0 0 1em;
+  }
+
   // Resources table
   .resources {
     &__list {
@@ -33,11 +38,6 @@
       .column--url {
         width: 20%;
       }
-    }
-
-    p {
-      font-size: 14px;
-      margin: 0 0 1em;
     }
 
     &__add {
