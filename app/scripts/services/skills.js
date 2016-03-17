@@ -14,11 +14,12 @@ angular.module('unleashApp')
       /**
        * List initial skills
        */
-      list: $q(function(resolve) {
+      list: $q(function(resolve, reject) {
           $http.get(SKILLS_API_URL).then(function(response) {
               resolve(response.data);
           }).catch(function() {
             console.error('There was a problem loading the skills.');
+            reject(new Error('There was a problem loading the skills.'));
           });
       }),
 
@@ -35,6 +36,9 @@ angular.module('unleashApp')
         } else {
           $http.post(SKILLS_API_URL, {name: data.name}).then(function (response) {
             defer.resolve(response.data);
+          }).catch(function() {
+            console.error('There was a problem adding the skill.');
+            defer.reject(new Error('There was a problem adding the skill.'));
           });
         }
 

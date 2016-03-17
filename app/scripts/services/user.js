@@ -219,9 +219,9 @@ angular.module('unleashApp')
       },
 
       addSkillToUser: function(user, skill) {
-        var deferred = $q.defer();
+        var deferred = $q.defer(),
+            skillsRef = ref.child('users').child(user.$id).child('skills');
 
-        var skillsRef = ref.child('users').child(user.$id).child('skills');
         skillsRef.on('value', function(snapshot) {
           var existing = false;
           snapshot.forEach(function (childSnapshot) {
