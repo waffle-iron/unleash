@@ -7,34 +7,30 @@
  * # unleashTemplateEdit
  */
 angular.module('unleashApp')
-  .directive('unleashTemplateEdit', function (templatesService) {
-    var getTemplateData = function(template) {
-      return {
-        'type': template.type,
-        'level': template.level || '',
-        'task': template.task || '',
-        'icon': template.icon || ''
-      };
-    };
-
+  .directive('unleashTemplateEdit', function (templatesService, growl) {
     var cloneTemplateProps = function(scope) {
       scope.updated = {};
 
-      ['type', 'level', 'task', 'icon'].forEach(function(prop) {
+      ['name', 'level', 'description', 'icon'].forEach(function(prop) {
         scope.updated[prop] = scope.template[prop];
       });
     };
 
-    var save = function(id, data, element) {
-      var template = getTemplateData(data);
-      templatesService.update(id, template, function () {
+    var save = function(id, scope, element) {
+      templatesService.update(id, scope.updated).then(function () {
         element.closest('li').removeClass('edit').addClass('view');
         element.remove();
+        ['name', 'level', 'description', 'icon'].forEach(function(prop) {
+          scope.template[prop] = scope.updated[prop];
+        });
       });
     };
 
-    var remove = function(id) {
-      templatesService.removeStored(id);
+    var remove = function(id, scope, element) {
+      templatesService.removeStored(id).then(function() {
+        growl.success('Template successfully removed');
+        element.closest('li').remove();
+      });
     };
 
     return {
@@ -44,11 +40,11 @@ angular.module('unleashApp')
       },
       link: function editLink(scope, element, attrs) {
         scope.save = function() {
-          save(attrs.id, scope.updated, element);
+          save(attrs.id, scope, element);
         };
 
         scope.remove = function() {
-          remove(attrs.id);
+          remove(attrs.id, scope, element);
         };
       },
       transclude: true
