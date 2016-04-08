@@ -24,7 +24,8 @@ module.exports = function (grunt) {
     env: process.env.UNLEASH_ENV,
     mail: process.env.MANDRILL_KEY,
     slack: process.env.BOT_URL,
-    skills: process.env.SKILLS_URL
+    skills: process.env.SKILLS_URL,
+    goals: process.env.GOALS_URL
   };
 
   // Define the configuration for all the tasks
@@ -52,6 +53,10 @@ module.exports = function (grunt) {
             {
               match: 'SKILLS_URL',
               replacement: '<%= unleash.skills %>'
+            },
+            {
+              match: 'GOALS_URL',
+              replacement: '<%= unleash.goals %>'
             }
           ]
         },
