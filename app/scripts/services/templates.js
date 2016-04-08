@@ -17,43 +17,19 @@ angular.module('unleashApp')
 
     templates.stored = ref.orderByChild('type');
 
-    /**
-     * Populate a predefined set of templates to the database
-     * @returns {Promise} A reference to the Firebase object
-     */
-    var populateTemplates = function() {
-      return $q(function() {
-        $http.get(dataPath + 'templates.json').then(function(obj) {
-          return templates.stored.set(obj.data);
-        }).catch(function() {
-          console.error('There was a problem loading the templates data file.');
-        });
-      });
-    };
-
     return {
       /**
        * Synchronize new templates
        */
       newTemplates: templates.new,
 
-      /**
-       * List initial templates
-       */
-      list: $q(function(resolve) {
-        templateList = $firebaseArray(templates.stored);
-
-        templateList.$loaded().then(function() {
-          if (templateList.length) {
-            resolve(templateList);
-          }
-
-          else {
-            // No templates stored in Firebase, instantiate
-            return populateTemplates();
-          }
-
-        });
+      list: $q(function(resolve, reject) {
+          $http.get('http://goals.unleash.x-team.com/api/v1/goals').then(function(response) {
+            resolve(response.data);
+          }).catch(function() {
+            console.error('There was a problem loading the templates.');
+            reject(new Error('There was a problem loading the templates.'));
+          });
       }),
 
       /**
@@ -113,4 +89,3 @@ angular.module('unleashApp')
       }
     };
   });
-
