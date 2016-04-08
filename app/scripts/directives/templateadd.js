@@ -8,7 +8,8 @@
 angular.module('unleashApp')
   .directive('unleashTemplateAdd', function (templatesService) {
     var add = function(scope, template, eq) {
-      templatesService.add(template).then(function() {
+      templatesService.add(template).then(function(template) {
+        scope.templates.push(template);
         templatesService.newTemplates.splice(eq, 1);
       }, function(error) {
         console.error(error);
@@ -31,7 +32,8 @@ angular.module('unleashApp')
         };
       },
       scope: {
-        template: '='
+        template: '=',
+        templates: '='
       }
     };
   });

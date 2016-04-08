@@ -10,7 +10,7 @@
 angular.module('unleashApp')
   .controller('TemplatesController', function ($scope, templatesService) {
     $scope.templates = {};
-    $scope.templates.order = 'type';
+    $scope.templates.order = 'name';
 
     $scope.$watch(
       function() {

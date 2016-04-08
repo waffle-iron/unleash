@@ -8,11 +8,13 @@
 
   var BOT_URL = '@@BOT_URL';
   var SKILLS_URL = '@@SKILLS_URL';
+  var GOALS_URL = '@@GOALS_URL';
 
   angular
     .module('unleashApp')
     .constant('dataPath', 'scripts/data/')
     .constant('SKILLS_API_URL', SKILLS_URL)
+    .constant('GOALS_API_URL', GOALS_URL)
     .constant('MAIL_CONFIG', { url: MANDRILL_URL, key: MANDRILL_API_KEY })
     .constant('SLACK_CONFIG', { botUrl: BOT_URL });
 })();

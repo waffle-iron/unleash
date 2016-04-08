@@ -7,9 +7,9 @@ describe('Directive: unleashTemplateView', function () {
   var innerScope;
 
   var template = {
-    type: 'Type',
+    name: 'Type',
     level: 1,
-    task: 'Example task'
+    description: 'Example task'
   };
 
   beforeEach(module('unleashApp'));
@@ -31,8 +31,8 @@ describe('Directive: unleashTemplateView', function () {
   }));
 
   describe('template', function() {
-    it('should display its type', function() {
-      expect(element[0].querySelector('.card__type').innerHTML).to.equal(template.type);
+    it('should display its name', function() {
+      expect(element[0].querySelector('.card__type').innerHTML).to.equal(template.name);
     });
 
     it('should display its level', function() {
@@ -40,7 +40,7 @@ describe('Directive: unleashTemplateView', function () {
     });
 
     it('should display its desc', function() {
-      expect(element[0].querySelector('.card__desc').innerHTML).to.equal(template.task);
+      expect(element[0].querySelector('.card__desc').innerHTML).to.equal(template.description);
     });
   });
 });
