@@ -8,11 +8,11 @@
   <div class="templates templates--new" ng-if="templates.new.length">
     <h3 class="secondary">Add new template</h3>
     <ul>
-      <li class="card card--template card--is-editable template" ng-repeat="template in templates.new" data-eq="{{$index}}" template="template" unleash-template-add></li>
+      <li class="card card--template card--is-editable template" ng-repeat="template in templates.new" data-eq="{{$index}}" template="template" templates="templates.existing" unleash-template-add></li>
     </ul>
   </div>
 
   <ul class="templates templates--existing">
-    <li class="view card card--template card--is-editable" ng-repeat="template in templates.existing | orderBy:templates.order" data-id="{{template.$id}}" template="template" unleash-template-view></li>
+    <li class="view card card--template card--is-editable" ng-repeat="template in templates.existing | orderBy:templates.order" data-id="{{template.id}}" template="template" unleash-template-view></li>
   </ul>
 </div>

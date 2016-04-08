@@ -8,28 +8,10 @@
  * Methods related to adding or removing user templates.
  */
 angular.module('unleashApp')
-  .factory('templatesService', function($window, $q, $http, $firebaseArray, FBURL, cardsService, dataPath) {
-    var ref = new $window.Firebase(FBURL).child('templates');
-    var templateList = null;
+  .factory('templatesService', function($q, $http, growl, GOALS_API_URL) {
     var templates = {};
 
     templates.new = [];
-
-    templates.stored = ref.orderByChild('type');
-
-    /**
-     * Populate a predefined set of templates to the database
-     * @returns {Promise} A reference to the Firebase object
-     */
-    var populateTemplates = function() {
-      return $q(function() {
-        $http.get(dataPath + 'templates.json').then(function(obj) {
-          return templates.stored.set(obj.data);
-        }).catch(function() {
-          console.error('There was a problem loading the templates data file.');
-        });
-      });
-    };
 
     return {
       /**
@@ -37,23 +19,13 @@ angular.module('unleashApp')
        */
       newTemplates: templates.new,
 
-      /**
-       * List initial templates
-       */
-      list: $q(function(resolve) {
-        templateList = $firebaseArray(templates.stored);
-
-        templateList.$loaded().then(function() {
-          if (templateList.length) {
-            resolve(templateList);
-          }
-
-          else {
-            // No templates stored in Firebase, instantiate
-            return populateTemplates();
-          }
-
-        });
+      list: $q(function(resolve, reject) {
+          $http.get(GOALS_API_URL).then(function(response) {
+            resolve(response.data);
+          }).catch(function() {
+            growl.error('There was a problem loading the templates.');
+            reject(new Error('There was a problem loading the templates.'));
+          });
       }),
 
       /**
@@ -64,17 +36,21 @@ angular.module('unleashApp')
       add: function(data) {
         var defer = $q.defer();
 
-        if (!data || !data.type) {
+        if (!data || !data.name || !data.description) {
           defer.reject(new Error('No template data given.'));
         } else {
           var template = {
-            'type': data.type,
-            'task': data.task || '',
+            'name': data.name,
+            'description': data.description,
             'level': data.level || '',
             'icon': data.icon || ''
           };
-          templateList.$add(template).then(function () {
-            defer.resolve();
+
+          $http.post(GOALS_API_URL, template).then(function (response) {
+            defer.resolve(response.data);
+          }).catch(function() {
+            growl.error('There was a problem adding the template.');
+            defer.reject(new Error('There was a problem adding the template.'));
           });
         }
 
@@ -85,12 +61,19 @@ angular.module('unleashApp')
        * Update template details with new data
        * @param id Template ID
        * @param data New data
-       * @returns {Promise} Resolved once data has been stored in Firebase
+       * @returns {Promise} Resolved once data has been stored
        */
-      update: function(id, data, onComplete) {
-        var template = ref.child(id);
+      update: function(id, data) {
+        var defer = $q.defer();
 
-        return template.update(data, onComplete);
+        $http.put(GOALS_API_URL + '/' + id, data).then(function (response) {
+          defer.resolve(response.data);
+        }).catch(function() {
+          growl.error('There was a problem updating the template.');
+          defer.reject(new Error('There was a problem updating the template.'));
+        });
+
+        return defer.promise;
       },
 
       /**
@@ -107,10 +90,16 @@ angular.module('unleashApp')
        * @returns {Promise}
        */
       removeStored: function(id) {
-        var index = templateList.$indexFor(id);
+        var defer = $q.defer();
 
-        return templateList.$remove(index);
+        $http.delete(GOALS_API_URL + '/' + id).then(function (response) {
+          defer.resolve(response.data);
+        }).catch(function() {
+          growl.error('There was a problem deleting the template.');
+          defer.reject(new Error('There was a problem deleting the template.'));
+        });
+
+        return defer.promise;
       }
     };
   });
-
