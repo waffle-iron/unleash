@@ -66,7 +66,7 @@ angular.module('unleashApp')
 
       if (type === 'template') {
         card.order = index + 1;
-        cardsService.add(card);
+        cardsService.addFromTemplate(card);
       }
 
       if (type === 'card') {

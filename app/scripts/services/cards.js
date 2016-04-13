@@ -128,9 +128,8 @@ angular.module('unleashApp')
        * Assign a given template as a card to the user
        * @param card
        */
-      add: function(template) {
+      addFromTemplate: function(template) {
         var card = {
-          id: template.id,
           type: template.name,
           task: template.description,
           level: template.level,
@@ -138,6 +137,14 @@ angular.module('unleashApp')
           order: template.order
         };
 
+        this.add(card);
+      },
+
+      /**
+       * Assign a given card to the user
+       * @param card
+       */
+      add: function(card) {
         // Check if the UID is set
         if (!currentUser) {
           console.error('No user UID set!');
