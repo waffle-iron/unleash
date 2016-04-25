@@ -32,7 +32,10 @@ angular.module('unleashApp')
         scope.newCards = [];
 
         scope.add = function(card) {
-          card.order = (scope.$parent.cards.length + 1) || 1;
+          card.order = 1;
+          if (scope.$parent.cards) {
+            card.order = scope.$parent.cards.length + 1;
+          }
           add(scope, card);
         };
 
