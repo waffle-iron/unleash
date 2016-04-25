@@ -51,9 +51,9 @@ angular.module('unleashApp')
           attachments: [
             {
               color: 'good',
-              fallback: data.cardOwner.fullName + ' has completed the ' + data.card.type + '* goal! :sparkles:',
-              title: data.card.type || '',
-              text: data.card.task || '',
+              fallback: data.cardOwner.fullName + ' has completed the ' + data.card.name + '* goal! :sparkles:',
+              title: data.card.name || '',
+              text: data.card.description || '',
               fields: [
                 {
                   title: 'Level',

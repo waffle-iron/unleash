@@ -34,7 +34,7 @@
     <h3 class="title">Drop area</h3>
 
     <ul dnd-list="cards" dnd-horizontal-list="true" dnd-drop="dropCard(event, index, item, external, type)">
-      <li ng-repeat="card in cards"
+      <li ng-repeat="card in cards | orderBy: 'order'"
           dnd-effect-allowed="move"
           dnd-draggable="card"
           dnd-type="'card'"

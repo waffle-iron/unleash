@@ -7,9 +7,9 @@ describe('Directive: unleashCard', function () {
   var innerScope;
 
   var card = {
-    'type': 'Test card',
+    'name': 'Test card',
     'level': 1,
-    'task': 'Test task'
+    'description': 'Test description'
   };
 
   beforeEach(module(function($provide) {
@@ -78,19 +78,19 @@ describe('Directive: unleashCard', function () {
   }));
 
   describe('card', function() {
-    it('should render its type and task', function() {
+    it('should render its name and description', function() {
       var cardType = element[0].querySelector('.card__type');
 
-      expect(cardType.innerHTML).to.contain(card.type);
-      expect(cardType.innerHTML).to.contain(card.task);
+      expect(cardType.innerHTML).to.contain(card.name);
+      expect(cardType.innerHTML).to.contain(card.description);
     });
 
     it('should render its level', function() {
       expect(element[0].querySelector('.card__level').innerHTML).to.equal('Level ' + card.level);
     });
 
-    it('should display its task description as title', function() {
-      expect(element[0].getAttribute('title')).to.equal(card.task);
+    it('should display its description as title', function() {
+      expect(element[0].getAttribute('title')).to.equal(card.description);
     });
   });
 

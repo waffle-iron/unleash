@@ -19,9 +19,10 @@ describe('Directive: unleashCardsAdd', function () {
 
   beforeEach(module(function($provide) {
     $provide.value('cardsService', {
-      add: function(card) {
-        if (!fail)
+      add: function(cardOwnerId, card) {
+        if (!fail) {
           outerScope.cards.push(card);
+        }
 
         return {
           then: function(callback, error) {
@@ -85,30 +86,30 @@ describe('Directive: unleashCardsAdd', function () {
 
     it('should remove the specified card', function() {
       innerScope.create();
-      innerScope.newCards[0].type = 'type1';
+      innerScope.newCards[0].name = 'name1';
 
       innerScope.create();
-      innerScope.newCards[1].type = 'type2';
+      innerScope.newCards[1].name = 'name2';
 
       innerScope.create();
-      innerScope.newCards[2].type = 'type3';
+      innerScope.newCards[2].name = 'name3';
 
       innerScope.create();
-      innerScope.newCards[3].type = 'type4';
+      innerScope.newCards[3].name = 'name4';
 
       expect(innerScope.newCards).to.deep.equal([
-        { type: 'type1' },
-        { type: 'type2' },
-        { type: 'type3' },
-        { type: 'type4' }
+        { name: 'name1' },
+        { name: 'name2' },
+        { name: 'name3' },
+        { name: 'name4' }
       ]);
 
       innerScope.remove(2);
 
       expect(innerScope.newCards).to.deep.equal([
-        { type: 'type1' },
-        { type: 'type2' },
-        { type: 'type4' }
+        { name: 'name1' },
+        { name: 'name2' },
+        { name: 'name4' }
       ]);
     });
 
@@ -154,35 +155,36 @@ describe('Directive: unleashCardsAdd', function () {
     });
 
     it('should place each new card at the end', function() {
+      manual = true;
       innerScope.create();
-      innerScope.newCards[0].type = 'type1';
+      innerScope.newCards[0].name = 'name1';
 
       innerScope.create();
-      innerScope.newCards[1].type = 'type2';
+      innerScope.newCards[1].name = 'name2';
 
       innerScope.create();
-      innerScope.newCards[2].type = 'type3';
+      innerScope.newCards[2].name = 'name3';
 
       innerScope.create();
-      innerScope.newCards[3].type = 'type4';
+      innerScope.newCards[3].name = 'name4';
 
       expect(innerScope.newCards).to.deep.equal([
-        { type: 'type1' },
-        { type: 'type2' },
-        { type: 'type3' },
-        { type: 'type4' }
+        { name: 'name1' },
+        { name: 'name2' },
+        { name: 'name3' },
+        { name: 'name4' }
       ]);
 
       innerScope.add(innerScope.newCards[0]);
-      innerScope.add(innerScope.newCards[0]);
-      innerScope.add(innerScope.newCards[0]);
-      innerScope.add(innerScope.newCards[0]);
+      innerScope.add(innerScope.newCards[1]);
+      innerScope.add(innerScope.newCards[2]);
+      innerScope.add(innerScope.newCards[3]);
 
       expect(outerScope.cards).to.deep.equal([
-        { type: 'type1', order: 1 },
-        { type: 'type2', order: 2 },
-        { type: 'type3', order: 3 },
-        { type: 'type4', order: 4 }
+        { name: 'name1', order: 1 },
+        { name: 'name2', order: 2 },
+        { name: 'name3', order: 3 },
+        { name: 'name4', order: 4 }
       ]);
     });
   });

@@ -38,7 +38,7 @@ angular.module('unleashApp')
      * Appends data do the sidebar and adds it to the view
      * @param cardId
      */
-    var showSidebar = function(cardId) {
+    var showSidebar = function(card) {
       var $body = angular.element(document.body);
 
       var ownerId = $scope.currentPathOwner.uid;
@@ -48,7 +48,7 @@ angular.module('unleashApp')
       var $sidebar = angular.element('<unleash-card-details></unleash-card-details>')
         .attr('data-card-owner-id', ownerId || '')
         .attr('data-current-user-id', currentId || '')
-        .attr('data-card-id', cardId || '');
+        .attr('data-card-id', card.id || '');
 
       // Add a new sidebar
       setTimeout(function () {
@@ -66,19 +66,16 @@ angular.module('unleashApp')
      * @param cardId
      */
     var renderCard = function(cardId) {
-      var ownerId = $scope.currentPathOwner.uid;
-
       // Hide the existing sidebar, if any
       closeSidebar();
 
       // Display a card
-      cardsService.isCardRegistered(ownerId, cardId)
-        .then(function() {
-          showSidebar(cardId);
-        })
-        .catch(function() {
-          growl.error('Sorry, this card doesn’t exist.');
-        });
+      var card = cardsService.getCard($scope.currentPathOwner.uid, cardId);
+      if (card) {
+        showSidebar(card);
+      } else {
+        growl.error('Sorry, this card doesn’t exist.');
+      }
     };
 
     // Resolve username from the URL to a google ID stored in Firebase
@@ -94,14 +91,7 @@ angular.module('unleashApp')
       });
 
       // Pull user cards
-      return cardsService.listCards(uid);
-    })
-      .catch(function() {
-        // No users found!
-        $scope.initializing = false;
-        $scope.pathNotFound = true;
-      })
-      .then(function(data) {
+      cardsService.listCards(uid).then(function(data) {
         $scope.initializing = false;
         $scope.cards = data;
 
@@ -121,12 +111,18 @@ angular.module('unleashApp')
           }
         });
       });
+    })
+    .catch(function() {
+      // No users found!
+      $scope.initializing = false;
+      $scope.pathNotFound = true;
+    });
 
     $scope.showCard = function(card) {
-      if (isCardAlreadyOpened(card.$id)) {
+      if (isCardAlreadyOpened(card.id)) {
         $location.search('');
       } else {
-        $location.search(card.$id);
+        $location.search(card.id);
       }
     };
 
