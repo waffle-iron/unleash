@@ -8,108 +8,40 @@
  * Methods related to adding or removing user cards.
  */
 angular.module('unleashApp')
-  .factory('cardsService', function ($window, FBURL, $firebaseObject, $firebaseArray, $q) {
-    var currentUser = null;
+  .factory('cardsService', function ($q, $http) {
     var cards = null;
-    var ref;
 
-    var getCardsRef = function(ownerId) {
-      return new $window.Firebase(FBURL).child('users').child(ownerId).child('cards');
-    };
+    var moveCard = function (cardOwnerId, card, index) {
+      var defer = $q.defer();
 
-    /**
-     * Marks all comments in a given cards as read and removes them from users’ newComments object
-     * @param {Object} card
-     * @param {Object} newComments
-     */
-    var markAllCommentsAsRead = function(card, newComments) {
-      var readComments = card.comments ? Object.keys(card.comments) : [];
-
-      for (var prop in newComments) {
-        if(_.isString(newComments[prop]) && _.contains(readComments, newComments[prop])) {
-          delete newComments[prop];
+      $http.put(
+        'http://paths.unleash.x-team.com/api/v1/paths/' + cardOwnerId + '/goals/' + card.id,
+        {
+          order: index
         }
-      }
+      ).then(function(response) {
+        card.order = index;
+        defer.resolve(response.data.goals);
+      }).catch(function() {
+        console.error('There was a problem moving the cards.');
+        defer.reject(new Error('There was a problem moving the cards.'));
+      });
 
-      newComments.$save();
-    };
-
-    var moveCard = function (id, index) {
-      ref.child(id).child('order').set(index);
+      return defer.promise;
     };
 
     var cardsService = {
-      /**
-       * Checks whether a list exists in a system
-       * @param ownerId
-       * @param cardId
-       * @returns {Promise}
-       */
-      isCardRegistered: function(ownerId, cardId) {
-        var cardsRef = getCardsRef(ownerId);
 
-        return $q(function(resolve, reject) {
-          cardsRef.once('value', function(snapshot) {
-            if (snapshot.hasChild(cardId)) {
-              resolve();
-            } else {
-              reject();
-            }
-          });
+      getCard: function(cardOwnerId, cardId) {
+        var card = null;
+        cards.map(function(cachedCard) {
+          if (cachedCard.id === cardId) {
+            card = cachedCard;
+            cardsService.update(cardOwnerId, card.id, {unread: 0});
+          }
         });
-      },
 
-      /**
-       * Pulls card details
-       * If logged in user is an owner of the card, reset the unread count
-       * @param params An object containing owner ID, current user ID and card ID
-       * @returns {Promise} Card details
-       */
-      getCard: function(params) {
-        var self = this;
-        var ownerId = params.ownerId;
-        var userId = params.userId;
-        var cardId = params.cardId;
-
-        var cardsRef = getCardsRef(ownerId);
-
-        return $q(function(resolve, reject) {
-          self.isCardRegistered(ownerId, cardId).then(function() {
-
-            var card = $firebaseObject(cardsRef.child(cardId));
-            var newComments = $firebaseObject(cardsRef.parent().child('newComments'));
-
-            card.$loaded().then(function (data) {
-              // If current user is the card owner
-              if (ownerId === userId) {
-                // Save unread count
-                cardsRef.child(cardId).child('unread').set(0);
-
-                newComments.$loaded().then(function () {
-                  markAllCommentsAsRead(card, newComments);
-
-                  resolve(data);
-                });
-              }
-
-              else {
-                resolve(data);
-              }
-            });
-          }, function() {
-            reject();
-          });
-        });
-      },
-
-      /**
-       * Pulls card comments
-       * @param params An object containing owner ID and card ID
-       * @returns {Promise} Card details
-       */
-      getComments: function(params) {
-        var commentsRef = new $window.Firebase(FBURL).child('users').child(params.ownerId).child('cards').child(params.cardId);
-        return $firebaseObject(commentsRef);
+        return card;
       },
 
       /**
@@ -117,69 +49,101 @@ angular.module('unleashApp')
        * @returns {Promise} Promise containing user cards
        */
       listCards: function(uid) {
-        ref = new $window.Firebase(FBURL).child('users').child(uid).child('cards');
-        currentUser = uid;
-        cards = $firebaseArray(ref.orderByChild('order'));
+        var defer = $q.defer();
 
-        return cards.$loaded();
+        $http.get('http://paths.unleash.x-team.com/api/v1/paths/' + uid).then(function(response) {
+            cards = response.data.goals;
+            defer.resolve(response.data.goals);
+        }).catch(function() {
+          console.error('There was a problem loading cards.');
+          defer.reject(new Error('There was a problem loading cards.'));
+        });
+
+        return defer.promise;
       },
 
       /**
        * Assign a given template as a card to the user
        * @param card
        */
-      addFromTemplate: function(template) {
+      addFromTemplate: function(cardOwnerId, template) {
         var card = {
-          type: template.name,
-          task: template.description,
+          name: template.name,
+          description: template.description,
           level: template.level,
           icon: template.icon,
           order: template.order
         };
 
-        this.add(card);
+        return this.add(cardOwnerId, card);
       },
 
       /**
        * Assign a given card to the user
        * @param card
        */
-      add: function(card) {
-        // Check if the UID is set
-        if (!currentUser) {
-          console.error('No user UID set!');
-          return;
-        }
+      add: function(cardOwnerId, card) {
 
         // Update card order
         if (card.order <= cards.length) {
-          cardsService.reorder(card.order);
+          cardsService.reorder(cardOwnerId, card.order);
         }
 
-        // If all works OK
-        return cards.$add(card);
+        var defer = $q.defer();
+
+        $http.post(
+          'http://paths.unleash.x-team.com/api/v1/paths/' + cardOwnerId + '/goals',
+          card
+        ).then(function(response) {
+            defer.resolve(response.data.goals);
+        }).catch(function() {
+          console.error('There was a problem adding the card.');
+          defer.reject(new Error('There was a problem adding the card.'));
+        });
+
+        return defer.promise;
       },
 
       /**
        * Remove the given card from user cards
        * @param _card
        */
-      remove: function(_card) {
-        var index = cards.$indexFor(_card.$id);
-
-        cards.$remove(index).then(function() {
-          angular.forEach(cards, function(card) {
-            if (card.order > index) {
-              cardsService.moveLeft(card);
+      remove: function(cardOwnerId, _card) {
+        var defer = $q.defer();
+        $http.delete(
+          'http://paths.unleash.x-team.com/api/v1/paths/' + cardOwnerId + '/goals/' + _card.id
+        ).then(function() {
+          angular.forEach(cards, function(card, i) {
+            if (card.order > _card.order) {
+              cardsService.moveLeft(cardOwnerId, card);
+            }
+            if (card.id === _card.id) {
+              cards.splice(i, 1);
             }
           });
+          defer.resolve(cards);
+        }).catch(function() {
+          console.error('There was a problem removing the card.');
+          defer.reject(new Error('There was a problem removing the card.'));
         });
+
+        return defer.promise;
       },
 
-      update: function(id, data, onComplete) {
-        var card = ref.child(id);
+      update: function(cardOwnerId, id, data) {
+        var defer = $q.defer();
+        $http.put(
+          'http://paths.unleash.x-team.com/api/v1/paths/' + cardOwnerId + '/goals/' + id,
+          data
+        ).then(function(response) {
+          defer.resolve(response.data);
+        })
+        .catch(function() {
+          console.error('There was a problem updating the card.');
+          defer.reject(new Error('There was a problem updating the card.'));
+        });
 
-        return card.update(data, onComplete);
+        return defer.promise;
       },
 
       /**
@@ -187,34 +151,31 @@ angular.module('unleashApp')
        *  of already sent notifications,
        *  so that they can be triggered again
        */
-      updateDueDate: function(id, data) {
-        var card = ref.child(id);
-        var dueDate = card.child('dueDate');
-        var notificationsAlreadySent = card.child('notificationsAlreadySent');
-
-        return $q.all([
-          dueDate.set(data),
-          notificationsAlreadySent.remove()
-        ]);
+      updateDueDate: function(cardOwnerId, id, data) {
+        return cardsService.update(cardOwnerId, id, {dueDate: data});
       },
 
       /**
        * Reorder cards when adding a new card
        * @param index - index to start with
        */
-      reorder: function(index) {
+      reorder: function(cardOwnerId, index) {
         angular.forEach(cards, function(card) {
           if (card.order >= index) {
-            cardsService.moveRight(card);
+            cardsService.moveRight(cardOwnerId, card);
           }
         });
       },
 
-      moveRight: function (card) {
-        moveCard(card.$id, card.order + 1);
+      moveRight: function (cardOwnerId, card) {
+        moveCard(cardOwnerId, card, card.order + 1).then(function() {
+          // do nothing
+        });
       },
-      moveLeft: function (card) {
-        moveCard(card.$id, card.order - 1);
+      moveLeft: function (cardOwnerId, card) {
+        moveCard(cardOwnerId, card, card.order - 1).then(function() {
+          // do nothing
+        });
       },
 
       /**
@@ -222,7 +183,7 @@ angular.module('unleashApp')
        * @param _card {Object} card that was moved
        * @param index new index of moved card
        */
-      move: function(_card, index) {
+      move: function(cardOwnerId, _card, index) {
         if (_card.order !== index) {
           // When decreasing the card order
           if (_card.order > index) {
@@ -230,55 +191,21 @@ angular.module('unleashApp')
           }
           angular.forEach(cards, function(card) {
             if (card.order > _card.order && card.order <= index) {
-              cardsService.moveLeft(card);
+              cardsService.moveLeft(cardOwnerId, card);
             } else if (card.order < _card.order && card.order >= index) {
-              cardsService.moveRight(card);
+              cardsService.moveRight(cardOwnerId, card);
             }
           });
           // Finally, update the order of changed card
-          moveCard(_card.$id, index);
+          return moveCard(cardOwnerId, _card, index);
         }
       },
 
-      /**
-       * Toggle 'achieved' state in the card
-       * @param card
-       * @returns {Promise} Resolved after the updated card has been stored in Firebase.
-       */
-      toggleAchieved: function(card) {
-        return $q(function(resolve) {
+      toggleAchieved: function(cardOwnerId, card) {
+        return cardsService.update(cardOwnerId, card.id, {achieved: !card.achieved}).then(function() {
           card.achieved = !card.achieved;
-
-          card.$save().then(function() {
-            resolve(card.achieved);
-          });
         });
       },
-
-      /**
-       * Increments the number of unread comments
-       * @param commentRef Firebase reference to the comment
-       */
-      incrementCommentCount: function(commentRef) {
-        var ref = commentRef.parent().parent();
-
-        var card = $firebaseObject(ref);
-        var newComments = ref.parent().parent().child('newComments');
-
-        // Increments unread comment count for a given card
-        card.$loaded().then(function() {
-          var unread = 1;
-
-          if (card.unread && _.isNumber(card.unread)) {
-            unread = card.unread + 1;
-          }
-
-          ref.child('unread').set(unread);
-        });
-
-        // Push comment ID to an array of unread comments
-        newComments.push(commentRef.key());
-      }
     };
 
     return cardsService;

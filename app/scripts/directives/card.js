@@ -22,14 +22,9 @@ angular.module('unleashApp')
 
     var linkFn = function(scope, element, attrs) {
       if (attrs.view === 'public' && scope.cardOwnerId) {
-        var card = cardsService.getComments({
-          ownerId: scope.cardOwnerId,
-          cardId: scope.card.$id
-        });
+        var card = scope.card;
 
-        card.$loaded().then(function () {
-          updateCommentCount(scope, card);
-        });
+        updateCommentCount(scope, card);
 
         scope.$watch('card.comments', function () {
           updateCommentCount(scope, card);

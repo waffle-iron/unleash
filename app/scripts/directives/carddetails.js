@@ -38,12 +38,9 @@ angular.module('unleashApp')
     var linkFn = function($scope) {
 
       // Download card data
-      cardsService.getCard({
-        ownerId: $scope.cardOwnerId,
-        userId: $scope.currentUserId,
-        cardId: $scope.cardId
-      }).then(function(data) {
-        $scope.card = data;
+      var card = cardsService.getCard($scope.cardOwnerId, $scope.cardId);
+      if (card) {
+        $scope.card = card;
 
         // Add an archieved button
         if($rootScope.user.isAdmin) {
@@ -52,9 +49,9 @@ angular.module('unleashApp')
         }
 
         $scope.canSetDueDate = !!($scope.cardOwnerId === $scope.currentUserId || $rootScope.user.isAdmin);
-      }).catch(function() {
+      } else {
         growl.error('Sorry, this card doesn’t exist.');
-      });
+      }
 
       // Get an username of the current user
       userService.getUserDetails($scope.currentUserId).then(function(data) {
@@ -74,13 +71,7 @@ angular.module('unleashApp')
         };
       });
 
-      // Sets up comments service
-      commentsService.setup($scope.cardOwnerId, $scope.cardId);
-
-      // List comments
-      commentsService.list().then(function(comments) {
-        $scope.messages = comments;
-      });
+      $scope.messages = card.comments;
 
       // Provide a method for adding a message
       $scope.addMessage = function(message) {
@@ -88,8 +79,11 @@ angular.module('unleashApp')
           message: message,
           author: $scope.currentUser,
           cardOwner: $scope.cardOwner,
-          cardType: $scope.card.type,
-          cardId: $scope.card.$id
+          cardOwnerId: $scope.cardOwnerId,
+          cardType: $scope.card.name,
+          cardId: $scope.card.id
+        }).then(function(comments) {
+          $scope.messages = comments;
         });
       };
 
@@ -101,18 +95,20 @@ angular.module('unleashApp')
           .then(function (commentAuthor) {
             commentsService.addReply({
               message: reply,
+              card: $scope.card,
               author: $scope.currentUser,
               cardOwner: $scope.cardOwner,
-              cardType: $scope.card.type,
-              cardId: $scope.card.$id,
+              cardOwnerId: $scope.cardOwnerId,
               parent: {
-                id: message.$id,
+                id: message.id,
                 author: {
                   name: commentAuthor.username,
                   fullName: commentAuthor.fullName,
                   email: commentAuthor.email
                 }
               }
+            }).then(function(comments) {
+              $scope.messages = comments;
             });
           });
       };
@@ -136,7 +132,7 @@ angular.module('unleashApp')
       }, function(newVal, oldVal) {
         // We want to allow for null explicitly which means "no due date"
         if (newVal !== undefined && newVal !== oldVal) {
-          cardsService.updateDueDate($scope.cardId, $scope.card.dueDate);
+          cardsService.updateDueDate($scope.cardOwnerId, $scope.cardId, $scope.card.dueDate);
         }
       });
     };

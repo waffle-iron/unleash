@@ -9,8 +9,9 @@ angular.module('unleashApp')
   .directive('unleashCardsAdd', function (cardsService) {
 
     var add = function(scope, card) {
-      cardsService.add(card).then(function() {
+      cardsService.add(scope.currentUser, card).then(function(cards) {
         scope.newCards.splice(scope.newCards.indexOf(card), 1);
+        scope.$parent.cards = cards;
       }, function() {
         delete card.order;
       });

@@ -66,11 +66,15 @@ angular.module('unleashApp')
 
       if (type === 'template') {
         card.order = index + 1;
-        cardsService.addFromTemplate(card);
+        cardsService.addFromTemplate($scope.currentUser, card).then(function(cards) {
+          $scope.cards = cards;
+        });
       }
 
       if (type === 'card') {
-        cardsService.move(card, index);
+        cardsService.move($scope.currentUser, card, index).then(function(cards) {
+          $scope.cards = cards;
+        });
       }
 
       return false;
@@ -84,7 +88,9 @@ angular.module('unleashApp')
     // Remove specific card from user cards
     $scope.remove = function(event, index, card, external, type) {
       if (type === 'card') {
-        cardsService.remove(card);
+        cardsService.remove($scope.currentUser, card).then(function(cards) {
+          $scope.cards = cards;
+        });
       }
       return false;
     };
