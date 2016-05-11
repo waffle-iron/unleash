@@ -6,6 +6,6 @@
   <a ng-href="/paths/{{ params.userId }}/edit" ng-cloak>Edit this path</a>
 </div>
 
-<unleash-person name="{{ currentPathOwner.google.displayName }}" thumb="{{ currentPathOwner.google.cachedUserProfile.picture }}"></unleash-person>
+<unleash-person name="{{ currentPathOwner.fullName }}" thumb="{{ currentPathOwner.picture }}"></unleash-person>
 
 <unleash-single-path ng-if="currentPathOwner"></unleash-single-path>

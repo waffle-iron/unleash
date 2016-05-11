@@ -205,7 +205,7 @@ angular.module('unleashApp')
         return cardsService.update(cardOwnerId, card.id, {achieved: !card.achieved}).then(function() {
           card.achieved = !card.achieved;
         });
-      },
+      }
     };
 
     return cardsService;

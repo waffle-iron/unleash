@@ -8,125 +8,116 @@
  * Methods related to controlling user authentication.
  */
 angular.module('unleashApp')
-  .factory('userService', function($rootScope, $window, $location, FBURL, Auth, $compile, $q, growl) {
+  .factory('userService', function($rootScope, $window, $location, $http, FBURL, Auth, $compile, $q, growl) {
     var ref = new $window.Firebase(FBURL);
+    var cachedUsers;
 
-    /**
-     * Check if user is already registered
-     * @param callback
-     */
-    var checkIfUserExists = function(callback) {
-      var queryRef = ref.child('users');
-
-      queryRef.once('value', function(snapshot) {
-        var storedUsers = snapshot.val() || {};
-        var currentUser = Auth.$getAuth().uid;
-
-        callback(currentUser in storedUsers);
-      });
-    };
-
-    /**
-     * Check if authenticated user’s email address is from x-team.com domain
-     * @param data OAuth data
-     * @returns {boolean}
-     */
-    var isFromXteam = function(data) {
-      if (data) {
+    var isFromXteam = function(email) {
         var domain = '@x-team.com';
-        var email = data.google.email || '';
 
         return email.indexOf(domain) !== -1;
-      }
     };
 
-    /**
-     * Get username from a given email address
-     * @param email
-     * @returns {*}
-     */
     var parseEmail = function(email) {
       return email.match(/^([^@]*)@/)[1];
     };
 
     return {
-      /**
-       * Add new user data to firebase
-       * @param authData User data from OAuth
-       */
-      register: function(authData) {
-        var isValidLogin = isFromXteam(authData);
 
-        if (authData) {
-          if (isValidLogin) {
-            authData.username = parseEmail(authData.google.email);
+      register: function(googleUser) {
+        var defer = $q.defer();
+        var user = {
+          id: googleUser.getBasicProfile().getId(),
+          fullName: googleUser.getBasicProfile().getName(),
+          isAdmin: false,
+          picture: googleUser.getBasicProfile().getImageUrl(),
+          firstName: googleUser.getBasicProfile().getGivenName(),
+          lastName: googleUser.getBasicProfile().getFamilyName(),
+          email: googleUser.getBasicProfile().getEmail(),
+          username: parseEmail(googleUser.getBasicProfile().getEmail())
+        };
 
-            ref.child('users').child(authData.uid).set(authData);
-
-            return true;
-          } else {
-            growl.error('Try using an x-team email address. Not registered.');
-
-            this.logout({
-              silent: true
-            });
-          }
+        if (isFromXteam(googleUser.getBasicProfile().getEmail())) {
+          $http.post(
+            'https://txkaf3ohhf.execute-api.us-west-2.amazonaws.com/staging/profiles',
+            user
+          ).then(function() {
+            defer.resolve(user);
+          }).catch(function() {
+            console.error('There was a problem registering the user.');
+            defer.reject(new Error('There was a problem registering the user.'));
+          });
+        } else {
+          defer.reject(new Error('Try using an x-team email address. Not registered.'));
         }
+
+        return defer.promise;
+      },
+
+      list: function() {
+        var defer = $q.defer();
+
+        if (cachedUsers) {
+          defer.resolve(cachedUsers);
+        } else {
+          $http.get('https://txkaf3ohhf.execute-api.us-west-2.amazonaws.com/staging/profiles').then(function(response) {
+            defer.resolve(response.data.Items);
+          }).catch(function() {
+            console.error('There was a problem loading the users.');
+            defer.reject(new Error('There was a problem loading the users.'));
+          });
+        }
+
+        return defer.promise;
+      },
+
+      getById: function (id) {
+        var defer = $q.defer();
+
+        this.list().then(function(users) {
+          users.map(function(user) {
+            if (user.id === id) {
+              defer.resolve(user);
+            }
+          });
+          defer.resolve(null);
+        });
+
+        return defer.promise;
       },
 
       /**
        * Login using OAuth
        */
-      login: function() {
+      login: function(googleUser) {
+        var defer = $q.defer();
         var self = this;
 
-        // Login to google using a pop up
-        ref.authWithOAuthPopup('google', function(err, authData) {
-          if (err) {
-
-            // If the pop up won’t fire, authenticate using a redirect
-            if (err.code === 'TRANSPORT_UNAVAILABLE') {
-              ref.authWithOAuthRedirect('google', function(err) {
-                console.error('There was a problem logging in: ' + err);
+        this.getById(googleUser.getBasicProfile().getId()).then(function(user) {
+          if (user) {
+            defer.resolve(user);
+          } else {
+            self.register(googleUser)
+              .then(function(user) {
+                defer.resolve(user);
+              })
+              .catch(function(e) {
+                growl.error(e.message);
+                defer.reject(e);
               });
-
-            } else {
-              console.error('There was a problem logging in: ' + err);
-            }
           }
-
-          if(authData) {
-            // User is logged in
-
-            checkIfUserExists(function(doesExist) {
-              if(!doesExist) {
-                if(self.register(authData)) {
-                  growl.success('Make yourself at home, ' + authData.google.displayName + '!');
-                }
-              } else {
-                growl.success('Welcome back, ' + authData.google.displayName + '!');
-              }
-            });
-          }
-        }, {
-          scope: 'email'
         });
+
+        return defer.promise;
       },
 
       /**
        * Actions related to logout
        */
-      logout: function(options) {
-        options = options || {};
-
-        // @todo: add animations
-        ref.unauth();
-
-        if(!options.silent) {
-          growl.success('Logged out successfully.');
-        }
-
+      logout: function() {
+        $rootScope.user = null;
         $location.path('/');
+        growl.success('Logged out successfully.');
       },
 
       /**
@@ -236,15 +227,6 @@ angular.module('unleashApp')
         });
 
         return deferred.promise;
-      },
-
-      /**
-       * Broadcast changes in auth
-       */
-      listen: function() {
-        ref.onAuth(function() {
-          $rootScope.$broadcast('auth-change');
-        });
       }
     };
   });

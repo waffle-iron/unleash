@@ -23,12 +23,7 @@ angular.module('unleashApp')
     $routeProvider
       .when('/', {
         templateUrl: 'views/home.html',
-        className: 'home',
-        resolve: {
-          currentAuth: ['Auth', function(Auth) {
-            return Auth.$waitForAuth();
-          }]
-        }
+        className: 'home'
       })
 
       .when('/paths/:userId/', {
@@ -36,11 +31,7 @@ angular.module('unleashApp')
         controller: 'SinglePathController',
         className: 'path',
         reloadOnSearch: false,
-        resolve: {
-          currentAuth: ['Auth', function(Auth) {
-            return Auth.$requireAuth();
-          }]
-        }
+        authenticate: true
       })
 
       .when('/paths/:userId/edit', {
@@ -48,44 +39,28 @@ angular.module('unleashApp')
         controller: 'EditPathController',
         className: 'edit',
         reloadOnSearch: false,
-        resolve: {
-          currentAuth: ['Auth', function(Auth) {
-            return Auth.$requireAuth();
-          }]
-        }
+        authenticate: true
       })
 
       .when('/templates', {
         templateUrl: 'views/templates.html',
         controller: 'TemplatesController',
         className: 'templates',
-        resolve: {
-          currentAuth: ['Auth', function(Auth) {
-            return Auth.$requireAuth();
-          }]
-        }
+        authenticate: true
       })
 
       .when('/skills', {
         templateUrl: 'views/skills.html',
         controller: 'SkillsController',
         className: 'skills',
-        resolve: {
-          currentAuth: ['Auth', function(Auth) {
-            return Auth.$requireAuth();
-          }]
-        }
+        authenticate: true
       })
 
       .when('/skills/:slug/', {
         templateUrl: 'views/skill.html',
         controller: 'SkillController',
         className: 'skill',
-        resolve: {
-          currentAuth: ['Auth', function(Auth) {
-            return Auth.$requireAuth();
-          }]
-        }
+        authenticate: true
       })
 
       .otherwise({redirectTo: '/'});
