@@ -30,7 +30,7 @@ angular.module('unleashApp')
 
       _.forEach(cards, function(card) {
         counter++;
-        applyOrder(user.uid, card, counter);
+        applyOrder(user.id, card, counter);
       });
     };
 

@@ -9,5 +9,5 @@
  */
 angular.module('unleashApp')
   .controller('NavController', function ($scope, fbutil) {
-    $scope.newComments = $scope.user ? fbutil.syncArray('users/' + $scope.user.uid + '/newComments') : [];
+    $scope.newComments = $scope.user ? fbutil.syncArray('users/' + $scope.user.id + '/newComments') : [];
   });

@@ -8,7 +8,7 @@
  * Factory in the unleashApp.
  */
 angular.module('unleashApp')
-  .factory('commentsService', function ($q, $http, growl, cardsService, userService, mailService, slackService) {
+  .factory('commentsService', function ($q, $http, PATHS_API_URL, growl, cardsService, userService, mailService, slackService) {
 
     return {
       /**
@@ -19,7 +19,7 @@ angular.module('unleashApp')
         var defer = $q.defer();
 
         $http.post(
-          'http://paths.unleash.x-team.com/api/v1/paths/' + data.cardOwnerId + '/goals/' + data.cardId + '/comments',
+          PATHS_API_URL + '/' + data.cardOwnerId + '/goals/' + data.cardId + '/comments',
           {
               author: data.author.name,
               text: data.message
@@ -48,24 +48,26 @@ angular.module('unleashApp')
         var mailPromises = [];
         var slackPromises = [];
 
-        var cardOwner = data.cardOwner.name,
+        var cardOwner = data.cardOwner.username,
             parentAuthor = data.parent.author.name; // Author of the comment, to which someone replied
 
         // Notify Card Owner only if someone else replied. Do not send, if parentAuthor == cardOwner
-        if (data.author.name !== cardOwner && parentAuthor !== cardOwner) {
+        if (data.author.username !== cardOwner && parentAuthor !== cardOwner) {
           mailPromises.push( mailService.notifyCardOwnerReply(data));
           slackPromises.push( slackService.notifyCardOwnerReply(data));
         }
         // Notify Comment Author if someone else replied
-        if (parentAuthor !== data.author.name) {
+        if (parentAuthor !== data.author.username) {
           mailPromises.push( mailService.notifyCommentAuthor(data));
           slackPromises.push( slackService.notifyCommentAuthor(data));
         }
 
+        console.log(data);
+
         return $http.post(
-          'http://paths.unleash.x-team.com/api/v1/paths/' + data.cardOwnerId + '/goals/' + data.card.id + '/comments',
+          PATHS_API_URL + '/' + data.cardOwnerId + '/goals/' + data.card.id + '/comments',
           {
-              author: data.author.name,
+              author: data.author.username,
               text: data.message,
               replyTo: data.parent.id
           }
@@ -79,16 +81,14 @@ angular.module('unleashApp')
           });
 
           if ( replies.length > 1 ) {
-            var previousAuthor = replies[ replies.length - 2 ].author;
-
-            return userService.getUserUid( previousAuthor );
+            return replies[ replies.length - 2 ].author;
           }
         })
-        .then(userService.getUserDetails)
+        .then(userService.getByUsername)
         .then(function(previousAuthor) {
           previousAuthor.name = previousAuthor.username;
 
-          if ( previousAuthor.name !== data.author.name ) {
+          if ( previousAuthor.name !== data.author.username ) {
             mailPromises.push( mailService.notifyReplyAuthor(data, previousAuthor));
             slackPromises.push( slackService.notifyReplyAuthor(data, previousAuthor));
           }

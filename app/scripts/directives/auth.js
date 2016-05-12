@@ -8,7 +8,7 @@
  */
 angular.module('unleashApp')
   .directive('unleashAuth', function() {
-    var ctrlFn = function($scope, $rootScope, googleService, userService) {
+    var ctrlFn = function($scope, $rootScope, googleService) {
 
       $scope.login = function() {
         googleService.signIn();
