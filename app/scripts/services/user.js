@@ -136,41 +136,48 @@ angular.module('unleashApp')
       },
 
       findBySkill: function(slug) {
+        var self = this;
         var deferred = $q.defer();
 
-        var usersRef = ref.child('users');
-
-        usersRef.once('value', function (users) {
-          var matchingUsers = [];
-          users.forEach(function (user) {
-            user.child('skills').forEach(function (skill) {
-              if (skill.val() === slug) {
-                matchingUsers.push(user.val());
-              }
+        $http.get(
+          'https://txkaf3ohhf.execute-api.us-west-2.amazonaws.com/staging/profiles?skillId=' + slug
+        ).then(function(response) {
+          var result = [];
+          if (response.data.Count) {
+            var userIds = [];
+            for(var i = 0; i < response.data.Count; i++) {
+              userIds.push(response.data.Items[i].userId);
+            }
+            self.list().then(function(users) {
+              result = users.filter(function(user) {
+                if (userIds.indexOf(user.id) !== -1) {
+                  return true;
+                }
+              });
+              deferred.resolve(result);
             });
-          });
-
-          deferred.resolve(matchingUsers);
+          }
+        }).catch(function() {
+          growl.error('There was a problem retrieving the users.');
+          deferred.reject(new Error('There was a problem retrieving the users.'));
         });
 
         return deferred.promise;
       },
 
       addSkillToUser: function(user, skill) {
-        var deferred = $q.defer(),
-            skillsRef = ref.child('users').child(user.$id).child('skills');
+        var deferred = $q.defer();
 
-        skillsRef.on('value', function(snapshot) {
-          var isAlreadyAdded = false;
-          snapshot.forEach(function (childSnapshot) {
-            if (childSnapshot.val() === skill.slug) {
-              isAlreadyAdded = true;
-            }
-          });
-          if (!isAlreadyAdded) {
-            skillsRef.push(skill.slug);
+        $http.post(
+          'https://txkaf3ohhf.execute-api.us-west-2.amazonaws.com/staging/profiles/' + user.id + '/skills',
+          {
+            skillId: skill.slug
           }
+        ).then(function() {
           deferred.resolve();
+        }).catch(function() {
+          growl.error('There was a problem adding the skill.');
+          deferred.reject(new Error('There was a problem adding the skill.'));
         });
 
         return deferred.promise;
