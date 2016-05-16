@@ -8,8 +8,7 @@
  * Methods related to controlling user authentication.
  */
 angular.module('unleashApp')
-  .factory('userService', function($rootScope, $window, $location, $http, FBURL, $q, growl) {
-    var ref = new $window.Firebase(FBURL);
+  .factory('userService', function($rootScope, $location, $http, $q, growl) {
     var cachedUsers;
 
     var isFromXteam = function(email) {
