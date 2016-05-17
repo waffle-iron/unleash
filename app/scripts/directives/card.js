@@ -7,7 +7,7 @@
  * # Displays a card
  */
 angular.module('unleashApp')
-  .directive('unleashCard', function($compile, fbutil, cardsService, $window) {
+  .directive('unleashCard', function($compile, cardsService, $window) {
     /**
      * Update the comment count and the indicator for new comments
      * @param scope Directive scope

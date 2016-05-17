@@ -1,13 +1,9 @@
-angular.module('mock.googleapi', ['google.api'])
-  .config(function($provide) {
-    $provide.decorator('googleapi', function($delegate) {
-      console.log($delegate);
-
-      $delegate.$$load = function(callback) {
-        console.log('load googleapi');
+angular.module('mock.googleApi', [])
+  .factory('googleApi', function() {
+    return {
+      load: function(callback) {
+        console.log('Mock Google Api');
         callback({});
-      };
-
-      return $delegate;
-    });
+      }
+    }
   });

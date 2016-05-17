@@ -40,13 +40,13 @@ angular.module('unleashApp', [
     growlProvider.globalInlineMessages(true);
   })
 
-.run(function($rootScope, $route, googleapi, $location, userService, googleService) {
+.run(function($rootScope, $route, googleApi, $location, userService, googleService) {
   var postLogInRoute;
   userService.list().then(function(users) {
     $rootScope.allUsers = users;
   });
 
-  googleapi.load(function(auth2) {
+  googleApi.load(function(auth2) {
     $rootScope.auth2 = auth2;
 
     $rootScope.auth2.isSignedIn.listen(function(signedIn) {

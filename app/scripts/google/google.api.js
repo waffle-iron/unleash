@@ -1,5 +1,5 @@
 angular.module('google.api', [])
-  .factory('googleapi', [function() {
+  .factory('googleApi', [function() {
       'use strict';
 
       return {
@@ -9,6 +9,5 @@ angular.module('google.api', [])
           });
         }
       };
-
     }
   ]);
