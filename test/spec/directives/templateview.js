@@ -16,6 +16,15 @@ describe('Directive: unleashTemplateView', function () {
   beforeEach(module('views/home.html'));
   beforeEach(module('views/partials/templateView.html'));
 
+  beforeEach(module(function($provide) {
+    $provide.service('googleApi', function() {
+      return {
+        load: function(callback) {
+        }
+      }
+    });
+  }));
+
   beforeEach(inject(function($rootScope, $compile) {
     element = angular.element('<li unleash-template-view template="template"></li>');
 

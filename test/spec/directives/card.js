@@ -61,7 +61,6 @@ describe('Directive: unleashCard', function () {
     $provide.service('googleApi', function() {
       return {
         load: function(callback) {
-          console.log('Mocked Google Api Callback');
         }
       }
     });

@@ -21,6 +21,15 @@ describe('Directive: unleashAchieve', function () {
   beforeEach(module('views/home.html'));
   beforeEach(module('views/partials/achieve.html'));
 
+  beforeEach(module(function($provide) {
+    $provide.service('googleApi', function() {
+      return {
+        load: function(callback) {
+        }
+      }
+    });
+  }));
+
   beforeEach(inject(function($rootScope, $compile) {
     element = angular.element('<unleash-achieve></unleash-achieve>');
 

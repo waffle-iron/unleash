@@ -17,6 +17,7 @@ describe('Directive: unleashSticky', function () {
 
   beforeEach(module(function($provide) {
     $provide.value('$timeout', timeoutMock);
+
     $provide.value('$window', {
       Firebase: window.MockFirebase,
       addEventListener: function(event, callback) {
@@ -24,6 +25,7 @@ describe('Directive: unleashSticky', function () {
       },
       scrollY: 1000
     });
+
     $provide.value('$document', [
       {
         body: {
@@ -31,6 +33,13 @@ describe('Directive: unleashSticky', function () {
         }
       }
     ]);
+
+    $provide.service('googleApi', function() {
+      return {
+        load: function(callback) {
+        }
+      }
+    });
   }));
   beforeEach(module('unleashApp'));
   beforeEach(module('views/home.html'));

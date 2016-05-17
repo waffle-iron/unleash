@@ -13,6 +13,15 @@ describe('Directive: unleashPerson', function () {
   beforeEach(module('views/home.html'));
   beforeEach(module('views/partials/person.html'));
 
+  beforeEach(module(function($provide) {
+    $provide.service('googleApi', function() {
+      return {
+        load: function(callback) {
+        }
+      }
+    });
+  }));
+
   beforeEach(inject(function($rootScope, $compile) {
     element = angular.element('<unleash-person></unleash-person>');
     element.attr('name', name);

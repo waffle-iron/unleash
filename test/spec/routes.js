@@ -3,6 +3,15 @@
 describe('Routes test', function()  {
   beforeEach(module('unleashApp'));
 
+  beforeEach(module(function($provide) {
+    $provide.service('googleApi', function() {
+      return {
+        load: function(callback) {
+        }
+      }
+    });
+  }));
+
   var location;
   var route;
   var rootScope;

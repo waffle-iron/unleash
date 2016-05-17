@@ -40,6 +40,13 @@ describe('Directive: unleashCardsAdd', function () {
         }
       }
     });
+
+    $provide.service('googleApi', function() {
+      return {
+        load: function(callback) {
+        }
+      }
+    });
   }));
 
   beforeEach(inject(function($rootScope, $compile) {
