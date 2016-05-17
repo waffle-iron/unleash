@@ -19,21 +19,21 @@ describe('Directive: unleashCard', function () {
 
         this.valueOf = function () {
           return +internalDate;
-        }
+        };
 
         this.getTime = function() {
           return +internalDate;
-        }
+        };
       } else {
         this.valueOf = function () {
           return 1442500100100; // 17 September 2015, 16:28:20
-        }
+        };
       }
     };
 
     date.now = function() {
       return 1442500100100; // 17 September 2015, 16:28:20
-    }
+    };
 
     $provide.value('$window', {
       Firebase: window.MockFirebase,
@@ -70,7 +70,8 @@ describe('Directive: unleashCard', function () {
   beforeEach(module('views/partials/card.html'));
 
 
-  beforeEach(inject(function($rootScope, $compile) {
+  beforeEach(inject(function($rootScope, $compile, PROFILES_API_URL, $httpBackend) {
+    $httpBackend.expectGET(PROFILES_API_URL).respond(200, 'OK');
     element = angular.element('<div data-card="card" unleash-card view="public" card-owner-id="1" ></div>');
 
     outerScope = $rootScope;
@@ -80,7 +81,7 @@ describe('Directive: unleashCard', function () {
     $compile(element)(outerScope);
 
     innerScope = element.isolateScope();
-
+    
     outerScope.$digest();
   }));
 

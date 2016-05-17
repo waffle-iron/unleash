@@ -25,7 +25,8 @@ describe('Directive: unleashTemplateView', function () {
     });
   }));
 
-  beforeEach(inject(function($rootScope, $compile) {
+  beforeEach(inject(function($rootScope, $compile, PROFILES_API_URL, $httpBackend) {
+    $httpBackend.expectGET(PROFILES_API_URL).respond(200, 'OK');
     element = angular.element('<li unleash-template-view template="template"></li>');
 
     outerScope = $rootScope;

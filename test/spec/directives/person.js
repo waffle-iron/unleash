@@ -22,7 +22,8 @@ describe('Directive: unleashPerson', function () {
     });
   }));
 
-  beforeEach(inject(function($rootScope, $compile) {
+  beforeEach(inject(function($rootScope, $compile, PROFILES_API_URL, $httpBackend) {
+    $httpBackend.expectGET(PROFILES_API_URL).respond(200, 'OK');
     element = angular.element('<unleash-person></unleash-person>');
     element.attr('name', name);
     element.attr('thumb', thumb);

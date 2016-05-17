@@ -62,8 +62,6 @@ angular.module('unleashApp')
           slackPromises.push( slackService.notifyCommentAuthor(data));
         }
 
-        console.log(data);
-
         return $http.post(
           PATHS_API_URL + '/' + data.cardOwnerId + '/goals/' + data.card.id + '/comments',
           {

@@ -62,9 +62,9 @@ describe('Directive: unleashAuth', function () {
     var name = 'John Doe';
 
     beforeEach(function() {
-      outerScope.user = {};
-      outerScope.user.google = {};
-      outerScope.user.google.displayName = name;
+      outerScope.user = {
+        fullName: name
+      };
       outerScope.$apply();
     });
 

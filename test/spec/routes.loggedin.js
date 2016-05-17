@@ -29,12 +29,18 @@ describe('Routes test', function()  {
 
     module(
       function ($provide) {
-        $provide.value('Auth', AuthMock);
+        $provide.service('googleApi', function() {
+          return {
+            load: function(callback) {
+            }
+          }
+        });
       }
     );
 
     inject(
-      function (_$location_, _$route_, _$rootScope_) {
+      function (_$location_, _$route_, _$rootScope_, PROFILES_API_URL, $httpBackend) {
+        $httpBackend.expectGET(PROFILES_API_URL).respond(200, 'OK');
         location = _$location_;
         route = _$route_;
         rootScope = _$rootScope_;
@@ -45,16 +51,16 @@ describe('Routes test', function()  {
   describe('profile route logged in', function() {
     beforeEach(inject(
       function($httpBackend) {
-        $httpBackend.expectGET('views/path.html')
-          .respond(200, 'path HTML');
+        $httpBackend.expectGET('views/home.html')
+          .respond(200, 'home HTML');
       }));
 
     it('should load the single path page', function() {
       location.path('/paths/xxx');
       rootScope.$digest();
 
-      expect(route.current.className)
-        .equal('path');
+      expect(rootScope.postLogInRoute)
+        .equal('/paths/xxx/');
     });
   });
 
@@ -63,14 +69,16 @@ describe('Routes test', function()  {
       function($httpBackend) {
         $httpBackend.expectGET('views/edit.html')
           .respond(200, 'path edit HTML');
+        $httpBackend.expectGET('views/home.html')
+          .respond(200, 'home HTML');
       }));
 
     it('should load the path edit page', function() {
       location.path('/paths/xxx/edit');
       rootScope.$digest();
 
-      expect(route.current.className)
-        .equal('edit');
+      expect(rootScope.postLogInRoute)
+        .equal('/paths/xxx/edit');
     });
   });
 });

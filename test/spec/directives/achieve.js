@@ -30,13 +30,17 @@ describe('Directive: unleashAchieve', function () {
     });
   }));
 
-  beforeEach(inject(function($rootScope, $compile) {
+  beforeEach(inject(function($rootScope, $compile, PROFILES_API_URL, $httpBackend) {
+    $httpBackend.when('GET', PROFILES_API_URL).respond('OK');
     element = angular.element('<unleash-achieve></unleash-achieve>');
 
     outerScope = $rootScope;
 
     outerScope.card = {};
     outerScope.card.achieved = false;
+    outerScope.user = {
+      username: 'test.user'
+    };
 
     $compile(element)(outerScope);
 

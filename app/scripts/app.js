@@ -41,7 +41,6 @@ angular.module('unleashApp', [
   })
 
 .run(function($rootScope, $route, googleApi, $location, userService, googleService) {
-  var postLogInRoute;
   userService.list().then(function(users) {
     $rootScope.allUsers = users;
   });
@@ -54,13 +53,13 @@ angular.module('unleashApp', [
         userService.login(googleService.getCurrentUser())
           .then(function(user) {
             $rootScope.user = user;
-            if (postLogInRoute) {
-              $location.path(postLogInRoute);
-              postLogInRoute = null;
+            if ($rootScope.postLogInRoute) {
+              $location.path($rootScope.postLogInRoute);
+              $rootScope.postLogInRoute = null;
             }
           })
           .catch(function(error) {
-            console.log(error);
+            console.error(error);
           });
       } else {
         userService.logout();
@@ -70,7 +69,7 @@ angular.module('unleashApp', [
 
   $rootScope.$on('$routeChangeStart', function (event, nextRoute) {
     if (!$rootScope.user && nextRoute.authenticate) {
-      postLogInRoute = $location.path();
+      $rootScope.postLogInRoute = $location.path();
       $location.path('/');
     }
   });
