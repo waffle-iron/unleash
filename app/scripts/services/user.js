@@ -8,7 +8,7 @@
  * Methods related to controlling user authentication.
  */
 angular.module('unleashApp')
-  .factory('userService', function($rootScope, $location, $http, $q, growl) {
+  .factory('userService', function($rootScope, $location, $http, $q, growl, PROFILES_API_URL) {
     var cachedUsers;
 
     var isFromXteam = function(email) {
@@ -38,7 +38,7 @@ angular.module('unleashApp')
 
         if (isFromXteam(googleUser.getBasicProfile().getEmail())) {
           $http.post(
-            'https://txkaf3ohhf.execute-api.us-west-2.amazonaws.com/staging/profiles',
+            PROFILES_API_URL,
             user
           ).then(function() {
             defer.resolve(user);
@@ -59,7 +59,7 @@ angular.module('unleashApp')
         if (cachedUsers) {
           defer.resolve(cachedUsers);
         } else {
-          $http.get('https://txkaf3ohhf.execute-api.us-west-2.amazonaws.com/staging/profiles').then(function(response) {
+          $http.get(PROFILES_API_URL).then(function(response) {
             defer.resolve(response.data.Items);
           }).catch(function() {
             console.error('There was a problem loading the users.');
@@ -139,7 +139,7 @@ angular.module('unleashApp')
         var deferred = $q.defer();
 
         $http.get(
-          'https://txkaf3ohhf.execute-api.us-west-2.amazonaws.com/staging/profiles?skillId=' + slug
+          PROFILES_API_URL + '?skillId=' + slug
         ).then(function(response) {
           var result = [];
           if (response.data.Count) {
@@ -168,7 +168,7 @@ angular.module('unleashApp')
         var deferred = $q.defer();
 
         $http.post(
-          'https://txkaf3ohhf.execute-api.us-west-2.amazonaws.com/staging/profiles/' + user.id + '/skills',
+          PROFILES_API_URL + '/' + user.id + '/skills',
           {
             skillId: skill.slug
           }
