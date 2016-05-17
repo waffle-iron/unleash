@@ -21,6 +21,7 @@ angular.module('unleashApp', [
     'angular-growl',
     'firebase',
     'firebase.utils',
+    'google.api',
     '720kb.datepicker'
   ])
 
@@ -39,16 +40,15 @@ angular.module('unleashApp', [
     growlProvider.globalInlineMessages(true);
   })
 
-.run(function($rootScope, $route, $location, userService, googleService) {
+.run(function($rootScope, $route, googleapi, $location, userService, googleService) {
   var postLogInRoute;
   userService.list().then(function(users) {
     $rootScope.allUsers = users;
   });
 
-  gapi.load('auth2', function() {
-    $rootScope.auth2 = gapi.auth2.init();
+  googleapi.load(function(auth2) {
+    $rootScope.auth2 = auth2;
 
-    // Listen for sign-in state changes.
     $rootScope.auth2.isSignedIn.listen(function(signedIn) {
       if (signedIn) {
         userService.login(googleService.getCurrentUser())
