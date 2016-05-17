@@ -43,15 +43,10 @@ angular.module('unleashApp')
       });
     };
 
-    // Setup the page after we get the UID of the username in the URL
-    userService.getUserUid($routeParams.userId).then(function(uid) {
-      $scope.currentUser = uid;
-
-      // Pull user data
-      $scope.currentPathOwner = fbutil.syncObject('users/' + uid);
-
-      // Initialize the path
-      setupPath(uid);
+    userService.getByUsername($routeParams.userId).then(function(user) {
+      $scope.currentUser = user.id;
+      $scope.currentPathOwner = user;
+      setupPath(user.id);
     });
 
     // Get initial templates

@@ -8,14 +8,14 @@
  * Methods related to adding or removing user cards.
  */
 angular.module('unleashApp')
-  .factory('cardsService', function ($q, $http) {
+  .factory('cardsService', function ($q, $http, PATHS_API_URL) {
     var cards = null;
 
     var moveCard = function (cardOwnerId, card, index) {
       var defer = $q.defer();
 
       $http.put(
-        'http://paths.unleash.x-team.com/api/v1/paths/' + cardOwnerId + '/goals/' + card.id,
+        PATHS_API_URL + '/' + cardOwnerId + '/goals/' + card.id,
         {
           order: index
         }
@@ -37,7 +37,9 @@ angular.module('unleashApp')
         cards.map(function(cachedCard) {
           if (cachedCard.id === cardId) {
             card = cachedCard;
-            cardsService.update(cardOwnerId, card.id, {unread: 0});
+            if (card.unread) {
+              cardsService.update(cardOwnerId, card.id, {unread: 0});
+            }
           }
         });
 
@@ -51,7 +53,7 @@ angular.module('unleashApp')
       listCards: function(uid) {
         var defer = $q.defer();
 
-        $http.get('http://paths.unleash.x-team.com/api/v1/paths/' + uid).then(function(response) {
+        $http.get(PATHS_API_URL + '/' + uid).then(function(response) {
             cards = response.data.goals;
             defer.resolve(response.data.goals);
         }).catch(function() {
@@ -92,7 +94,7 @@ angular.module('unleashApp')
         var defer = $q.defer();
 
         $http.post(
-          'http://paths.unleash.x-team.com/api/v1/paths/' + cardOwnerId + '/goals',
+          PATHS_API_URL + '/' + cardOwnerId + '/goals',
           card
         ).then(function(response) {
             defer.resolve(response.data.goals);
@@ -111,7 +113,7 @@ angular.module('unleashApp')
       remove: function(cardOwnerId, _card) {
         var defer = $q.defer();
         $http.delete(
-          'http://paths.unleash.x-team.com/api/v1/paths/' + cardOwnerId + '/goals/' + _card.id
+          PATHS_API_URL + '/' + cardOwnerId + '/goals/' + _card.id
         ).then(function() {
           angular.forEach(cards, function(card, i) {
             if (card.order > _card.order) {
@@ -133,7 +135,7 @@ angular.module('unleashApp')
       update: function(cardOwnerId, id, data) {
         var defer = $q.defer();
         $http.put(
-          'http://paths.unleash.x-team.com/api/v1/paths/' + cardOwnerId + '/goals/' + id,
+          PATHS_API_URL + '/' + cardOwnerId + '/goals/' + id,
           data
         ).then(function(response) {
           defer.resolve(response.data);
@@ -205,7 +207,7 @@ angular.module('unleashApp')
         return cardsService.update(cardOwnerId, card.id, {achieved: !card.achieved}).then(function() {
           card.achieved = !card.achieved;
         });
-      },
+      }
     };
 
     return cardsService;

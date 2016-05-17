@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>Unleash</title>
     <meta name="robots" content="noindex">
+    <meta name="google-signin-client_id" content="553042811701-q1048kkkt51506r752jnl5p25ipou69k.apps.googleusercontent.com">
 
     <!-- Disable natural viewport rendering until we add proper mobile styles -->
     <!--<meta name="viewport" content="width=device-width">-->
@@ -57,6 +58,7 @@
 
     <div growl class="growl-global"></div>
 
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
@@ -83,6 +85,7 @@
     <script src="scripts/constants.js"></script>
     <script src="scripts/angularfire/config.js"></script>
     <script src="scripts/angularfire/firebase.utils.js"></script>
+    <script src="scripts/google/google.api.js"></script>
     <script src="scripts/controllers/path.js"></script>
     <script src="scripts/controllers/edit.js"></script>
     <script src="scripts/controllers/nav.js"></script>
@@ -118,6 +121,7 @@
     <script src="scripts/services/skills.js"></script>
     <script src="scripts/services/resources.js"></script>
     <script src="scripts/services/user.js"></script>
+    <script src="scripts/services/google.js"></script>
     <script src="scripts/services/mail.js"></script>
     <script src="scripts/services/slack.js"></script>
     <script src="scripts/routes.js"></script>

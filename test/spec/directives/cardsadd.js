@@ -40,9 +40,17 @@ describe('Directive: unleashCardsAdd', function () {
         }
       }
     });
+
+    $provide.service('googleApi', function() {
+      return {
+        load: function(callback) {
+        }
+      }
+    });
   }));
 
-  beforeEach(inject(function($rootScope, $compile) {
+  beforeEach(inject(function($rootScope, $compile, PROFILES_API_URL, $httpBackend) {
+    $httpBackend.expectGET(PROFILES_API_URL).respond(200, 'OK');
     element = angular.element('<div unleash-cards-add></div>');
 
     outerScope = $rootScope;

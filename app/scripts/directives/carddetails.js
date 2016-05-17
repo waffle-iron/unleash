@@ -7,7 +7,7 @@
  * # Renders card details
  */
 angular.module('unleashApp')
-  .directive('unleashCardDetails', function($rootScope, $compile, $location, growl, userService, cardsService, commentsService) {
+  .directive('unleashCardDetails', function($rootScope, $routeParams, $compile, $location, growl, userService, cardsService, commentsService) {
     /**
      * Renders a button for toggling the 'achieved' state in the card
      */
@@ -53,22 +53,8 @@ angular.module('unleashApp')
         growl.error('Sorry, this card doesn’t exist.');
       }
 
-      // Get an username of the current user
-      userService.getUserDetails($scope.currentUserId).then(function(data) {
-        $scope.currentUser = {
-          name: data.username,
-          fullName: data.fullName
-        };
-      });
-
-      // Get an username of the card owner
-      userService.getUserDetails($scope.cardOwnerId).then(function(data) {
-        $scope.cardOwner = {
-          email: data.email,
-          fullName: data.fullName,
-          picture: data.picture,
-          name: data.username
-        };
+      userService.getByUsername($routeParams.userId).then(function(user) {
+        $scope.cardOwner = user;
       });
 
       $scope.messages = card.comments;
@@ -77,7 +63,7 @@ angular.module('unleashApp')
       $scope.addMessage = function(message) {
         commentsService.add({
           message: message,
-          author: $scope.currentUser,
+          author: $rootScope.user,
           cardOwner: $scope.cardOwner,
           cardOwnerId: $scope.cardOwnerId,
           cardType: $scope.card.name,
@@ -90,27 +76,25 @@ angular.module('unleashApp')
       // Provide a method for adding a reply to a comment
       $scope.addReply = function(message, reply) {
         // Get email address of comment author
-        userService.getUserUid(message.author)
-          .then(userService.getUserDetails)
-          .then(function (commentAuthor) {
-            commentsService.addReply({
-              message: reply,
-              card: $scope.card,
-              author: $scope.currentUser,
-              cardOwner: $scope.cardOwner,
-              cardOwnerId: $scope.cardOwnerId,
-              parent: {
-                id: message.id,
-                author: {
-                  name: commentAuthor.username,
-                  fullName: commentAuthor.fullName,
-                  email: commentAuthor.email
-                }
+        userService.getByUsername(message.author).then(function(commentAuthor) {
+          commentsService.addReply({
+            message: reply,
+            card: $scope.card,
+            author: $rootScope.user,
+            cardOwner: $scope.cardOwner,
+            cardOwnerId: $scope.cardOwnerId,
+            parent: {
+              id: message.id,
+              author: {
+                name: commentAuthor.username,
+                fullName: commentAuthor.fullName,
+                email: commentAuthor.email
               }
-            }).then(function(comments) {
-              $scope.messages = comments;
-            });
+            }
+          }).then(function(comments) {
+            $scope.messages = comments;
           });
+        });
       };
 
       // Unset current due date

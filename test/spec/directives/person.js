@@ -13,7 +13,17 @@ describe('Directive: unleashPerson', function () {
   beforeEach(module('views/home.html'));
   beforeEach(module('views/partials/person.html'));
 
-  beforeEach(inject(function($rootScope, $compile) {
+  beforeEach(module(function($provide) {
+    $provide.service('googleApi', function() {
+      return {
+        load: function(callback) {
+        }
+      }
+    });
+  }));
+
+  beforeEach(inject(function($rootScope, $compile, PROFILES_API_URL, $httpBackend) {
+    $httpBackend.expectGET(PROFILES_API_URL).respond(200, 'OK');
     element = angular.element('<unleash-person></unleash-person>');
     element.attr('name', name);
     element.attr('thumb', thumb);

@@ -1,18 +1,14 @@
 'use strict';
 
 angular.module('unleashApp')
-  .factory('slackService', function($http, FBURL, $q, userService, SLACK_CONFIG, $window) {
+  .factory('slackService', function($http, $rootScope, FBURL, $q, userService, SLACK_CONFIG, $window) {
     var token = Math.random().toString(36).replace(/^../, ''),
         userId;
 
-    userService.getUserDetails()
-      .then(function(details) {
-        return userService.getUserUid(details.username);
-      })
-      .then(function(uid) {
-        userId = uid;
-        new $window.Firebase(FBURL).child('slack').child(uid).set(token);
-      });
+    userService.getByUsername($rootScope.user.username).then(function(user) {
+      userId = user.id;
+      new $window.Firebase(FBURL).child('slack').child(userId).set(token);
+    });
 
     function notify(params) {
       if (!userId) {
@@ -46,7 +42,7 @@ angular.module('unleashApp')
         notify({
           text: '*' + data.cardOwner.fullName + '* has completed a goal! :sparkles:' +
             (data.additionalMessage ? ('\n' + data.additionalMessage) : ''),
-          queryString: '/paths/' + data.cardOwner.name + '/?' + data.card.$id,
+          queryString: '/paths/' + data.cardOwner.username + '/?' + data.card.$id,
 
           attachments: [
             {

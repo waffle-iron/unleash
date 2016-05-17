@@ -3,8 +3,8 @@
     Sign in with Google
   </button>
   <p ng-if="user">
-    <img ng-src="{{ user.google.cachedUserProfile.picture }}" alt=""/>
-    {{ user.google.displayName }}
+    <img ng-src="{{ user.picture }}" alt=""/>
+    {{ user.fullName }}
     <em class="nav__auth__level admin-only animate-if" ng-if="user.isAdmin">(admin)</em>
     <button ng-click="logout()">Logout</button>
   </p>
