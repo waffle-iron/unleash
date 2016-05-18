@@ -21,12 +21,12 @@ angular.module('unleashApp')
         $http.post(
           PATHS_API_URL + '/' + data.cardOwnerId + '/goals/' + data.cardId + '/comments',
           {
-              author: data.author.name,
+              author: data.author.username,
               text: data.message
           }
         ).then(function(response) {
           // Notify Card Owner if someone else made a comment
-          if (data.cardOwner.name !== data.author.name) {
+          if (data.cardOwner.username !== data.author.username) {
             slackService.notifyCardOwner(data);
             mailService.notifyCardOwner(data);
           }
@@ -81,8 +81,12 @@ angular.module('unleashApp')
           if ( replies.length > 1 ) {
             return replies[ replies.length - 2 ].author;
           }
+
+          return data.parent.author.name;
         })
-        .then(userService.getByUsername)
+        .then(function(username) {
+          return userService.getByUsername(username);
+        })
         .then(function(previousAuthor) {
           previousAuthor.name = previousAuthor.username;
 

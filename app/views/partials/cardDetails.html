@@ -37,6 +37,11 @@
     <p ng-if="!card.description">No card description set.</p>
   </div>
 
+  <form class="achievement__form" ng-if="currentUserId">
+    <input placeholder="Add a comment…" ng-model="newMessage">
+    <button type="submit" ng-click="addMessage(newMessage);newMessage = null;">Send</button>
+  </form>
+
   <div class="achievement__comments" ng-show="messages.length">
     <h3>Comments</h3>
 
@@ -67,8 +72,4 @@
 
   </div>
 
-  <form class="achievement__form" ng-if="currentUserId">
-    <input placeholder="Add a comment…" ng-model="newMessage">
-    <button type="submit" ng-click="addMessage(newMessage);newMessage = null;">Send</button>
-  </form>
 </section>
