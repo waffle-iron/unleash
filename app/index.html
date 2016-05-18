@@ -1,5 +1,5 @@
 <!doctype html>
-<html ng-app="unleashApp" class="no-js">
+<html class="no-js">
   <head>
     <meta charset="utf-8">
     <title>Unleash</title>
@@ -58,7 +58,7 @@
 
     <div growl class="growl-global"></div>
 
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://apis.google.com/js/platform.js?onload=runUnleashApp" async defer></script>
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
@@ -126,5 +126,11 @@
     <script src="scripts/services/slack.js"></script>
     <script src="scripts/routes.js"></script>
     <!-- endbuild -->
+
+    <script type="text/javascript">
+      function runUnleashApp() {
+        angular.bootstrap(document, ['unleashApp']);
+      }
+    </script>
   </body>
 </html>
