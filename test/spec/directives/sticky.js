@@ -22,7 +22,6 @@ describe('Directive: unleashSticky', function () {
     $provide.value('$timeout', timeoutMock);
 
     $provide.value('$window', {
-      Firebase: window.MockFirebase,
       addEventListener: function(event, callback) {
         events[event] = callback;
       },

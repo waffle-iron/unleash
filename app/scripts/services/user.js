@@ -155,6 +155,8 @@ angular.module('unleashApp')
               });
               deferred.resolve(result);
             });
+          } else {
+            deferred.resolve(result);
           }
         }).catch(function() {
           growl.error('There was a problem retrieving the users.');
