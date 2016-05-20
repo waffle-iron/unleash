@@ -8,6 +8,6 @@
  * Controller for the global navigation
  */
 angular.module('unleashApp')
-  .controller('NavController', function ($scope, fbutil) {
-    $scope.newComments = $scope.user ? fbutil.syncArray('users/' + $scope.user.id + '/newComments') : [];
+  .controller('NavController', function ($rootScope, $scope) {
+    $scope.newComments = $rootScope.user ? [] : [];
   });

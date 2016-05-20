@@ -1,13 +1,11 @@
 'use strict';
 
 angular.module('unleashApp')
-  .factory('slackService', function($http, $rootScope, FBURL, $q, userService, SLACK_CONFIG, $window) {
-    var token = Math.random().toString(36).replace(/^../, ''),
-        userId;
+  .factory('slackService', function($http, $rootScope, $q, userService, SLACK_CONFIG) {
+    var userId;
 
     userService.getByUsername($rootScope.user.username).then(function(user) {
       userId = user.id;
-      new $window.Firebase(FBURL).child('slack').child(userId).set(token);
     });
 
     function notify(params) {
@@ -18,7 +16,6 @@ angular.module('unleashApp')
 
       $http.post(SLACK_CONFIG.botUrl + '/notify', {
         uid: userId,
-        token: token,
         text: params.text,
         queryString: params.queryString,
         attachments: params.attachments,

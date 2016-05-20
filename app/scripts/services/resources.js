@@ -8,59 +8,34 @@
  * Methods related to adding or removing skill resources.
  */
 angular.module('unleashApp')
-  .factory('resourceService', function($window, $q, $http, $firebaseArray, FBURL) {
-    var ref = new $window.Firebase(FBURL).child('resources');
-    var resourceList = null;
-    var resources = {};
-
-    resources.stored = ref;
+  .factory('resourceService', function($q, $http, SKILLS_API_URL) {
 
     return {
       listBySkill: function(slug) {
         var defer = $q.defer();
 
-        resourceList = $firebaseArray(ref.orderByChild('skill').equalTo(slug));
-
-        resourceList.$loaded().then(function() {
-          defer.resolve(resourceList);
+        $http.get(SKILLS_API_URL + '/' + slug).then(function(response) {
+          defer.resolve(response.data.resources);
+        }).catch(function() {
+          console.error('There was a problem loading the resources.');
+          defer.reject(new Error('There was a problem loading the resources.'));
         });
 
         return defer.promise;
       },
 
-      /**
-       * List resources
-       */
-      list: $q(function(resolve) {
-        resourceList = $firebaseArray(resources.stored);
-
-        resourceList.$loaded().then(function() {
-            resolve(resourceList);
-        });
-      }),
-
-      /**
-       * Add a new resource
-       * @param resource
-       * @param skillId
-       * @returns {Promise}
-       */
       add: function(resource, slug) {
         var defer = $q.defer();
 
-        if (!resource || !resource.url || !slug) {
-          defer.reject(new Error('No resource data given.'));
-        } else {
-          var data = {
-            'url': resource.url,
-            'skill': slug,
-            'description': resource.description || ''
-          };
-
-          resourceList.$add(data).then(function () {
-            defer.resolve();
-          });
-        }
+        $http.post(SKILLS_API_URL + '/' + slug + '/resources', {
+          url: resource.url,
+          description: resource.description || ''
+        }).then(function(response) {
+          defer.resolve(response.data.resources);
+        }).catch(function() {
+          console.error('There was a problem adding the resources.');
+          defer.reject(new Error('There was a problem adding the resources.'));
+        });
 
         return defer.promise;
       }

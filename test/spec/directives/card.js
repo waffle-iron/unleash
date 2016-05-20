@@ -36,7 +36,6 @@ describe('Directive: unleashCard', function () {
     };
 
     $provide.value('$window', {
-      Firebase: window.MockFirebase,
       Date: date
     });
   }));
@@ -81,7 +80,7 @@ describe('Directive: unleashCard', function () {
     $compile(element)(outerScope);
 
     innerScope = element.isolateScope();
-    
+
     outerScope.$digest();
   }));
 

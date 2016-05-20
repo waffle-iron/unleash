@@ -19,8 +19,6 @@ angular.module('unleashApp', [
     'dndLists',
     'relativeDate',
     'angular-growl',
-    'firebase',
-    'firebase.utils',
     'google.api',
     '720kb.datepicker'
   ])
