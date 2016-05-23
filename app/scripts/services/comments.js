@@ -22,6 +22,7 @@ angular.module('unleashApp')
           PATHS_API_URL + '/' + data.cardOwnerId + '/goals/' + data.cardId + '/comments',
           {
               author: data.author.username,
+              authorDisplayName: data.author.fullName,
               text: data.message
           }
         ).then(function(response) {
@@ -66,6 +67,7 @@ angular.module('unleashApp')
           PATHS_API_URL + '/' + data.cardOwnerId + '/goals/' + data.card.id + '/comments',
           {
               author: data.author.username,
+              authorDisplayName: data.author.fullName,
               text: data.message,
               replyTo: data.parent.id
           }
