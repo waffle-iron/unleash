@@ -13,6 +13,9 @@ before_deploy:
   - if [ "$TRAVIS_BRANCH" == 'master' ]; then export UNLEASH_ENV='production'; fi
   - if [ "$TRAVIS_BRANCH" == 'master' ]; then export BOT_URL='http://bot.unleash.x-team.com'; fi
   - if [ "$TRAVIS_BRANCH" == 'master' ]; then export PROFILES_URL='https://txkaf3ohhf.execute-api.us-west-2.amazonaws.com/prod/profiles'; fi
+  - if [ "$TRAVIS_BRANCH" == 'master' ]; then export SKILLS_URL='http://skills.unleash.x-team.com/api/v1/skills'; fi
+  - if [ "$TRAVIS_BRANCH" == 'master' ]; then export GOALS_URL='http://goals.unleash.x-team.com/api/v1/goals'; fi
+  - if [ "$TRAVIS_BRANCH" == 'master' ]; then export PATHS_URL='http://paths.unleash.x-team.com/api/v1/paths'; fi
   - grunt build
 deploy:
   - provider: script
