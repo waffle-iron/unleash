@@ -12,11 +12,15 @@ angular.module('unleashApp')
   .controller('EditPathController', function ($window, $document, $rootScope, $scope, $location, $routeParams, growl, templatesService, cardsService, userService) {
     $scope.params = $routeParams;
     $scope.cards = null;
-    $scope.templates = {};
+    $scope.templates = {
+      available: [],
+      filtered: []
+    };
+    $scope.tags = [];
     $scope.bookmarkTop = 0;
     $scope.showTemplates = true;
 
-    if (!$rootScope.user.isAdmin) {
+    if (!$rootScope.user.isAdmin && $rootScope.user.username !== $routeParams.userId) {
       growl.error('You are not authorized to see this page!');
 
       $location.path('/');
@@ -38,6 +42,14 @@ angular.module('unleashApp')
     var getTemplates = function() {
       templatesService.list.then(function(templates) {
         $scope.templates.available = templates;
+        $scope.templates.filtered = templates;
+        for (var i = 0; i < templates.length; i++) {
+          if (templates[i].tags) {
+            $scope.tags = $scope.tags.concat(templates[i].tags);
+          }
+        }
+        $scope.tags.sort();
+        $scope.tags = Array.from(new Set($scope.tags));
       }).catch(function(error) {
         console.error(error);
       });
@@ -47,13 +59,6 @@ angular.module('unleashApp')
       $scope.currentUser = user.id;
       $scope.currentPathOwner = user;
       setupPath(user.id);
-    });
-
-    // Get initial templates
-    templatesService.list.then(function(templates) {
-      $scope.templates.initial = templates;
-    }).catch(function(error) {
-      growl.error(error);
     });
 
     // Handle drag and drop interface
@@ -109,5 +114,20 @@ angular.module('unleashApp')
         tetherMode: true,
         tetherTop: top
       };
+    };
+
+    $scope.filter = function(tag) {
+      $scope.currentFilter = tag;
+      $scope.templates.filtered = [];
+      $scope.templates.available.map(function(template) {
+        if (template.tags && template.tags.indexOf(tag) !== -1) {
+          $scope.templates.filtered.push(template);
+        }
+      });
+    };
+
+    $scope.clearFilters = function() {
+      $scope.templates.filtered = $scope.templates.available;
+      $scope.currentFilter = null;
     };
   });

@@ -11,7 +11,7 @@ angular.module('unleashApp')
     var cloneTemplateProps = function(scope) {
       scope.updated = {};
 
-      ['name', 'level', 'description', 'icon'].forEach(function(prop) {
+      ['name', 'level', 'description', 'tags', 'icon'].forEach(function(prop) {
         scope.updated[prop] = scope.template[prop];
       });
     };
@@ -20,7 +20,7 @@ angular.module('unleashApp')
       templatesService.update(id, scope.updated).then(function () {
         element.closest('li').removeClass('edit').addClass('view');
         element.remove();
-        ['name', 'level', 'description', 'icon'].forEach(function(prop) {
+        ['name', 'level', 'description', 'tags', 'icon'].forEach(function(prop) {
           scope.template[prop] = scope.updated[prop];
         });
       });

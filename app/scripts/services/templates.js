@@ -42,6 +42,7 @@ angular.module('unleashApp')
           var template = {
             'name': data.name,
             'description': data.description,
+            'tags': data.tags || '',
             'level': data.level || '',
             'icon': data.icon || ''
           };
