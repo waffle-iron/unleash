@@ -19,8 +19,7 @@ angular.module('unleashApp', [
     'dndLists',
     'relativeDate',
     'angular-growl',
-    'firebase',
-    'firebase.utils',
+    'google.api',
     '720kb.datepicker'
   ])
 
@@ -39,36 +38,43 @@ angular.module('unleashApp', [
     growlProvider.globalInlineMessages(true);
   })
 
-.run(function($rootScope, $route, fbutil, Auth, userService) {
-    $rootScope.user = {};
-    $rootScope.allUsers = fbutil.syncArray('users');
+.run(function($rootScope, $route, googleApi, $location, userService, googleService) {
+  userService.list().then(function(users) {
+    $rootScope.allUsers = users;
+  });
 
-    var setUserData = function() {
-      $rootScope.user = Auth.$getAuth();
+  googleApi.load(function(auth2) {
+    $rootScope.auth2 = auth2;
 
-      if (!$rootScope.user) {
-        return;
-      }
-
-      userService.getUserDetails().then(function(data) {
-        if (!data.username || !$rootScope.user) {
-          return;
-        }
-
-        $rootScope.user.username = data.username;
-        $rootScope.user.isAdmin = data.isAdmin;
-      });
-    };
-
-    setUserData();
-
-    $rootScope.$on('auth-change', function() {
-      setUserData();
-    });
-
-    $rootScope.$on('$routeChangeSuccess', function(newVal, oldVal) {
-      if (oldVal !== newVal) {
-        $rootScope.routeClassName = 'page-' + $route.current.className;
+    $rootScope.auth2.isSignedIn.listen(function(signedIn) {
+      if (signedIn) {
+        userService.login(googleService.getCurrentUser())
+          .then(function(user) {
+            $rootScope.user = user;
+            if ($rootScope.postLogInRoute) {
+              $location.path($rootScope.postLogInRoute);
+              $rootScope.postLogInRoute = null;
+            }
+          })
+          .catch(function(error) {
+            console.error(error);
+          });
+      } else {
+        userService.logout();
       }
     });
   });
+
+  $rootScope.$on('$routeChangeStart', function (event, nextRoute) {
+    if (!$rootScope.user && nextRoute.authenticate) {
+      $rootScope.postLogInRoute = $location.path();
+      $location.path('/');
+    }
+  });
+
+  $rootScope.$on('$routeChangeSuccess', function(newVal, oldVal) {
+    if (oldVal !== newVal) {
+      $rootScope.routeClassName = 'page-' + $route.current.className;
+    }
+  });
+});

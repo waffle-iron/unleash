@@ -2,7 +2,7 @@
   <a ng-href="/paths/{{ params.userId }}">Go back to {{ params.userId }}’s public profile</a>
 </div>
 
-<unleash-person name="{{ currentPathOwner.google.displayName }}" thumb="{{ currentPathOwner.google.cachedUserProfile.picture }}"></unleash-person>
+<unleash-person name="{{ currentPathOwner.fullName }}" thumb="{{ currentPathOwner.picture }}"></unleash-person>
 
 <section class="card-templates" unleash-sticky control="controlTemplates">
 
@@ -34,7 +34,7 @@
     <h3 class="title">Drop area</h3>
 
     <ul dnd-list="cards" dnd-horizontal-list="true" dnd-drop="dropCard(event, index, item, external, type)">
-      <li ng-repeat="card in cards"
+      <li ng-repeat="card in cards | orderBy: 'order'"
           dnd-effect-allowed="move"
           dnd-draggable="card"
           dnd-type="'card'"

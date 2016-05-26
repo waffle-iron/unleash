@@ -8,7 +8,7 @@
  * View a single path
  */
 angular.module('unleashApp')
-  .controller('SinglePathController', function($scope, $q, $compile, fbutil, $location, $timeout, $routeParams, growl, userService, cardsService) {
+  .controller('SinglePathController', function($rootScope, $scope, $q, $compile, $location, $timeout, $routeParams, growl, userService, cardsService) {
     // @todo: move a part of functionality to services and directives
     $scope.params = $routeParams;
     $scope.initializing = true;
@@ -38,17 +38,14 @@ angular.module('unleashApp')
      * Appends data do the sidebar and adds it to the view
      * @param cardId
      */
-    var showSidebar = function(cardId) {
+    var showSidebar = function(card) {
       var $body = angular.element(document.body);
-
-      var ownerId = $scope.currentPathOwner.uid;
-      var currentId = $scope.user ? $scope.user.uid : null;
 
       // Create sidebar element
       var $sidebar = angular.element('<unleash-card-details></unleash-card-details>')
-        .attr('data-card-owner-id', ownerId || '')
-        .attr('data-current-user-id', currentId || '')
-        .attr('data-card-id', cardId || '');
+        .attr('data-card-owner-id', $scope.currentPathOwner.id)
+        .attr('data-current-user-id', $rootScope.user.id)
+        .attr('data-card-id', card.id);
 
       // Add a new sidebar
       setTimeout(function () {
@@ -66,42 +63,25 @@ angular.module('unleashApp')
      * @param cardId
      */
     var renderCard = function(cardId) {
-      var ownerId = $scope.currentPathOwner.uid;
-
       // Hide the existing sidebar, if any
       closeSidebar();
 
       // Display a card
-      cardsService.isCardRegistered(ownerId, cardId)
-        .then(function() {
-          showSidebar(cardId);
-        })
-        .catch(function() {
-          growl.error('Sorry, this card doesn’t exist.');
-        });
+      var card = cardsService.getCard($scope.currentPathOwner.id, cardId);
+      if (card) {
+        showSidebar(card);
+      } else {
+        growl.error('Sorry, this card doesn’t exist.');
+      }
     };
 
-    // Resolve username from the URL to a google ID stored in Firebase
-    userService.getUserUid($routeParams.userId).then(function(uid) {
+    userService.getByUsername($routeParams.userId).then(function(user) {
+      $scope.currentPathOwner = user;
+      if ($scope.user.username === $scope.currentPathOwner.username) {
+        $scope.currentPathOwner.isCurrentUser = true;
+      }
 
-      // Pull user data
-      $scope.currentPathOwner = fbutil.syncObject('users/' + uid);
-
-      $scope.currentPathOwner.$loaded().then(function() {
-        if ($scope.user && $scope.currentPathOwner.uid === $scope.user.uid) {
-          $scope.currentPathOwner.isCurrentUser = true;
-        }
-      });
-
-      // Pull user cards
-      return cardsService.listCards(uid);
-    })
-      .catch(function() {
-        // No users found!
-        $scope.initializing = false;
-        $scope.pathNotFound = true;
-      })
-      .then(function(data) {
+      cardsService.listCards(user.id).then(function(data) {
         $scope.initializing = false;
         $scope.cards = data;
 
@@ -121,12 +101,19 @@ angular.module('unleashApp')
           }
         });
       });
+    })
+    .catch(function() {
+      // No users found!
+      $scope.initializing = false;
+      $scope.pathNotFound = true;
+    })
+    ;
 
     $scope.showCard = function(card) {
-      if (isCardAlreadyOpened(card.$id)) {
+      if (isCardAlreadyOpened(card.id)) {
         $location.search('');
       } else {
-        $location.search(card.$id);
+        $location.search(card.id);
       }
     };
 

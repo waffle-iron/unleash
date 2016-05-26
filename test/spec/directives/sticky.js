@@ -15,15 +15,19 @@ describe('Directive: unleashSticky', function () {
     };
   timeoutMock.cancel = function() {};
 
+  beforeEach(module('unleashApp'));
+  beforeEach(module('views/home.html'));
+
   beforeEach(module(function($provide) {
     $provide.value('$timeout', timeoutMock);
+
     $provide.value('$window', {
-      Firebase: window.MockFirebase,
       addEventListener: function(event, callback) {
         events[event] = callback;
       },
       scrollY: 1000
     });
+
     $provide.value('$document', [
       {
         body: {
@@ -31,19 +35,24 @@ describe('Directive: unleashSticky', function () {
         }
       }
     ]);
+
+    $provide.service('googleApi', function() {
+      return {
+        load: function(callback) {
+        }
+      }
+    });
   }));
-  beforeEach(module('unleashApp'));
-  beforeEach(module('views/home.html'));
 
-
-  beforeEach(inject(function($rootScope, $compile) {
+  beforeEach(inject(function($rootScope, $compile, PROFILES_API_URL, $httpBackend) {
+    $httpBackend.expectGET(PROFILES_API_URL).respond(200, 'OK');
     element = angular.element('<div unleash-sticky control="control"></div>');
 
     outerScope = $rootScope;
 
     outerScope.control = function() {
       return control
-    }
+    };
 
     $compile(element)(outerScope);
 

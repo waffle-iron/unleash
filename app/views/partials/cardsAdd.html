@@ -2,11 +2,11 @@
 
 <ul>
   <li class="card card--is-editable card--quick" ng-class="{'card--overlaid': card.order}" ng-repeat="card in newCards" ng-init="template = card">
-    <input type="text" class="type" ng-model="card.type" placeholder="Type">
+    <input type="text" class="type" ng-model="card.name" placeholder="Name">
 
     <div unleash-icons-modal config="add"></div>
 
-    <textarea class="task" cols="25" rows="4" ng-model="card.task" placeholder="Task">{{ card.task }}</textarea>
+    <textarea class="task" cols="25" rows="4" ng-model="card.description" placeholder="Description">{{ card.description }}</textarea>
     <input type="text" class="level" ng-model="card.level" placeholder="Level">
 
     <datepicker date-format="d MMM yyyy">

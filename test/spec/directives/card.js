@@ -7,9 +7,9 @@ describe('Directive: unleashCard', function () {
   var innerScope;
 
   var card = {
-    'type': 'Test card',
+    'name': 'Test card',
     'level': 1,
-    'task': 'Test task'
+    'description': 'Test description'
   };
 
   beforeEach(module(function($provide) {
@@ -19,24 +19,23 @@ describe('Directive: unleashCard', function () {
 
         this.valueOf = function () {
           return +internalDate;
-        }
+        };
 
         this.getTime = function() {
           return +internalDate;
-        }
+        };
       } else {
         this.valueOf = function () {
           return 1442500100100; // 17 September 2015, 16:28:20
-        }
+        };
       }
     };
 
     date.now = function() {
       return 1442500100100; // 17 September 2015, 16:28:20
-    }
+    };
 
     $provide.value('$window', {
-      Firebase: window.MockFirebase,
       Date: date
     });
   }));
@@ -57,13 +56,21 @@ describe('Directive: unleashCard', function () {
         }
       }
     });
+
+    $provide.service('googleApi', function() {
+      return {
+        load: function(callback) {
+        }
+      }
+    });
   }));
 
   beforeEach(module('views/home.html'));
   beforeEach(module('views/partials/card.html'));
 
 
-  beforeEach(inject(function($rootScope, $compile) {
+  beforeEach(inject(function($rootScope, $compile, PROFILES_API_URL, $httpBackend) {
+    $httpBackend.expectGET(PROFILES_API_URL).respond(200, 'OK');
     element = angular.element('<div data-card="card" unleash-card view="public" card-owner-id="1" ></div>');
 
     outerScope = $rootScope;
@@ -78,19 +85,19 @@ describe('Directive: unleashCard', function () {
   }));
 
   describe('card', function() {
-    it('should render its type and task', function() {
+    it('should render its name and description', function() {
       var cardType = element[0].querySelector('.card__type');
 
-      expect(cardType.innerHTML).to.contain(card.type);
-      expect(cardType.innerHTML).to.contain(card.task);
+      expect(cardType.innerHTML).to.contain(card.name);
+      expect(cardType.innerHTML).to.contain(card.description);
     });
 
     it('should render its level', function() {
       expect(element[0].querySelector('.card__level').innerHTML).to.equal('Level ' + card.level);
     });
 
-    it('should display its task description as title', function() {
-      expect(element[0].getAttribute('title')).to.equal(card.task);
+    it('should display its description as title', function() {
+      expect(element[0].getAttribute('title')).to.equal(card.description);
     });
   });
 

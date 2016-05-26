@@ -9,12 +9,16 @@
   var BOT_URL = '@@BOT_URL';
   var SKILLS_URL = '@@SKILLS_URL';
   var GOALS_URL = '@@GOALS_URL';
+  var PATHS_URL = '@@PATHS_URL';
+  var PROFILES_URL = '@@PROFILES_URL';
 
   angular
     .module('unleashApp')
     .constant('dataPath', 'scripts/data/')
     .constant('SKILLS_API_URL', SKILLS_URL)
     .constant('GOALS_API_URL', GOALS_URL)
+    .constant('PATHS_API_URL', PATHS_URL)
+    .constant('PROFILES_API_URL', PROFILES_URL)
     .constant('MAIL_CONFIG', { url: MANDRILL_URL, key: MANDRILL_API_KEY })
     .constant('SLACK_CONFIG', { botUrl: BOT_URL });
 })();

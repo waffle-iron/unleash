@@ -13,15 +13,10 @@ angular.module('unleashApp')
         scope.slackNotification = false;
         scope.additionalMessage = '';
 
-        /**
-         * Updates text in the button basing on whether the card has been achieved already.
-         * @param isAchieved
-         */
-
         var $button = angular.element(element.find('button'));
 
         var updateButton = function() {
-          var newText = !scope.card.achieved ? 'Mark as achieved' : 'Mark as not achieved';
+          var newText = !scope.$parent.card.achieved ? 'Mark as achieved' : 'Mark as not achieved';
 
           $button.text(newText);
         };
@@ -33,14 +28,13 @@ angular.module('unleashApp')
         });
 
         $button.on('click', function() {
-          cardsService.toggleAchieved(scope.card)
-            .then(function(achieved) {
-
-              if (achieved && scope.slackNotification) {
+          cardsService.toggleAchieved(scope.$parent.cardOwnerId, scope.$parent.card)
+            .then(function() {
+              if (scope.$parent.card.achieved && scope.slackNotification) {
                 slackService.notifyAchieved({
                   cardOwner: scope.$parent.cardOwner,
                   currentUser: scope.$parent.currentUser,
-                  card: scope.card,
+                  card: scope.$parent.card,
                   additionalMessage: scope.additionalMessage
                 });
               }

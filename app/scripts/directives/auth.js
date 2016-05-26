@@ -8,16 +8,14 @@
  */
 angular.module('unleashApp')
   .directive('unleashAuth', function() {
-    var ctrlFn = function($scope, userService) {
-      // Detect if user is logged in initially
-      userService.listen(!!$scope.user);
+    var ctrlFn = function($scope, $rootScope, googleService) {
 
       $scope.login = function() {
-        userService.login();
+        googleService.signIn();
       };
 
       $scope.logout = function() {
-        userService.logout();
+        googleService.signOut();
       };
     };
 

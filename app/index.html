@@ -1,9 +1,10 @@
 <!doctype html>
-<html ng-app="unleashApp" class="no-js">
+<html class="no-js">
   <head>
     <meta charset="utf-8">
     <title>Unleash</title>
     <meta name="robots" content="noindex">
+    <meta name="google-signin-client_id" content="553042811701-q1048kkkt51506r752jnl5p25ipou69k.apps.googleusercontent.com">
 
     <!-- Disable natural viewport rendering until we add proper mobile styles -->
     <!--<meta name="viewport" content="width=device-width">-->
@@ -26,14 +27,13 @@
         <h1 class="logo"><a ng-href="/" rel="home">Unleash</a></h1>
 
         <nav class="nav">
-          <ul ng-show="user" class="nav__menu" ng-controller="NavController as nav" ng-cloak>
+          <ul ng-show="user" class="nav__menu" ng-cloak>
             <li class="item--home">
               <a ng-href="/">All paths</a>
             </li>
             <li class="item--path">
               <a ng-href="/paths/{{ user.username }}/">
                 Your public path
-                <em ng-if="newComments.length" class="comments animate-if">{{ newComments.length }}</em>
               </a>
             </li>
             <li ng-if="user.isAdmin" class="item--templates animate-if">
@@ -70,8 +70,6 @@
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="bower_components/angular-aria/angular-aria.js"></script>
     <script src="bower_components/angular-growl-2/build/angular-growl.js"></script>
-    <script src="bower_components/firebase/firebase.js"></script>
-    <script src="bower_components/angularfire/dist/angularfire.js"></script>
     <script src="bower_components/angular-relative-date/angular-relative-date.js"></script>
     <script src="bower_components/angular-drag-and-drop-lists/angular-drag-and-drop-lists.js"></script>
     <script src="bower_components/angularjs-datepicker/dist/angular-datepicker.min.js"></script>
@@ -81,11 +79,9 @@
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
     <script src="scripts/app.js"></script>
     <script src="scripts/constants.js"></script>
-    <script src="scripts/angularfire/config.js"></script>
-    <script src="scripts/angularfire/firebase.utils.js"></script>
+    <script src="scripts/google/google.api.js"></script>
     <script src="scripts/controllers/path.js"></script>
     <script src="scripts/controllers/edit.js"></script>
-    <script src="scripts/controllers/nav.js"></script>
     <script src="scripts/controllers/templates.js"></script>
     <script src="scripts/controllers/skills.js"></script>
     <script src="scripts/controllers/skill.js"></script>
@@ -111,16 +107,23 @@
     <script src="scripts/directives/templateedit.js"></script>
     <script src="scripts/directives/templateiconsmodal.js"></script>
     <script src="scripts/filters/reverse.js"></script>
-    <script src="scripts/services/auth.js"></script>
     <script src="scripts/services/cards.js"></script>
     <script src="scripts/services/comments.js"></script>
     <script src="scripts/services/templates.js"></script>
     <script src="scripts/services/skills.js"></script>
     <script src="scripts/services/resources.js"></script>
     <script src="scripts/services/user.js"></script>
+    <script src="scripts/services/google.js"></script>
     <script src="scripts/services/mail.js"></script>
     <script src="scripts/services/slack.js"></script>
     <script src="scripts/routes.js"></script>
     <!-- endbuild -->
+
+    <script type="text/javascript">
+      function runUnleashApp() {
+        angular.bootstrap(document, ['unleashApp']);
+      }
+    </script>
+    <script src="https://apis.google.com/js/platform.js?onload=runUnleashApp" async defer></script>
   </body>
 </html>

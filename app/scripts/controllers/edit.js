@@ -9,7 +9,7 @@
 
 'use strict';
 angular.module('unleashApp')
-  .controller('EditPathController', function ($window, $document, $rootScope, $scope, $location, FBURL, fbutil, $routeParams, growl, templatesService, cardsService, userService) {
+  .controller('EditPathController', function ($window, $document, $rootScope, $scope, $location, $routeParams, growl, templatesService, cardsService, userService) {
     $scope.params = $routeParams;
     $scope.cards = null;
     $scope.templates = {};
@@ -43,15 +43,10 @@ angular.module('unleashApp')
       });
     };
 
-    // Setup the page after we get the UID of the username in the URL
-    userService.getUserUid($routeParams.userId).then(function(uid) {
-      $scope.currentUser = uid;
-
-      // Pull user data
-      $scope.currentPathOwner = fbutil.syncObject('users/' + uid);
-
-      // Initialize the path
-      setupPath(uid);
+    userService.getByUsername($routeParams.userId).then(function(user) {
+      $scope.currentUser = user.id;
+      $scope.currentPathOwner = user;
+      setupPath(user.id);
     });
 
     // Get initial templates
@@ -66,11 +61,15 @@ angular.module('unleashApp')
 
       if (type === 'template') {
         card.order = index + 1;
-        cardsService.addFromTemplate(card);
+        cardsService.addFromTemplate($scope.currentUser, card).then(function(cards) {
+          $scope.cards = cards;
+        });
       }
 
       if (type === 'card') {
-        cardsService.move(card, index);
+        cardsService.move($scope.currentUser, card, index).then(function(cards) {
+          $scope.cards = cards;
+        });
       }
 
       return false;
@@ -84,7 +83,9 @@ angular.module('unleashApp')
     // Remove specific card from user cards
     $scope.remove = function(event, index, card, external, type) {
       if (type === 'card') {
-        cardsService.remove(card);
+        cardsService.remove($scope.currentUser, card).then(function(cards) {
+          $scope.cards = cards;
+        });
       }
       return false;
     };

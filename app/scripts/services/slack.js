@@ -1,18 +1,12 @@
 'use strict';
 
 angular.module('unleashApp')
-  .factory('slackService', function($http, FBURL, $q, userService, SLACK_CONFIG, $window) {
-    var token = Math.random().toString(36).replace(/^../, ''),
-        userId;
+  .factory('slackService', function($http, $rootScope, $q, userService, SLACK_CONFIG) {
+    var userId;
 
-    userService.getUserDetails()
-      .then(function(details) {
-        return userService.getUserUid(details.username);
-      })
-      .then(function(uid) {
-        userId = uid;
-        new $window.Firebase(FBURL).child('slack').child(uid).set(token);
-      });
+    userService.getByUsername($rootScope.user.username).then(function(user) {
+      userId = user.id;
+    });
 
     function notify(params) {
       if (!userId) {
@@ -22,7 +16,6 @@ angular.module('unleashApp')
 
       $http.post(SLACK_CONFIG.botUrl + '/notify', {
         uid: userId,
-        token: token,
         text: params.text,
         queryString: params.queryString,
         attachments: params.attachments,
@@ -46,14 +39,14 @@ angular.module('unleashApp')
         notify({
           text: '*' + data.cardOwner.fullName + '* has completed a goal! :sparkles:' +
             (data.additionalMessage ? ('\n' + data.additionalMessage) : ''),
-          queryString: '/paths/' + data.cardOwner.name + '/?' + data.card.$id,
+          queryString: '/paths/' + data.cardOwner.username + '/?' + data.card.$id,
 
           attachments: [
             {
               color: 'good',
-              fallback: data.cardOwner.fullName + ' has completed the ' + data.card.type + '* goal! :sparkles:',
-              title: data.card.type || '',
-              text: data.card.task || '',
+              fallback: data.cardOwner.fullName + ' has completed the ' + data.card.name + '* goal! :sparkles:',
+              title: data.card.name || '',
+              text: data.card.description || '',
               fields: [
                 {
                   title: 'Level',

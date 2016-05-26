@@ -7,7 +7,7 @@
  * # Displays a card
  */
 angular.module('unleashApp')
-  .directive('unleashCard', function($compile, fbutil, cardsService, $window) {
+  .directive('unleashCard', function($compile, cardsService, $window) {
     /**
      * Update the comment count and the indicator for new comments
      * @param scope Directive scope
@@ -22,14 +22,9 @@ angular.module('unleashApp')
 
     var linkFn = function(scope, element, attrs) {
       if (attrs.view === 'public' && scope.cardOwnerId) {
-        var card = cardsService.getComments({
-          ownerId: scope.cardOwnerId,
-          cardId: scope.card.$id
-        });
+        var card = scope.card;
 
-        card.$loaded().then(function () {
-          updateCommentCount(scope, card);
-        });
+        updateCommentCount(scope, card);
 
         scope.$watch('card.comments', function () {
           updateCommentCount(scope, card);

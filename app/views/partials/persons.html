@@ -3,7 +3,7 @@
 <ul class="paths-list" ng-if="users.length">
   <li ng-repeat="user in users track by user.username">
     <a ng-href="/paths/{{ user.username }}">
-      <unleash-person name="{{ user.google.displayName }}" thumb="{{ user.google.cachedUserProfile.picture }}"></unleash-person>
+      <unleash-person name="{{ user.fullName }}" thumb="{{ user.picture }}"></unleash-person>
     </a>
   </li>
 </ul>
