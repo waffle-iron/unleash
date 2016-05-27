@@ -12,13 +12,17 @@
   </div>
 
   <div ng-show="showTemplates">
-    <h3 class="structural">Available cards:</h3>
+    <p class="message" ng-hide="templates.filtered.length">Loading…</p>
 
-    <p class="message" ng-hide="templates.available">Loading…</p>
-    <p class="message" ng-show="templates.available && !templates.available.length">You’ve already used all available templates. <br>Great job!</p>
+    <div class="templates__filters">
+      <button ng-click="clearFilters();">clear filters</button>
+      <ul class="templates__tags">
+        <li class="templates__tag" ng-class="{'templates__current-filter': tag == currentFilter}" ng-repeat="tag in tags" ng-click="filter(tag);">{{tag}}</li>
+      </ul>
+    </div>
 
-    <ul dnd-list="templates.available" dnd-horizontal-list="true" dnd-allowed-types="[]">
-      <li ng-repeat="template in templates.available | filter:filterTemplates "
+    <ul dnd-list="templates.filtered" dnd-horizontal-list="true" dnd-allowed-types="[]">
+      <li ng-repeat="template in templates.filtered | filter:filterTemplates "
           dnd-effect-allowed="copy"
           dnd-draggable="template"
           dnd-type="'template'">
