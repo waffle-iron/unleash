@@ -20,6 +20,7 @@ angular.module('unleashApp', [
     'relativeDate',
     'angular-growl',
     'google.api',
+    'LocalStorageModule',
     '720kb.datepicker'
   ])
 
@@ -38,19 +39,25 @@ angular.module('unleashApp', [
     growlProvider.globalInlineMessages(true);
   })
 
-.run(function($rootScope, $route, googleApi, $location, userService, googleService) {
-  userService.list().then(function(users) {
-    $rootScope.allUsers = users;
-  });
+.run(function($rootScope, $route, googleApi, $location, userService, googleService, localStorageService) {
+  if (localStorageService.get('logged_in')) {
+    $rootScope.initializing = true;
+  }
 
   googleApi.load(function(auth2) {
     $rootScope.auth2 = auth2;
 
     $rootScope.auth2.isSignedIn.listen(function(signedIn) {
+      $rootScope.initializing = true;
       if (signedIn) {
         userService.login(googleService.getCurrentUser())
           .then(function(user) {
+            $rootScope.initializing = false;
             $rootScope.user = user;
+            userService.list().then(function(users) {
+              $rootScope.allUsers = users;
+            });
+
             if ($rootScope.postLogInRoute) {
               $location.path($rootScope.postLogInRoute);
               $rootScope.postLogInRoute = null;
@@ -60,6 +67,7 @@ angular.module('unleashApp', [
             console.error(error);
           });
       } else {
+        $rootScope.initializing = false;
         userService.logout();
       }
     });

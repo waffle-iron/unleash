@@ -1,4 +1,6 @@
-<header ng-if="!user" class="animate-if">
+<span ng-if="initializing" class="initializing-spinner icon-spinner8"></span>
+
+<header ng-if="!user && !initializing" class="animate-if">
   <h2 class="primary">Path to #Unleash</h2>
   <h3 class="secondary">“Wherever you are, the path is in front of you.”</h3>
 </header>
