@@ -8,7 +8,7 @@
  * Methods related to controlling user authentication.
  */
 angular.module('unleashApp')
-  .factory('userService', function($rootScope, $location, $http, $q, growl, PROFILES_API_URL) {
+  .factory('userService', function($rootScope, $location, localStorageService, $http, $q, growl, PROFILES_API_URL) {
     var cachedUsers;
 
     var isFromXteam = function(email) {
@@ -109,10 +109,12 @@ angular.module('unleashApp')
 
         this.getById(googleUser.getBasicProfile().getId()).then(function(user) {
           if (user) {
+            localStorageService.set('logged_in', true);
             defer.resolve(user);
           } else {
             self.register(googleUser)
               .then(function(user) {
+                localStorageService.set('logged_in', true);
                 defer.resolve(user);
               })
               .catch(function(e) {
@@ -130,6 +132,7 @@ angular.module('unleashApp')
        */
       logout: function() {
         $rootScope.user = null;
+        localStorageService.set('logged_in', false);
         $location.path('/');
         growl.success('Logged out successfully.');
       },
