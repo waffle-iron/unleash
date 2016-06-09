@@ -39,8 +39,7 @@ describe('Routes test', function()  {
     );
 
     inject(
-      function (_$location_, _$route_, _$rootScope_, PROFILES_API_URL, $httpBackend) {
-        $httpBackend.expectGET(PROFILES_API_URL).respond(200, 'OK');
+      function (_$location_, _$route_, _$rootScope_) {
         location = _$location_;
         route = _$route_;
         rootScope = _$rootScope_;
