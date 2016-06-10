@@ -67,6 +67,7 @@ $dnd-list-drop-primary-padding: .25em;
   .card {
     cursor: move;
     margin: 0;
+    position: static;
 
     &__level {
       top: auto;
