@@ -48,7 +48,9 @@ angular.module('unleashApp')
       scope: {
         card: '=',
         cardOwnerId: '@',
-        currentUserId: '@'
+        currentUserId: '@',
+        removeHandler: '=',
+        pathId: '='
       },
       replace: true,
       link: linkFn

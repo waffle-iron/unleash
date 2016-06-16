@@ -11,7 +11,6 @@
 angular.module('unleashApp')
   .controller('EditPathController', function ($window, $document, $rootScope, $scope, $location, $routeParams, growl, templatesService, cardsService, userService) {
     $scope.params = $routeParams;
-    $scope.cards = null;
     $scope.templates = {
       available: [],
       filtered: []
@@ -28,11 +27,8 @@ angular.module('unleashApp')
 
     var setupPath = function(uid) {
       // List cards that user has been assigned with
-      cardsService.listCards(uid).then(function(cards) {
-        $scope.cards = cards;
-
-        getTemplates();
-
+      cardsService.listPaths(uid).then(function(paths) {
+        $scope.paths = paths;
       }).catch(function(error) {
         console.error(error);
       });
@@ -59,20 +55,25 @@ angular.module('unleashApp')
       $scope.currentUser = user.id;
       $scope.currentPathOwner = user;
       setupPath(user.id);
+      getTemplates();
     });
 
     // Handle drag and drop interface
     $scope.dropCard = function(event, index, card, external, type) {
-
+      var pathId = event.target.id ? event.target.id : event.target.parentNode.id;
       if (type === 'template') {
         card.order = index + 1;
-        cardsService.addFromTemplate($scope.currentUser, card).then(function(cards) {
-          $scope.cards = cards;
+        cardsService.addFromTemplate(pathId, card).then(function(cards) {
+          angular.forEach($scope.paths, function(path) {
+            if (path.id === pathId) {
+              path.goals = cards;
+            }
+          });
         });
       }
 
       if (type === 'card') {
-        cardsService.move($scope.currentUser, card, index).then(function(cards) {
+        cardsService.move(pathId, card, index).then(function(cards) {
           $scope.cards = cards;
         });
       }
@@ -85,14 +86,10 @@ angular.module('unleashApp')
       $scope.templates.available.splice(index, 1);
     };
 
-    // Remove specific card from user cards
-    $scope.remove = function(event, index, card, external, type) {
-      if (type === 'card') {
-        cardsService.remove($scope.currentUser, card).then(function(cards) {
-          $scope.cards = cards;
-        });
-      }
-      return false;
+    $scope.removeCard = function(card, pathId) {
+      cardsService.remove(pathId, card).then(function(paths) {
+        $scope.paths = paths;
+      });
     };
 
     $scope.toggleCards = function() {
@@ -114,6 +111,12 @@ angular.module('unleashApp')
         tetherMode: true,
         tetherTop: top
       };
+    };
+
+    $scope.createPath = function() {
+      cardsService.createPath($scope.currentUser).then(function(paths) {
+        $scope.paths = paths;
+      });
     };
 
     $scope.filter = function(tag) {

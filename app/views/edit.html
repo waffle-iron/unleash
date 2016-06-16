@@ -34,25 +34,26 @@
 </section>
 
 <div class="inner" unleash-sticky control="controlCards">
-  <section class="drop drop--primary">
+
+  <div ng-click="createPath()" class="drop drop--remove">
+    <h3 class="title">Create a path</h3>
+  </div>
+
+  <section class="drop drop--primary" ng-repeat="path in paths">
     <h3 class="title">Drop area</h3>
 
-    <ul dnd-list="cards" dnd-horizontal-list="true" dnd-drop="dropCard(event, index, item, external, type)">
-      <li ng-repeat="card in cards | orderBy: 'order'"
+    <ul id="{{path.id}}" dnd-list="cards" dnd-horizontal-list="true" dnd-drop="dropCard(event, index, item, external, type)">
+      <li ng-repeat="card in path.goals | orderBy: 'order'"
+          id="{{card.id}}"
           dnd-effect-allowed="move"
           dnd-draggable="card"
           dnd-type="'card'"
-          dnd-moved="cards.splice($index, 1)">
-        <figure class="card--full" data-card="card" unleash-card></figure>
+          dnd-moved="path.goals.splice($index, 1)">
+        <figure class="card--full" data-card="card" data-path-id="path.id" data-remove-handler="removeCard" unleash-card></figure>
       </li>
     </ul>
   </section>
 
   <div unleash-scroll-bookmark offset-top="bookmarkTop"></div>
-
-  <div class="drop drop--remove">
-    <h3 class="title">Remove cards</h3>
-    <ul dnd-list="[]" dnd-drop="remove(event, index, item, external, type)" dnd-allowed-types="['card']"></ul>
-  </div>
 
 </div>
