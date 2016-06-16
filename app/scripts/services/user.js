@@ -75,7 +75,7 @@ angular.module('unleashApp')
 
         this.list().then(function(users) {
           users.map(function(user) {
-            if (user.id === id || user.id === 'google:' + id) {
+            if (user.id === id) {
               defer.resolve(user);
             }
           });
