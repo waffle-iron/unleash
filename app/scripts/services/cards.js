@@ -9,13 +9,13 @@
  */
 angular.module('unleashApp')
   .factory('cardsService', function ($q, $http, PATHS_API_URL) {
-    var cards = null;
+    var cachedPaths = [];
 
-    var moveCard = function (cardOwnerId, card, index) {
+    var moveCard = function (pathId, card, index) {
       var defer = $q.defer();
 
       $http.put(
-        PATHS_API_URL + '/' + cardOwnerId + '/goals/' + card.id,
+        PATHS_API_URL + '/' + pathId + '/goals/' + card.id,
         {
           order: index
         }
@@ -30,15 +30,22 @@ angular.module('unleashApp')
       return defer.promise;
     };
 
+    var cachePaths = function(paths) {
+      for (var i = 0; i < paths.length; i++) {
+        var path = paths[i];
+        cachedPaths[path.id] = path;
+      }
+    };
+
     var cardsService = {
 
-      getCard: function(cardOwnerId, cardId) {
+      getCard: function(pathId, cardId) {
         var card = null;
-        cards.map(function(cachedCard) {
+        angular.forEach(cachedPaths[pathId].goals, function(cachedCard) {
           if (cachedCard.id === cardId) {
             card = cachedCard;
             if (card.unread) {
-              cardsService.update(cardOwnerId, card.id, {unread: 0});
+              cardsService.update(pathId, card.id, {unread: 0});
             }
           }
         });
@@ -46,16 +53,49 @@ angular.module('unleashApp')
         return card;
       },
 
-      /**
-       * List user cards
-       * @returns {Promise} Promise containing user cards
-       */
-      listCards: function(uid) {
+      listPaths: function(userId) {
         var defer = $q.defer();
 
-        $http.get(PATHS_API_URL + '/' + uid).then(function(response) {
-            cards = response.data.goals;
-            defer.resolve(response.data.goals);
+        $http.get(PATHS_API_URL + '?userId=' + userId).then(function(response) {
+          cachePaths(response.data);
+          defer.resolve(response.data);
+        }).catch(function() {
+          console.error('There was a problem loading paths.');
+          defer.reject(new Error('There was a problem loading paths.'));
+        });
+
+        return defer.promise;
+      },
+
+      createPath: function(userId) {
+        var defer = $q.defer();
+
+        $http.post(
+          PATHS_API_URL,
+          {
+            userId: userId
+          }
+        ).then(function(response) {
+          cachePaths(response.data);
+          defer.resolve(response.data);
+        }).catch(function() {
+          console.error('There was a problem creating the path.');
+          defer.reject(new Error('There was a problem creating the path.'));
+        });
+
+        return defer.promise;
+      },
+
+      /**
+       * List path cards
+       * @returns {Promise} Promise containing user cards
+       */
+      listCards: function(pathId) {
+        var defer = $q.defer();
+
+        $http.get(PATHS_API_URL + '/' + pathId).then(function(response) {
+          cachedPaths[pathId] = response.data;
+          defer.resolve(response.data.goals);
         }).catch(function() {
           console.error('There was a problem loading cards.');
           defer.reject(new Error('There was a problem loading cards.'));
@@ -66,9 +106,10 @@ angular.module('unleashApp')
 
       /**
        * Assign a given template as a card to the user
-       * @param card
+       * @param pathId
+       * @param template
        */
-      addFromTemplate: function(cardOwnerId, template) {
+      addFromTemplate: function(pathId, template) {
         var card = {
           name: template.name,
           description: template.description,
@@ -77,24 +118,25 @@ angular.module('unleashApp')
           order: template.order
         };
 
-        return this.add(cardOwnerId, card);
+        return this.add(pathId, card);
       },
 
       /**
        * Assign a given card to the user
+       * @param pathId
        * @param card
        */
-      add: function(cardOwnerId, card) {
+      add: function(pathId, card) {
 
         // Update card order
-        if (card.order <= cards.length) {
-          cardsService.reorder(cardOwnerId, card.order);
+        if (card.order <= cachedPaths[pathId].goals.length) {
+          cardsService.reorder(pathId, card.order);
         }
 
         var defer = $q.defer();
 
         $http.post(
-          PATHS_API_URL + '/' + cardOwnerId + '/goals',
+          PATHS_API_URL + '/' + pathId + '/goals',
           card
         ).then(function(response) {
             defer.resolve(response.data.goals);
@@ -107,23 +149,29 @@ angular.module('unleashApp')
       },
 
       /**
-       * Remove the given card from user cards
+       * Remove a card from a path
+       * @param pathId
        * @param _card
        */
-      remove: function(cardOwnerId, _card) {
+      remove: function(pathId, _card) {
         var defer = $q.defer();
         $http.delete(
-          PATHS_API_URL + '/' + cardOwnerId + '/goals/' + _card.id
+          PATHS_API_URL + '/' + pathId + '/goals/' + _card.id
         ).then(function() {
-          angular.forEach(cards, function(card, i) {
-            if (card.order > _card.order) {
-              cardsService.moveLeft(cardOwnerId, card);
+          angular.forEach(cachedPaths[pathId].goals, function(goal, i) {
+            if (goal.order > _card.order) {
+              cardsService.moveLeft(pathId, goal);
             }
-            if (card.id === _card.id) {
-              cards.splice(i, 1);
+            if (goal.id === _card.id) {
+              cachedPaths[pathId].goals.splice(i, 1);
             }
           });
-          defer.resolve(cards);
+          var result = [];
+          for (var id in cachedPaths) {
+            result.push(cachedPaths[id]);
+          }
+
+          defer.resolve(result);
         }).catch(function() {
           console.error('There was a problem removing the card.');
           defer.reject(new Error('There was a problem removing the card.'));
@@ -132,10 +180,10 @@ angular.module('unleashApp')
         return defer.promise;
       },
 
-      update: function(cardOwnerId, id, data) {
+      update: function(pathId, id, data) {
         var defer = $q.defer();
         $http.put(
-          PATHS_API_URL + '/' + cardOwnerId + '/goals/' + id,
+          PATHS_API_URL + '/' + pathId + '/goals/' + id,
           data
         ).then(function(response) {
           defer.resolve(response.data);
@@ -153,53 +201,55 @@ angular.module('unleashApp')
        *  of already sent notifications,
        *  so that they can be triggered again
        */
-      updateDueDate: function(cardOwnerId, id, data) {
-        return cardsService.update(cardOwnerId, id, {dueDate: data});
+      updateDueDate: function(pathId, id, data) {
+        return cardsService.update(pathId, id, {dueDate: data});
       },
 
       /**
        * Reorder cards when adding a new card
+       * @param pathId
        * @param index - index to start with
        */
-      reorder: function(cardOwnerId, index) {
-        angular.forEach(cards, function(card) {
+      reorder: function(pathId, index) {
+        angular.forEach(cachedPaths[pathId].goals, function(card) {
           if (card.order >= index) {
-            cardsService.moveRight(cardOwnerId, card);
+            cardsService.moveRight(pathId, card);
           }
         });
       },
 
-      moveRight: function (cardOwnerId, card) {
-        moveCard(cardOwnerId, card, card.order + 1).then(function() {
+      moveRight: function (pathId, card) {
+        moveCard(pathId, card, card.order + 1).then(function() {
           // do nothing
         });
       },
-      moveLeft: function (cardOwnerId, card) {
-        moveCard(cardOwnerId, card, card.order - 1).then(function() {
+      moveLeft: function (pathId, card) {
+        moveCard(pathId, card, card.order - 1).then(function() {
           // do nothing
         });
       },
 
       /**
        * Move existing cards, change their order
+       * @param pathId
        * @param _card {Object} card that was moved
        * @param index new index of moved card
        */
-      move: function(cardOwnerId, _card, index) {
+      move: function(pathId, _card, index) {
         if (_card.order !== index) {
           // When decreasing the card order
           if (_card.order > index) {
             index = index + 1;
           }
-          angular.forEach(cards, function(card) {
+          angular.forEach(cachedPaths[pathId].goals, function(card) {
             if (card.order > _card.order && card.order <= index) {
-              cardsService.moveLeft(cardOwnerId, card);
+              cardsService.moveLeft(pathId, card);
             } else if (card.order < _card.order && card.order >= index) {
-              cardsService.moveRight(cardOwnerId, card);
+              cardsService.moveRight(pathId, card);
             }
           });
           // Finally, update the order of changed card
-          return moveCard(cardOwnerId, _card, index);
+          return moveCard(pathId, _card, index);
         }
       },
 

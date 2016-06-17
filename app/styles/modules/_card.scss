@@ -7,6 +7,8 @@ $card-default-txt:   #8f939a;
 $card-achieved-bg:   rgb(41, 203, 147);
 $card-achieved-txt:  #fdfefe;
 
+$card-remove-bg:     #fc6c7f;
+
 $card-template-bg:   $red;
 $card-template-txt:  $card-achieved-txt;
 
@@ -74,6 +76,7 @@ $ninja-height:       $ninja-width;
   }
 
   &__level,
+  &__remove,
   &__days-left,
   &__comments {
     position: absolute;
@@ -130,6 +133,7 @@ $ninja-height:       $ninja-width;
     box-shadow: 0 3px 0 0 darken($card-achieved-bg, 20%);
 
     .card__level,
+    .card__remove,
     .card__days-left,
     .card__comments {
       color: darken($card-achieved-bg, 20%);
@@ -230,12 +234,17 @@ $ninja-height:       $ninja-width;
     }
 
     .card__level,
+    .card__remove,
     .card__days-left {
       background: $card-default-bg;
       top: auto;
       bottom: 0;
       font-weight: normal;
       padding: 5px 0 10px 0;
+    }
+
+    .card__remove {
+      background: $card-remove-bg;
     }
 
     .card__comments {
