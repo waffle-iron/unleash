@@ -73,8 +73,8 @@ angular.module('unleashApp')
       }
 
       if (type === 'card') {
-        cardsService.move(pathId, card, index).then(function(cards) {
-          $scope.cards = cards;
+        cardsService.move(pathId, card, index).then(function(paths) {
+          $scope.paths = paths;
         });
       }
 

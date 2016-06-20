@@ -21,7 +21,9 @@ angular.module('unleashApp')
         }
       ).then(function(response) {
         card.order = index;
-        defer.resolve(response.data.goals);
+        cachedPaths[response.data.id] = response.data;
+
+        defer.resolve(cachedPathsToArray());
       }).catch(function() {
         console.error('There was a problem moving the cards.');
         defer.reject(new Error('There was a problem moving the cards.'));
@@ -35,6 +37,15 @@ angular.module('unleashApp')
         var path = paths[i];
         cachedPaths[path.id] = path;
       }
+    };
+
+    var cachedPathsToArray = function() {
+      var result = [];
+      for (var id in cachedPaths) {
+        result.push(cachedPaths[id]);
+      }
+
+      return result;
     };
 
     var cardsService = {
@@ -166,12 +177,8 @@ angular.module('unleashApp')
               cachedPaths[pathId].goals.splice(i, 1);
             }
           });
-          var result = [];
-          for (var id in cachedPaths) {
-            result.push(cachedPaths[id]);
-          }
 
-          defer.resolve(result);
+          defer.resolve(cachedPathsToArray());
         }).catch(function() {
           console.error('There was a problem removing the card.');
           defer.reject(new Error('There was a problem removing the card.'));
