@@ -8,7 +8,7 @@
  * View a single path
  */
 angular.module('unleashApp')
-  .controller('SinglePathController', function($rootScope, $scope, $q, $compile, $location, $timeout, $routeParams, growl, userService, cardsService) {
+  .controller('SingleUserController', function($rootScope, $scope, $q, $compile, $location, $timeout, $routeParams, growl, userService, cardsService) {
     // @todo: move a part of functionality to services and directives
     $scope.params = $routeParams;
     $scope.initializing = true;
@@ -81,9 +81,9 @@ angular.module('unleashApp')
         $scope.currentPathOwner.isCurrentUser = true;
       }
 
-      cardsService.listCards(user.id).then(function(data) {
+      cardsService.listPaths(user.id).then(function(data) {
         $scope.initializing = false;
-        $scope.cards = data;
+        $scope.paths = data;
 
         if(Object.keys($location.search()).length) {
           $timeout(function() {

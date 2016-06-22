@@ -98,24 +98,6 @@ angular.module('unleashApp')
       },
 
       /**
-       * List path cards
-       * @returns {Promise} Promise containing user cards
-       */
-      listCards: function(pathId) {
-        var defer = $q.defer();
-
-        $http.get(PATHS_API_URL + '/' + pathId).then(function(response) {
-          cachedPaths[pathId] = response.data;
-          defer.resolve(response.data.goals);
-        }).catch(function() {
-          console.error('There was a problem loading cards.');
-          defer.reject(new Error('There was a problem loading cards.'));
-        });
-
-        return defer.promise;
-      },
-
-      /**
        * Assign a given template as a card to the user
        * @param pathId
        * @param template
