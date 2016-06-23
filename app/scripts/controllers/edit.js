@@ -11,12 +11,15 @@
 angular.module('unleashApp')
   .controller('EditPathController', function ($window, $document, $rootScope, $scope, $location, $routeParams, growl, templatesService, cardsService, userService) {
     $scope.params = $routeParams;
-    $scope.cards = null;
-    $scope.templates = {};
+    $scope.templates = {
+      available: [],
+      filtered: []
+    };
+    $scope.tags = [];
     $scope.bookmarkTop = 0;
     $scope.showTemplates = true;
 
-    if (!$rootScope.user.isAdmin) {
+    if (!$rootScope.user.isAdmin && $rootScope.user.username !== $routeParams.userId) {
       growl.error('You are not authorized to see this page!');
 
       $location.path('/');
@@ -24,11 +27,8 @@ angular.module('unleashApp')
 
     var setupPath = function(uid) {
       // List cards that user has been assigned with
-      cardsService.listCards(uid).then(function(cards) {
-        $scope.cards = cards;
-
-        getTemplates();
-
+      cardsService.listPaths(uid).then(function(paths) {
+        $scope.paths = paths;
       }).catch(function(error) {
         console.error(error);
       });
@@ -38,6 +38,14 @@ angular.module('unleashApp')
     var getTemplates = function() {
       templatesService.list.then(function(templates) {
         $scope.templates.available = templates;
+        $scope.templates.filtered = templates;
+        for (var i = 0; i < templates.length; i++) {
+          if (templates[i].tags) {
+            $scope.tags = $scope.tags.concat(templates[i].tags);
+          }
+        }
+        $scope.tags.sort();
+        $scope.tags = Array.from(new Set($scope.tags));
       }).catch(function(error) {
         console.error(error);
       });
@@ -47,28 +55,26 @@ angular.module('unleashApp')
       $scope.currentUser = user.id;
       $scope.currentPathOwner = user;
       setupPath(user.id);
-    });
-
-    // Get initial templates
-    templatesService.list.then(function(templates) {
-      $scope.templates.initial = templates;
-    }).catch(function(error) {
-      growl.error(error);
+      getTemplates();
     });
 
     // Handle drag and drop interface
     $scope.dropCard = function(event, index, card, external, type) {
-
+      var pathId = event.target.id ? event.target.id : event.target.parentNode.id;
       if (type === 'template') {
         card.order = index + 1;
-        cardsService.addFromTemplate($scope.currentUser, card).then(function(cards) {
-          $scope.cards = cards;
+        cardsService.addFromTemplate(pathId, card).then(function(cards) {
+          angular.forEach($scope.paths, function(path) {
+            if (path.id === pathId) {
+              path.goals = cards;
+            }
+          });
         });
       }
 
       if (type === 'card') {
-        cardsService.move($scope.currentUser, card, index).then(function(cards) {
-          $scope.cards = cards;
+        cardsService.move(pathId, card, index).then(function(paths) {
+          $scope.paths = paths;
         });
       }
 
@@ -80,14 +86,10 @@ angular.module('unleashApp')
       $scope.templates.available.splice(index, 1);
     };
 
-    // Remove specific card from user cards
-    $scope.remove = function(event, index, card, external, type) {
-      if (type === 'card') {
-        cardsService.remove($scope.currentUser, card).then(function(cards) {
-          $scope.cards = cards;
-        });
-      }
-      return false;
+    $scope.removeCard = function(card, pathId) {
+      cardsService.remove(pathId, card).then(function(paths) {
+        $scope.paths = paths;
+      });
     };
 
     $scope.toggleCards = function() {
@@ -109,5 +111,26 @@ angular.module('unleashApp')
         tetherMode: true,
         tetherTop: top
       };
+    };
+
+    $scope.createPath = function() {
+      cardsService.createPath($scope.currentUser).then(function(paths) {
+        $scope.paths = paths;
+      });
+    };
+
+    $scope.filter = function(tag) {
+      $scope.currentFilter = tag;
+      $scope.templates.filtered = [];
+      $scope.templates.available.map(function(template) {
+        if (template.tags && template.tags.indexOf(tag) !== -1) {
+          $scope.templates.filtered.push(template);
+        }
+      });
+    };
+
+    $scope.clearFilters = function() {
+      $scope.templates.filtered = $scope.templates.available;
+      $scope.currentFilter = null;
     };
   });

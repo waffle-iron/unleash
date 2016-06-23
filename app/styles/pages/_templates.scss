@@ -13,35 +13,56 @@ $template-alt-color: #ccc;
 .templates {
   margin: 2em 0 0;
 
+  &__filters {
+    display: block;
+  }
+
+  &__tags {
+    display: inline-block;
+    list-style-type: none;
+    padding: 10px;
+  }
+
+  &__tag {
+    outline: none;
+    cursor: pointer;
+    float: left;
+    padding: 5px;
+  }
+
+  &__current-filter {
+    color: #cb041e;
+  }
+
   li {
     display: inline-block;
     vertical-align: top;
     margin: 0 20px 50px 0;
-    
+
     .icon {
       font-size: 30px;
       cursor: pointer;
-      
+
       &:after {
         content: 'change icon';
         font-size: 10px;
         opacity: 0;
       }
-      
+
       &:hover:after {
         opacity: 1;
       }
     }
-    
+
     .icon-input {
       display: none;
     }
-    
+
     .card__icon {
       font-size: 50px;
     }
   }
-  
+
   .modal {
     @include single-transition(opacity, 0.3s, linear);
     position: fixed;
@@ -56,7 +77,7 @@ $template-alt-color: #ccc;
     overflow-y: auto;
     opacity: 0;
     z-index: -100;
-    
+
     h1 {
       width: 100%;
       text-align: center;
@@ -79,15 +100,15 @@ $template-alt-color: #ccc;
         background-color: #fc6c7f;
         color: #ffffff;
       }
-      
+
       &:focus, &:active {
         opacity: 0.4;
       }
     }
-    
+
     &__icon.current {
       border: 1px solid #fc6c7f;
-      
+
       &:after {
         content: 'currently used';
         position: absolute;
@@ -97,7 +118,7 @@ $template-alt-color: #ccc;
         font-size: 10px;
       }
     }
-    
+
     &.view {
       z-index: 1;
       opacity: 1;

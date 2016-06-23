@@ -117,4 +117,6 @@ angular.module('unleashApp')
       }
     };
 
+    $scope.canEditPath = $rootScope.user.isAdmin || $rootScope.user.username === $routeParams.userId;
+
   });

@@ -69,6 +69,15 @@ $dnd-list-drop-primary-padding: .25em;
     margin: 0;
     position: static;
 
+    &__remove {
+      top: auto;
+      right: auto;
+      bottom: 10px;
+      left: 5px;
+      width: 40%;
+      cursor: pointer;
+    }
+
     &__level {
       top: auto;
       left: auto;
