@@ -47,6 +47,9 @@
           <div class="nav__auth" unleash-auth></div>
         </nav>
       </div>
+      <div class="version" ng-controller="VersionController">
+        Version: {{ buildNumber }}
+      </div>
     </header>
 
     <div class="container">
@@ -86,6 +89,7 @@
     <script src="scripts/controllers/templates.js"></script>
     <script src="scripts/controllers/skills.js"></script>
     <script src="scripts/controllers/skill.js"></script>
+    <script src="scripts/controllers/version.js"></script>
     <script src="scripts/directives/achieve.js"></script>
     <script src="scripts/directives/auth.js"></script>
     <script src="scripts/directives/card.js"></script>
