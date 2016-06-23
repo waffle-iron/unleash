@@ -27,7 +27,8 @@ module.exports = function (grunt) {
     skills: process.env.SKILLS_URL,
     goals: process.env.GOALS_URL,
     paths: process.env.PATHS_URL,
-    profiles: process.env.PROFILES_URL
+    profiles: process.env.PROFILES_URL,
+    buildNumber: process.env.TRAVIS_BUILD_NUMBER
   };
 
   // Define the configuration for all the tasks
@@ -67,6 +68,10 @@ module.exports = function (grunt) {
             {
               match: 'PROFILES_URL',
               replacement: '<%= unleash.profiles %>'
+            },
+            {
+              match: 'TRAVIS_BUILD_NUMBER',
+              replacement: '<%= unleash.buildNumber %>'
             }
           ]
         },
