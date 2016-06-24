@@ -9,7 +9,7 @@
     <div class="path__container">
       <div class="path__cards">
         <figure ng-repeat="card in path.goals | orderBy: 'order'"
-                ng-click="showCard(card)"
+                ng-click="showCard(path.id, card.id)"
                 class="card--is-clickable card--no-description"
                 data-view="public"
                 data-card="card"

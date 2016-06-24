@@ -36,14 +36,16 @@ angular.module('unleashApp')
 
     /**
      * Appends data do the sidebar and adds it to the view
-     * @param cardId
+     * @param pathId
+     * @param card
      */
-    var showSidebar = function(card) {
+    var showSidebar = function(pathId, card) {
       var $body = angular.element(document.body);
 
       // Create sidebar element
       var $sidebar = angular.element('<unleash-card-details></unleash-card-details>')
         .attr('data-card-owner-id', $scope.currentPathOwner.id)
+        .attr('data-path-id', pathId)
         .attr('data-current-user-id', $rootScope.user.id)
         .attr('data-card-id', card.id);
 
@@ -62,14 +64,14 @@ angular.module('unleashApp')
      * Prepare the page before the sidebar will be displayed
      * @param cardId
      */
-    var renderCard = function(cardId) {
+    var renderCard = function(pathId, cardId) {
       // Hide the existing sidebar, if any
       closeSidebar();
 
       // Display a card
-      var card = cardsService.getCard($scope.currentPathOwner.id, cardId);
+      var card = cardsService.getCard(pathId, cardId);
       if (card) {
-        showSidebar(card);
+        showSidebar(pathId, card);
       } else {
         growl.error('Sorry, this card doesn’t exist.');
       }
@@ -87,15 +89,13 @@ angular.module('unleashApp')
 
         if(Object.keys($location.search()).length) {
           $timeout(function() {
-            renderCard(Object.keys($location.search())[0]);
+            renderCard($routeParams.pathId, $routeParams.cardId);
           }, 100);
         }
 
         $scope.$on('$routeUpdate', function() {
-          var cardId = Object.keys($location.search())[0];
-
-          if (cardId) {
-            renderCard(cardId);
+          if ($routeParams.cardId && $routeParams.pathId) {
+            renderCard($routeParams.pathId, $routeParams.cardId);
           } else {
             closeSidebar();
           }
@@ -109,11 +109,12 @@ angular.module('unleashApp')
     })
     ;
 
-    $scope.showCard = function(card) {
-      if (isCardAlreadyOpened(card.id)) {
+    $scope.showCard = function(pathId, cardId) {
+      if (isCardAlreadyOpened(cardId)) {
         $location.search('');
       } else {
-        $location.search(card.id);
+        $location.search('cardId', cardId);
+        $location.search('pathId', pathId);
       }
     };
 
