@@ -129,6 +129,21 @@ angular.module('unleashApp')
       });
     };
 
+    $scope.editPathName = function(event) {
+      if (event.keyCode === 13) {
+        growl.info('Updating path name');
+        var name = event.target.value;
+        var id = event.target.name.replace('path_', '');
+        cardsService.updatePath(id, {name: name})
+          .then(function() {
+            growl.success('Path name updated successfully');
+          })
+          .catch(function() {
+            growl.error('There was an error updating the path name');
+          });
+      }
+    };
+
     $scope.clearFilters = function() {
       $scope.templates.filtered = $scope.templates.available;
       $scope.currentFilter = null;

@@ -97,6 +97,22 @@ angular.module('unleashApp')
         return defer.promise;
       },
 
+      updatePath: function(pathId, data) {
+        var defer = $q.defer();
+
+        $http.put(
+          PATHS_API_URL + '/' + pathId,
+          data
+        ).then(function() {
+          defer.resolve();
+        }).catch(function() {
+          console.error('There was a problem updating the path.');
+          defer.reject(new Error('There was a problem updating the path.'));
+        });
+
+        return defer.promise;
+      },
+
       /**
        * Assign a given template as a card to the user
        * @param pathId

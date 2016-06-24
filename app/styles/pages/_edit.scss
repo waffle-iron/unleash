@@ -181,6 +181,19 @@ $dnd-list-drop-primary-padding: .25em;
       margin-top: -10px;
     }
 
+    .path-name {
+      font-weight: normal;
+      text-align: center;
+      width: 33%;
+      height: 20px;
+      margin-left: 33%;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      -webkit-border-radius: 50px;
+      -moz-border-radius: 50px;
+      border-radius: 50px;
+    }
+
     div {
       position: relative;
       z-index: 2;

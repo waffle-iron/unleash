@@ -4,7 +4,7 @@
        ng-repeat="path in paths"
        ng-class="{'path--is-owner': currentPathOwner.isCurrentUser}">
 
-    <h3 class="path__name"><span class="icon-map"></span> <em>Blogging</em><!--{{ path.id }}--></h3>
+    <h3 class="path__name"><span class="icon-map"></span> <em>{{path.name}}</em></h3>
 
     <div class="path__container">
       <div class="path__cards">

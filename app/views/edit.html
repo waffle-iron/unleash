@@ -40,6 +40,13 @@
   </div>
 
   <section class="drop drop--primary" ng-repeat="path in paths">
+    <input
+      placeholder="Type name and hit enter"
+      class="path-name" type="text"
+      name="path_{{path.id}}"
+      value="{{path.name}}"
+      ng-keypress="editPathName($event)"
+    />
     <h3 class="title">Drop area</h3>
 
     <ul id="{{path.id}}" dnd-list="cards" dnd-horizontal-list="true" dnd-drop="dropCard(event, index, item, external, type)">
