@@ -1,9 +1,0 @@
-<div class="path-bg" ng-if="cards.length" unleash-path-bg></div>
-
-<div class="single-path" ng-if="cards.length" ng-class="{'path--is-owner': currentPathOwner.isCurrentUser}">
-  <figure ng-repeat="card in cards | orderBy: 'order'" ng-click="showCard(card)" class="card--is-clickable card--no-description" data-view="public" data-card="card" data-card-owner-id="{{ currentPathOwner.id }}" data-current-user-id="{{ user.id }}" unleash-card></figure>
-</div>
-
-<div class="single-path" ng-if="!initializing && !cards.length">
-  <h2>No cards set!</h2>
-</div>
