@@ -13,6 +13,11 @@
       <input ng-model="card.dueDate" type="text" placeholder="Due date"/>
     </datepicker>
 
+    <select
+      ng-init="card.path = paths[0]"
+      ng-options="path as path.name for path in paths"
+      ng-model="card.path" />
+
     <div class="card__controls">
       <button type="button" ng-click="add(card)">Add</button>
       <button type="button" ng-click="remove($index)">Remove</button>
