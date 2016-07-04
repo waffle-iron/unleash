@@ -13,7 +13,7 @@ angular.module('unleashApp')
     };
 
     var create = function(scope) {
-      scope.newCards.push({});
+      scope.newCards.push({path: scope.paths[0]});
     };
 
     return {
