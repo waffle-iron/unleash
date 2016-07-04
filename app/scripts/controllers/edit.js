@@ -15,6 +15,7 @@ angular.module('unleashApp')
       available: [],
       filtered: []
     };
+    $scope.paths = [];
     $scope.tags = [];
     $scope.bookmarkTop = 0;
     $scope.showTemplates = true;
@@ -84,6 +85,16 @@ angular.module('unleashApp')
     // @todo Temporary fix to remove available cards flickering
     $scope.removeAvailable = function(index) {
       $scope.templates.available.splice(index, 1);
+    };
+
+    $scope.addCard = function(card, pathId) {
+      return cardsService.add(pathId, card).then(function(cards) {
+        angular.forEach($scope.paths, function(path) {
+          if (path.id === pathId) {
+            path.goals = cards;
+          }
+        });
+      });
     };
 
     $scope.removeCard = function(card, pathId) {

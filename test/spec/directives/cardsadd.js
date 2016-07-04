@@ -18,29 +18,6 @@ describe('Directive: unleashCardsAdd', function () {
   beforeEach(module('views/partials/templateIconsModal.html'));
 
   beforeEach(module(function($provide) {
-    $provide.value('cardsService', {
-      add: function(cardOwnerId, card) {
-        if (!fail) {
-          outerScope.cards.push(card);
-        }
-
-        return {
-          then: function(callback, error) {
-            if (manual) {
-              lastCallback = callback;
-              lastError    = error;
-              return;
-            }
-
-            if (fail)
-              error(errorMessage);
-            else
-              callback();
-          }
-        }
-      }
-    });
-
     $provide.service('googleApi', function() {
       return {
         load: function(callback) {
@@ -49,13 +26,13 @@ describe('Directive: unleashCardsAdd', function () {
     });
   }));
 
-  beforeEach(inject(function($rootScope, $compile, PROFILES_API_URL, $httpBackend) {
+  beforeEach(inject(function($rootScope, $compile, PROFILES_API_URL, $httpBackend, $q) {
     $httpBackend.expectGET(PROFILES_API_URL).respond(200, 'OK');
     element = angular.element('<div unleash-cards-add></div>');
 
     outerScope = $rootScope;
 
-    outerScope.cards = [];
+    outerScope.paths = [{id: 1}];
 
     fail = false;
     manual = false;
@@ -63,6 +40,17 @@ describe('Directive: unleashCardsAdd', function () {
     $compile(element)(outerScope);
 
     innerScope = element.scope();
+    innerScope.addCard = function(card, pathId) {
+      var deferred = $q.defer();
+      if (outerScope.paths[0].goals) {
+          outerScope.paths[0].goals.push(card);
+      } else {
+        outerScope.paths[0].goals = [card];
+      }
+      deferred.resolve();
+
+      return deferred.promise;
+    };
 
     outerScope.$digest();
   }));
@@ -72,24 +60,21 @@ describe('Directive: unleashCardsAdd', function () {
       innerScope.create();
 
       expect(innerScope.newCards).to.deep.equal([
-        {},
+        {path: {id: 1}},
       ]);
     });
 
     it('should fail gracefully', function() {
       innerScope.create();
       expect(innerScope.newCards).to.deep.equal([
-        {},
+        {path: {id: 1}},
       ]);
 
       fail = true;
       innerScope.add(innerScope.newCards[0]);
 
-      expect(innerScope.newCards).to.deep.equal([
-        {},
-      ]);
-
-      expect(outerScope.cards).to.deep.equal([]);
+      expect(innerScope.newCards[0].path.id).to.equal(1);
+      expect(innerScope.newCards[0].order).to.equal(1);
     });
 
     it('should remove the specified card', function() {
@@ -106,18 +91,18 @@ describe('Directive: unleashCardsAdd', function () {
       innerScope.newCards[3].name = 'name4';
 
       expect(innerScope.newCards).to.deep.equal([
-        { name: 'name1' },
-        { name: 'name2' },
-        { name: 'name3' },
-        { name: 'name4' }
+        { name: 'name1', path: {id: 1}},
+        { name: 'name2', path: {id: 1} },
+        { name: 'name3', path: {id: 1} },
+        { name: 'name4', path: {id: 1} }
       ]);
 
       innerScope.remove(2);
 
       expect(innerScope.newCards).to.deep.equal([
-        { name: 'name1' },
-        { name: 'name2' },
-        { name: 'name4' }
+        { name: 'name1', path: {id: 1} },
+        { name: 'name2', path: {id: 1} },
+        { name: 'name4', path: {id: 1} }
       ]);
     });
 
@@ -129,37 +114,7 @@ describe('Directive: unleashCardsAdd', function () {
 
       innerScope.add(innerScope.newCards[0]);
 
-      expect(innerScope.newCards).to.deep.equal([
-        { order: 1 },
-      ]);
-
-      lastCallback();
-
-      expect(innerScope.newCards).to.deep.equal([]);
-    });
-
-    it('should remove the "order" property on failure', function() {
-      innerScope.create();
-      expect(innerScope.newCards.length).to.equal(1);
-
-      manual = true;
-
-      innerScope.add(innerScope.newCards[0]);
-
-      expect(innerScope.newCards).to.deep.equal([
-        { order: 1 },
-      ]);
-
-      try {
-        lastError(errorMessage);
-      } catch (e) {
-        console.log('error');
-      }
-
-      expect(innerScope.newCards).to.deep.equal([
-        {},
-      ]);
-
+      expect(innerScope.newCards[0].order).to.equal(1);
     });
 
     it('should place each new card at the end', function() {
@@ -177,10 +132,10 @@ describe('Directive: unleashCardsAdd', function () {
       innerScope.newCards[3].name = 'name4';
 
       expect(innerScope.newCards).to.deep.equal([
-        { name: 'name1' },
-        { name: 'name2' },
-        { name: 'name3' },
-        { name: 'name4' }
+        { name: 'name1', path: {id: 1} },
+        { name: 'name2', path: {id: 1} },
+        { name: 'name3', path: {id: 1} },
+        { name: 'name4', path: {id: 1} }
       ]);
 
       innerScope.add(innerScope.newCards[0]);
@@ -188,12 +143,10 @@ describe('Directive: unleashCardsAdd', function () {
       innerScope.add(innerScope.newCards[2]);
       innerScope.add(innerScope.newCards[3]);
 
-      expect(outerScope.cards).to.deep.equal([
-        { name: 'name1', order: 1 },
-        { name: 'name2', order: 2 },
-        { name: 'name3', order: 3 },
-        { name: 'name4', order: 4 }
-      ]);
+      expect(innerScope.newCards[0].order).to.equal(1);
+      expect(innerScope.newCards[1].order).to.equal(2);
+      expect(innerScope.newCards[2].order).to.equal(3);
+      expect(innerScope.newCards[3].order).to.equal(4);
     });
   });
 
