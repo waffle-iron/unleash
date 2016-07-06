@@ -35,6 +35,7 @@ angular.module('unleashApp')
                   cardOwner: scope.$parent.cardOwner,
                   currentUser: scope.$parent.currentUser,
                   card: scope.$parent.card,
+                  pathId: scope.$parent.pathId,
                   additionalMessage: scope.additionalMessage
                 });
               }
