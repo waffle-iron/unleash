@@ -39,7 +39,7 @@ angular.module('unleashApp')
         notify({
           text: '*' + data.cardOwner.fullName + '* has completed a goal! :sparkles:' +
             (data.additionalMessage ? ('\n' + data.additionalMessage) : ''),
-          queryString: '/paths/' + data.cardOwner.username + '/?' + data.card.id,
+          queryString: '/paths/' + data.cardOwner.username + '/?cardId=' + data.card.id + '&pathId=' + data.pathId,
 
           attachments: [
             {
