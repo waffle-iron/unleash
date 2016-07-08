@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc directive
- * @name unleashApp.directive:unleashUserPaths
+ * @name unleashApp.directive:unleashUserPath
  * @description
- * # unleashUserPaths
+ * # unleashUserPath
  */
 angular.module('unleashApp')
-  .directive('unleashUserPaths', function ($window) {
+  .directive('unleashUserPath', function ($window) {
     var cardWidth = 260;
 
     /**
@@ -82,7 +82,7 @@ angular.module('unleashApp')
     };
 
     return {
-      templateUrl: 'views/partials/userpaths.html',
+      templateUrl: 'views/partials/userpath.html',
       restrict: 'E',
       link: linkFn
     };

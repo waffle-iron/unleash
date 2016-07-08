@@ -77,6 +77,17 @@ angular.module('unleashApp')
       }
     };
 
+    var filterEmptyPaths = function(paths) {
+      var filteredPaths = [];
+      angular.forEach(paths, function(path) {
+        if (path.goals.length) {
+          filteredPaths.push(path);
+        }
+      });
+
+      return filteredPaths;
+    };
+
     userService.getByUsername($routeParams.userId).then(function(user) {
       $scope.currentPathOwner = user;
       if ($scope.user.username === $scope.currentPathOwner.username) {
@@ -84,8 +95,8 @@ angular.module('unleashApp')
       }
 
       cardsService.listPaths(user.id).then(function(data) {
+        $scope.paths = filterEmptyPaths(data);
         $scope.initializing = false;
-        $scope.paths = data;
 
         if(Object.keys($location.search()).length) {
           $timeout(function() {
