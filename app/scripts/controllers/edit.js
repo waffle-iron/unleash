@@ -15,6 +15,7 @@ angular.module('unleashApp')
       available: [],
       filtered: []
     };
+    $scope.paths = [];
     $scope.tags = [];
     $scope.bookmarkTop = 0;
     $scope.showTemplates = true;
@@ -86,6 +87,16 @@ angular.module('unleashApp')
       $scope.templates.available.splice(index, 1);
     };
 
+    $scope.addCard = function(card, pathId) {
+      return cardsService.add(pathId, card).then(function(cards) {
+        angular.forEach($scope.paths, function(path) {
+          if (path.id === pathId) {
+            path.goals = cards;
+          }
+        });
+      });
+    };
+
     $scope.removeCard = function(card, pathId) {
       cardsService.remove(pathId, card).then(function(paths) {
         $scope.paths = paths;
@@ -127,6 +138,21 @@ angular.module('unleashApp')
           $scope.templates.filtered.push(template);
         }
       });
+    };
+
+    $scope.editPathName = function(event) {
+      if (event.keyCode === 13) {
+        growl.info('Updating path name');
+        var name = event.target.value;
+        var id = event.target.name.replace('path_', '');
+        cardsService.updatePath(id, {name: name})
+          .then(function() {
+            growl.success('Path name updated successfully');
+          })
+          .catch(function() {
+            growl.error('There was an error updating the path name');
+          });
+      }
     };
 
     $scope.clearFilters = function() {

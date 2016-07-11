@@ -6,23 +6,14 @@
  * # unleashCardAdd
  */
 angular.module('unleashApp')
-  .directive('unleashCardsAdd', function (cardsService) {
-
-    var add = function(scope, card) {
-      cardsService.add(scope.currentUser, card).then(function(cards) {
-        scope.newCards.splice(scope.newCards.indexOf(card), 1);
-        scope.$parent.cards = cards;
-      }, function() {
-        delete card.order;
-      });
-    };
+  .directive('unleashCardsAdd', function () {
 
     var remove = function(scope, eq) {
       scope.newCards.splice(eq, 1);
     };
 
     var create = function(scope) {
-      scope.newCards.push({});
+      scope.newCards.push({path: scope.paths[0]});
     };
 
     return {
@@ -32,11 +23,15 @@ angular.module('unleashApp')
         scope.newCards = [];
 
         scope.add = function(card) {
+          var path = card.path;
           card.order = 1;
-          if (scope.$parent.cards) {
-            card.order = scope.$parent.cards.length + 1;
+          if (path.goals) {
+            card.order = path.goals.length + 1;
           }
-          add(scope, card);
+
+          scope.addCard(card, path.id).then(function () {
+            scope.newCards.splice(scope.newCards.indexOf(card), 1);
+          });
         };
 
         scope.remove = function(eq) {

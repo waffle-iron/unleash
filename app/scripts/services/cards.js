@@ -97,19 +97,17 @@ angular.module('unleashApp')
         return defer.promise;
       },
 
-      /**
-       * List path cards
-       * @returns {Promise} Promise containing user cards
-       */
-      listCards: function(pathId) {
+      updatePath: function(pathId, data) {
         var defer = $q.defer();
 
-        $http.get(PATHS_API_URL + '/' + pathId).then(function(response) {
-          cachedPaths[pathId] = response.data;
-          defer.resolve(response.data.goals);
+        $http.put(
+          PATHS_API_URL + '/' + pathId,
+          data
+        ).then(function() {
+          defer.resolve();
         }).catch(function() {
-          console.error('There was a problem loading cards.');
-          defer.reject(new Error('There was a problem loading cards.'));
+          console.error('There was a problem updating the path.');
+          defer.reject(new Error('There was a problem updating the path.'));
         });
 
         return defer.promise;

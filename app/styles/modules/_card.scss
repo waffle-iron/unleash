@@ -293,17 +293,3 @@ $ninja-height:       $ninja-width;
     background-color: rgba(255,255,255,0.5);
   }
 }
-
-/*
- * cards in /path
- */
-
-.page-path {
-  .card__icon {
-    margin: 40px auto;
-
-    span {
-      margin-left: 0;
-    }
-  }
-}

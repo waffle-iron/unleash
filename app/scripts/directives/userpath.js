@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc directive
- * @name unleashApp.directive:unleashSinglePath
+ * @name unleashApp.directive:unleashUserPath
  * @description
- * # unleashSinglePath
+ * # unleashUserPath
  */
 angular.module('unleashApp')
-  .directive('unleashSinglePath', function ($window) {
+  .directive('unleashUserPath', function ($window) {
     var cardWidth = 260;
 
     /**
@@ -35,7 +35,7 @@ angular.module('unleashApp')
      * @returns {Number}
      */
     var getItemsPerRow = function(element) {
-      var path = element.find('.single-path');
+      var path = element.find('.path__cards');
 
       if(path.length) {
         return parseInt(path.width() / cardWidth, 10);
@@ -82,7 +82,7 @@ angular.module('unleashApp')
     };
 
     return {
-      templateUrl: 'views/partials/path.html',
+      templateUrl: 'views/partials/userpath.html',
       restrict: 'E',
       link: linkFn
     };

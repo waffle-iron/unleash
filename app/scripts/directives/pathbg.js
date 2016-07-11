@@ -11,11 +11,6 @@
  * as I wrote it in a very fast manner blindfolded.
  * ~ Wojtek
  * @todo This should be refactored soon
- *
- * Known bugs:
- * - Both jQuery and Angular throw an error
- *   as the SVG is being rendered before bgPoints
- *   variable is available.
  */
 angular.module('unleashApp')
   .directive('unleashPathBg', function () {
@@ -26,7 +21,7 @@ angular.module('unleashApp')
         default: 260
       },
       margin: {
-        top: 300,
+        top: 150,
         left: 40
       },
       cardsPerRow: 3,
@@ -37,8 +32,7 @@ angular.module('unleashApp')
     var polylineHeight;
 
     var buildPolyline = function(length) {
-      var polyline = config.margin.left + ',0 ' +
-                     config.margin.left + ',' + config.margin.top;
+      var polyline = config.gutter.default + ','+ config.margin.top;
 
       var rowCount = Math.ceil(length / config.cardsPerRow);
       var cardsInRow;
@@ -83,10 +77,10 @@ angular.module('unleashApp')
     };
 
     var linkFn = function postLink(scope) {
-      var length = scope.cards.length;
+      var length = scope.path.goals.length;
 
       scope.bgPoints = buildPolyline(length);
-      scope.polylineHeight = polylineHeight;
+      scope.polylineHeight = polylineHeight || 0;
       scope.stroke = {
         width: config.strokeWidth
       };

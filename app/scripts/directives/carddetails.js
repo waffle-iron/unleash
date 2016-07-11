@@ -38,7 +38,7 @@ angular.module('unleashApp')
     var linkFn = function($scope) {
 
       // Download card data
-      var card = cardsService.getCard($scope.cardOwnerId, $scope.cardId);
+      var card = cardsService.getCard($scope.pathId, $scope.cardId);
       if (card) {
         $scope.card = card;
 
@@ -127,6 +127,7 @@ angular.module('unleashApp')
       link: linkFn,
       scope: {
         cardOwnerId: '@',
+        pathId: '@',
         currentUserId: '@',
         cardId: '@'
       }

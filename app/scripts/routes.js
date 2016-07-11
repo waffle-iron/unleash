@@ -27,9 +27,9 @@ angular.module('unleashApp')
       })
 
       .when('/paths/:userId/', {
-        templateUrl: 'views/path.html',
-        controller: 'SinglePathController',
-        className: 'path',
+        templateUrl: 'views/user.html',
+        controller: 'SingleUserController',
+        className: 'paths',
         reloadOnSearch: false,
         authenticate: true
       })
