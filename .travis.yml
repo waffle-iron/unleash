@@ -10,6 +10,7 @@ before_script:
   - 'gem install sass --version "=3.4.8"'
   - 'gem install compass --version "=1.0.1"'
 before_deploy:
+  - echo $TRAVIS_BRANCH
   - if [ "$TRAVIS_BRANCH" == 'support/1.x' ]; then export UNLEASH_ENV='production'; fi
   - if [ "$TRAVIS_BRANCH" == 'support/1.x' ]; then export BOT_URL='http://bot.unleash.x-team.com'; fi
   - if [ "$TRAVIS_BRANCH" == 'support/1.x' ]; then export PROFILES_URL='https://txkaf3ohhf.execute-api.us-west-2.amazonaws.com/prod/profiles'; fi
