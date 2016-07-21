@@ -19,7 +19,6 @@
   "homepage": "https://github.com/x-team/unleash#readme",
   "dependencies": {
     "material-ui": "^0.15.2",
-    "object.assign": "^4.0.4",
     "react": "^15.2.1",
     "react-dom": "^15.2.1",
     "react-redux": "^4.4.5",
