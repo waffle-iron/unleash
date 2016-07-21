@@ -1,0 +1,13 @@
+web:
+  build: .
+  volumes:
+    - .:/var/www/unleash
+  working_dir: /var/www/unleash
+  ports:
+    - 80:3000
+webpack:
+  build: .
+  volumes_from:
+    - web
+  working_dir: /var/www/unleash
+  command: webpack -w
