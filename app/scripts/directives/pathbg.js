@@ -21,7 +21,7 @@ angular.module('unleashApp')
         default: 260
       },
       margin: {
-        top: 150,
+        top: 170,
         left: 40
       },
       cardsPerRow: 3,

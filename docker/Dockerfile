@@ -1,4 +1,4 @@
-FROM node:0.10.45
+FROM node:0.10.46
 
 RUN apt-get update && \
     apt-get install -y ruby2.1-dev rubygems
