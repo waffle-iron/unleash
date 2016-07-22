@@ -1,12 +1,11 @@
 import React from 'react';
 import UnleashApp from '../components/UnleashApp';
-import Menu from '../components/Menu';
 import Paths from '../components/Paths';
 import Path from '../components/Path';
 import Skills from '../components/Skills';
 import Skill from '../components/Skill';
 import Goals from '../components/Goals';
-import { Route, IndexRoute } from 'react-router';
+import { Route } from 'react-router';
 
 export default (
   <Route path="/" component={UnleashApp}>

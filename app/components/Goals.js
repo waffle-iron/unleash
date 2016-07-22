@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-class Goals extends React.Component {
+class Goals extends Component {
   render() {
     return (
       <div></div>
-    )
+    );
   }
-};
+}
 
 export default Goals;
