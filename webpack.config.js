@@ -8,6 +8,13 @@ module.exports = {
     publicPath: '/static/',
   },
   module: {
+    preLoaders: [
+      {
+        test: /\.(js|jsx)$/,
+        loaders: ['eslint'],
+        include: path.join(__dirname, 'app')
+      }
+    ],
     loaders: [
       {
         test: /\.jsx?$/,
@@ -19,4 +26,4 @@ module.exports = {
       }
     ]
   }
-}
+};

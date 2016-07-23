@@ -1,4 +1,4 @@
-import {SKILL_LIST_SUCCESS, SKILL_LIST_FAILURE} from '../actions/SkillActions';
+import { SKILL_LIST_SUCCESS, SKILL_LIST_FAILURE } from '../actions/SkillActions';
 
 function skillsReducer(skills = {}, action) {
   Object.freeze(skills);

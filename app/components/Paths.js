@@ -1,13 +1,12 @@
-import React from 'react';
+import React, { Component } from 'react';
 import List from 'material-ui/List/List';
 
-export class Paths extends React.Component {
+export class Paths extends Component {
   render() {
     return (
-      <List>
-      </List>
-    )
+      <List />
+    );
   }
-};
+}
 
 export default Paths;
