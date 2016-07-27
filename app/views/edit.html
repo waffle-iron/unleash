@@ -56,7 +56,13 @@
           dnd-draggable="card"
           dnd-type="'card'"
           dnd-moved="path.goals.splice($index, 1)">
-        <figure class="card--full" data-card="card" data-path-id="path.id" data-remove-handler="removeCard" unleash-card></figure>
+        <figure
+          class="card--full"
+          data-card="card"
+          data-path-id="path.id"
+          data-remove-handler="removeCard"
+          data-edit-handler="editCard" 
+          unleash-card />
       </li>
     </ul>
   </section>

@@ -1,4 +1,5 @@
 <figure class="card" ng-class="{'card--is-achieved': card.achieved, 'card--is-unread': showUnread}" title="{{ card.description || 'No description.' }}">
+  <em class="card__edit" ng-if="editHandler" ng-click="editHandler(card, pathId)">Edit</em>
   <figcaption class="card__type">{{ card.name }} <small>{{ card.description }}</small></figcaption>
   <div class="card__icon">
     <span class="{{ card.icon }}"></span>

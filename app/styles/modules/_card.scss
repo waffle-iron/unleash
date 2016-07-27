@@ -88,6 +88,19 @@ $ninja-height:       $ninja-width;
     color: darken($card-default-bg, 20%);
   }
 
+  &__edit {
+    position: absolute;
+    top: 0;
+    right: 65px;
+    width: 100%;
+    font-style: normal;
+    font-weight: 600;
+    cursor: pointer;
+    border: 0;
+    outline: 0;
+    color: darken($card-default-bg, 20%);
+  }
+
   &__comments {
     top: auto;
     left: auto;

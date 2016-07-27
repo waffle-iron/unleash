@@ -103,6 +103,10 @@ angular.module('unleashApp')
       });
     };
 
+    $scope.editCard = function(card, pathId) {
+
+    };
+
     $scope.toggleCards = function() {
       $scope.showTemplates = !$scope.showTemplates;
     };

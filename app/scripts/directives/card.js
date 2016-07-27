@@ -50,6 +50,7 @@ angular.module('unleashApp')
         cardOwnerId: '@',
         currentUserId: '@',
         removeHandler: '=',
+        editHandler: '=',
         pathId: '='
       },
       replace: true,
