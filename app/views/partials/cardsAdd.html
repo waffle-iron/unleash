@@ -1,10 +1,11 @@
 <button type="button" ng-click="create()">Create a Quick Card</button>
 
 <ul>
-  <li class="card card--is-editable card--quick" ng-class="{'card--overlaid': card.order}" ng-repeat="card in newCards" ng-init="template = card">
+  <li class="card card--is-editable card--quick" ng-repeat="card in newCards" ng-init="template = card">
     <input type="text" class="type" ng-model="card.name" placeholder="Name">
 
-    <div unleash-icons-modal config="add"></div>
+    <div ng-if="!card.id" unleash-icons-modal config="add"></div>
+    <div ng-if="card.id" unleash-icons-modal config="edit"></div>
 
     <textarea class="task" cols="25" rows="4" ng-model="card.description" placeholder="Description">{{ card.description }}</textarea>
     <input type="text" class="level" ng-model="card.level" placeholder="Level">
@@ -18,8 +19,9 @@
       ng-model="card.path" />
 
     <div class="card__controls">
-      <button type="button" ng-click="add(card)">Add</button>
-      <button type="button" ng-click="remove($index)">Remove</button>
+      <button ng-if="!card.id" type="button" ng-click="add(card)">Add</button>
+      <button ng-if="card.id" type="button" ng-click="update(card)">Update</button>
+      <button ng-if="!card.id" type="button" ng-click="remove($index)">Remove</button>
     </div>
   </li>
 </ul>

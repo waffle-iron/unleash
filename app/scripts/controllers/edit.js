@@ -104,7 +104,25 @@ angular.module('unleashApp')
     };
 
     $scope.editCard = function(card, pathId) {
+      $scope.showTemplates = false;
+      $scope.editedCardPathId = pathId;
+      $scope.newCards = [card];
+    };
 
+    $scope.updateCard = function(card) {
+      var data = {
+        name: card.name,
+        description: card.description,
+        level: card.level,
+        pathId: card.path.id,
+        icon: card.icon,
+        dueDate: card.dueDate
+      };
+
+      return cardsService.update($scope.editedCardPathId, card.id, data).then(function(paths) {
+        $scope.paths = paths;
+        $scope.editedCardPathId = null;
+      });
     };
 
     $scope.toggleCards = function() {
