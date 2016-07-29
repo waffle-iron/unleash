@@ -1,11 +1,5 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class Goals extends Component {
-  render() {
-    return (
-      <div></div>
-    );
-  }
-}
+const Goals = () => (<div></div>);
 
 export default Goals;
