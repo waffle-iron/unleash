@@ -10,6 +10,8 @@ A project dedicated to help X-Teamers grow and see a progress they make along th
 Basically, you need to install:
 - [Docker](https://www.docker.com)
 
+(Note: if you're using OS X and install Docker Toolbox with Docker Machine webpack's liverload won't probably work - please install Docker For Mac to fully utilize webpack's livereloading)
+
 ## Setup
 
 ### Install dependencies
