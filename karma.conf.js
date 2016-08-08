@@ -16,7 +16,7 @@ module.exports = function (config) {
             devtool: 'inline-source-map',
             module: {
                 loaders: [
-                    { test: /\.js$/, loader: 'babel-loader?plugins=rewire' }
+                    { test: /\.js$/, loader: 'babel-loader' }
                 ]
             }
         },
