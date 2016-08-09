@@ -1,11 +1,12 @@
 const path = require('path');
+const ConfigPlugin = require('config-webpack-plugin');
 
 module.exports = {
-  entry: "./app/App.js",
+  entry: './app/App.js',
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'bundle.js',
-    publicPath: '/static/',
+    publicPath: '/static/'
   },
   module: {
     preLoaders: [
@@ -25,5 +26,8 @@ module.exports = {
         }
       }
     ]
-  }
+  },
+  plugins: [
+    new ConfigPlugin('./config')
+  ]
 };
