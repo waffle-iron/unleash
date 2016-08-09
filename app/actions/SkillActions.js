@@ -1,3 +1,5 @@
+import config from '../../config';
+
 export const SKILL_LIST = 'SKILL_LIST';
 export const SKILL_LIST_SUCCESS = 'SKILL_LIST_SUCCESS';
 export const SKILL_LIST_FAILURE = 'SKILL_LIST_FAILURE';
@@ -18,7 +20,7 @@ export function skillList() {
   return (dispatch) => {
     dispatch(doSkillList());
 
-    fetch('http://skills.unleash.x-team.com/api/v1/skills.json')
+    fetch(config.skills_api_url)
       .then(response => response.json())
       .then(skills => dispatch(skillListSuccess(skills)))
       .catch(errors => dispatch(skillListFailure(errors)));
