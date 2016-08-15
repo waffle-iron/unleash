@@ -21,6 +21,13 @@ In order to install node & bower dependencies run the command (it might take a w
 docker-compose run web npm install
 ```
 
+### Config
+
+Copy the configuration and apply your changes:
+```
+cp config.dist.js config.js
+```
+
 ### Running
 
 In the Docker Quickstart Terminal go to the application folder and type:

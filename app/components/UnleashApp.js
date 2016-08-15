@@ -14,10 +14,16 @@ const UnleashApp = (props) => (
   <MuiThemeProvider muiTheme={muiTheme}>
     <div>
       <Menu />
-      {props.children}
+      <div style={styles.wrapper}>{props.children}</div>
     </div>
   </MuiThemeProvider>
 );
+
+const styles = {
+  wrapper: {
+    padding: '0 0 0 250px',
+  },
+};
 
 UnleashApp.propTypes = {
   children: PropTypes.node,
