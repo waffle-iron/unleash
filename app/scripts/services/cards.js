@@ -258,8 +258,8 @@ angular.module('unleashApp')
         }
       },
 
-      toggleAchieved: function(cardOwnerId, card) {
-        return cardsService.update(cardOwnerId, card.id, {achieved: !card.achieved}).then(function() {
+      toggleAchieved: function(pathId, card) {
+        return cardsService.update(pathId, card.id, {achieved: !card.achieved}).then(function() {
           card.achieved = !card.achieved;
         });
       }

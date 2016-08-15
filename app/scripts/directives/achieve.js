@@ -28,7 +28,7 @@ angular.module('unleashApp')
         });
 
         $button.on('click', function() {
-          cardsService.toggleAchieved(scope.$parent.cardOwnerId, scope.$parent.card)
+          cardsService.toggleAchieved(scope.$parent.pathId, scope.$parent.card)
             .then(function() {
               if (scope.$parent.card.achieved && scope.slackNotification) {
                 slackService.notifyAchieved({
