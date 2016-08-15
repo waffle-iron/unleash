@@ -116,7 +116,7 @@ angular.module('unleashApp')
       }, function(newVal, oldVal) {
         // We want to allow for null explicitly which means "no due date"
         if (newVal !== undefined && newVal !== oldVal) {
-          cardsService.updateDueDate($scope.cardOwnerId, $scope.cardId, $scope.card.dueDate);
+          cardsService.updateDueDate($scope.pathId, $scope.cardId, $scope.card.dueDate);
         }
       });
     };
