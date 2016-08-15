@@ -58,6 +58,8 @@
     "mocha": "^2.5.3",
     "react-addons-test-utils": "^15.2.1",
     "sinon": "^1.17.5",
+    "file-loader": "^0.9.0",
+    "url-loader": "^0.5.7",
     "webpack": "^1.13.1",
     "webpack-dev-middleware": "^1.6.1"
   }
