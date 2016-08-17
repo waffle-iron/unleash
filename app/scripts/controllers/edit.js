@@ -114,10 +114,13 @@ angular.module('unleashApp')
         name: card.name,
         description: card.description,
         level: card.level,
-        pathId: card.path.id,
         icon: card.icon,
         dueDate: card.dueDate
       };
+
+      if (card.path) {
+        data.pathId = card.path.id;
+      }
 
       return cardsService.update($scope.editedCardPathId, card.id, data).then(function(paths) {
         $scope.paths = paths;
