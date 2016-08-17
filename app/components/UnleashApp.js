@@ -10,6 +10,12 @@ const muiTheme = getMuiTheme({
   },
 });
 
+const styles = {
+  wrapper: {
+    padding: '0 0 0 250px',
+  },
+};
+
 const UnleashApp = (props) => (
   <MuiThemeProvider muiTheme={muiTheme}>
     <div>
@@ -18,12 +24,6 @@ const UnleashApp = (props) => (
     </div>
   </MuiThemeProvider>
 );
-
-const styles = {
-  wrapper: {
-    padding: '0 0 0 250px',
-  },
-};
 
 UnleashApp.propTypes = {
   children: PropTypes.node,
