@@ -5,6 +5,6 @@ export default function generateSkill() {
     id: faker.random.uuid(),
     name: faker.name.title(),
     resources: [],
-    slug: faker.helpers.slugify(),
+    slug: faker.helpers.slugify(faker.name.title()),
   };
 }

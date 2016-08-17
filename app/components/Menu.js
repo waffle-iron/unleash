@@ -58,10 +58,10 @@ class Menu extends Component {
           </MenuItem>
           <MenuItem
             leftIcon={<ActionSupervisorAccount {...iconProps} />}
-            onTouchTap={() => this.handleMenuClick('/paths')}
+            onTouchTap={() => this.handleMenuClick('/profiles')}
             style={styles.menuItem}
           >
-            Paths
+            Profiles
           </MenuItem>
           <MenuItem
             leftIcon={<ActionDashboard {...iconProps} />}

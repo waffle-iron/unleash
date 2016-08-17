@@ -5,32 +5,32 @@ import { expect } from 'chai';
 import { keyBy } from 'lodash';
 import sinon from 'sinon';
 import generate from '../../testUtils/fixtures';
-import { Skills } from '../Skills';
+import { Profiles } from '../Profiles';
 
-describe('Skills List', () => {
+describe('Profiles List', () => {
   let component;
-  const skills = generate('skill', 15);
-  const mockedSkills = keyBy(skills, 'name');
+  const profiles = generate('profile', 15);
+  const mockedProfiles = keyBy(profiles, 'username');
   let mockedActions;
 
   beforeEach(() => {
     mockedActions = {
-      skillList: sinon.spy(),
+      profileList: sinon.spy(),
     };
     const context = {
       router: {
         push: () => {},
       },
     };
-    component = shallow(<Skills skills={mockedSkills} actions={mockedActions} />, { context });
+    component = shallow(<Profiles profiles={mockedProfiles} actions={mockedActions} />, { context });
   });
 
   it('renders without problems', () => {
     expect(component).to.exist;
   });
 
-  it('renders the list of skills', () => {
+  it('renders the list of profiles', () => {
     const listItems = component.find('ListItem');
-    expect(listItems.length).to.equal(skills.length);
+    expect(listItems.length).to.equal(profiles.length);
   });
 });
