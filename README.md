@@ -57,3 +57,15 @@ If you want to get into the container with running application just type:
 ```
 docker-compose run web bash
 ```
+
+### Testing
+
+In order to run tests please type:
+```
+docker-compose run web npm run test
+```
+
+In order to run lint please type:
+```
+docker-compose run web npm run test:lint
+```
