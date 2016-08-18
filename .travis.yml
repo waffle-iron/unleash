@@ -1,0 +1,19 @@
+sudo: required
+
+language: node_js
+
+services:
+  - docker
+
+before_install:
+  - docker-compose build
+
+install:
+  - docker-compose run web npm install
+
+before_script:
+  - cp config.dist.js config.js
+
+script:
+  - docker-compose run web npm run test:lint
+  - docker-compose run web npm run test
