@@ -19,7 +19,8 @@ angular.module('unleashApp')
 
   // configure views; the authRequired parameter is used for specifying pages
   // which should only be available while logged in
-  .config(function($locationProvider, $routeProvider) {
+  .config(function($locationProvider, $routeProvider, $analyticsProvider, ANALYTICS_ENABLED) {
+    $analyticsProvider.developerMode(!ANALYTICS_ENABLED);
     $routeProvider
       .when('/', {
         templateUrl: 'views/home.html',

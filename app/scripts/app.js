@@ -21,7 +21,9 @@ angular.module('unleashApp', [
     'angular-growl',
     'google.api',
     'LocalStorageModule',
-    '720kb.datepicker'
+    '720kb.datepicker',
+    'angulartics',
+    'angulartics.mixpanel'
   ])
 
 .config(function($sceDelegateProvider) {
@@ -39,7 +41,7 @@ angular.module('unleashApp', [
     growlProvider.globalInlineMessages(true);
   })
 
-.run(function($rootScope, $route, googleApi, $location, userService, googleService, localStorageService) {
+.run(function($rootScope, $route, googleApi, $location, userService, googleService, localStorageService, $analytics, ANALYTICS_ENABLED) {
   if (localStorageService.get('logged_in')) {
     $rootScope.initializing = true;
   }
@@ -57,6 +59,14 @@ angular.module('unleashApp', [
             userService.list().then(function(users) {
               $rootScope.allUsers = users;
             });
+
+            if (ANALYTICS_ENABLED) {
+              $analytics.setUsername(user.email);
+              $analytics.eventTrack('user login', {
+                'username': user.username,
+                'email': user.email
+              });
+            }
 
             if ($rootScope.postLogInRoute) {
               $location.path($rootScope.postLogInRoute);

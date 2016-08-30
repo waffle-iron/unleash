@@ -34,6 +34,8 @@ module.exports = function(config) {
       'bower_components/angular-drag-and-drop-lists/angular-drag-and-drop-lists.js',
       'bower_components/angularjs-datepicker/dist/angular-datepicker.min.js',
       'bower_components/angular-local-storage/dist/angular-local-storage.min.js',
+      'bower_components/angulartics/src/angulartics.js',
+      'bower_components/angulartics-mixpanel/dist/angulartics-mixpanel.min.js',
       'app/scripts/**/*.js',
       'test/mock/**/*.js',
       'test/spec/**/*.js',
