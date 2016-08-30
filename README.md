@@ -3,6 +3,7 @@
 A project dedicated to help X-Teamers grow and see a progress they make along the way.
 
 [![Build Status](https://travis-ci.org/x-team/unleash.svg?branch=master)](https://travis-ci.org/x-team/unleash)
+[![dependencies Status](https://david-dm.org/x-team/unleash/status.svg)](https://david-dm.org/x-team/unleash)
 [![devDependency Status](https://david-dm.org/x-team/unleash/dev-status.svg)](https://david-dm.org/x-team/unleash#info=devDependencies)
 
 ## Requirements
