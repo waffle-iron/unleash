@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/x-team/unleash#readme",
   "dependencies": {
-    "lodash": "^4.14.2",
+    "lodash": "^4.15.0",
     "material-ui": "^0.15.2",
     "react": "^15.2.1",
     "react-dom": "^15.2.1",
