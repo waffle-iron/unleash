@@ -5,7 +5,7 @@ import { expect } from 'chai';
 import { keyBy, random, forEach, keys } from 'lodash';
 import sinon from 'sinon';
 import generate from '../../testUtils/fixtures';
-import { Paths } from '../Path';
+import Paths from '../Path';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 describe('Path Component', () => {
@@ -36,10 +36,10 @@ describe('Path Component', () => {
     mockedActions = {
       pathsList: pathsListSpy,
     };
+    const router = {
+      push: routerSpy,
+    };
     const context = {
-      router: {
-        push: routerSpy,
-      },
       muiTheme: getMuiTheme()
     };
     const childContextTypes = {
@@ -52,6 +52,7 @@ describe('Path Component', () => {
         actions={mockedActions}
         paths={paths}
         location={location}
+        router={router}
       />,
       {
         context,

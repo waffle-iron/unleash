@@ -5,24 +5,22 @@
  */
 
 import React, { Component } from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import * as PathsActions from '../actions/PathsActions';
 import List from 'material-ui/List/List';
 import ListItem from 'material-ui/List/ListItem';
 import Subheader from 'material-ui/Subheader';
 import * as _ from 'lodash';
 
-export class Paths extends Component {
+class Paths extends Component {
   componentDidMount() {
+    const { profiles, actions } = this.props;
     // @TODO: (Kelvin De Moya) - Refactor when username API endpoint is ready.
     const currentUsername = _.chain(this.props.location.pathname)
                               .split('/')
                               .last()
                               .value();
-    const currentUserObject = this.props.profiles[currentUsername];
+    const currentUserObject = profiles[currentUsername];
 
-    this.props.actions.pathsList(currentUserObject.id);
+    actions.pathsList(currentUserObject.id);
   }
 
   renderGoals(goals) {
@@ -58,23 +56,7 @@ Paths.propTypes = {
   paths: React.PropTypes.object.isRequired,
   location: React.PropTypes.object.isRequired,
   profiles: React.PropTypes.object.isRequired,
-};
-
-Paths.contextTypes = {
   router: React.PropTypes.object.isRequired,
 };
 
-function mapStateToProps(state) {
-  return {
-    paths: state.paths,
-    profiles: state.profiles,
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(PathsActions, dispatch),
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Paths);
+export default Paths;

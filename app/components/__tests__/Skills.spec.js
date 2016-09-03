@@ -5,7 +5,7 @@ import { expect } from 'chai';
 import { keyBy, random } from 'lodash';
 import sinon from 'sinon';
 import generate from '../../testUtils/fixtures';
-import { Skills } from '../Skills';
+import Skills from '../Skills';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 describe('Skills List', () => {
@@ -22,17 +22,22 @@ describe('Skills List', () => {
     mockedActions = {
       skillList: skillListSpy,
     };
+    const router = {
+      push: routerSpy,
+    };
     const context = {
-      router: {
-        push: routerSpy,
-      },
       muiTheme: getMuiTheme()
     };
     const childContextTypes = {
       muiTheme: React.PropTypes.object
     };
 
-    component = mount(<Skills skills={mockedSkills} actions={mockedActions}/>,
+    component = mount(
+      <Skills
+        skills={mockedSkills}
+        actions={mockedActions}
+        router={router}
+      />,
       {
         context,
         childContextTypes
