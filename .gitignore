@@ -3,3 +3,7 @@ dist
 npm-debug.log
 .idea/
 config.js
+
+# Coverage files
+.nyc_output
+coverage
