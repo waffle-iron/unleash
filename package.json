@@ -7,7 +7,8 @@
     "start": "babel-node devServer.js",
     "test": "mocha --require app/testUtils/setup.js --recursive app/**/*.spec.js",
     "test:tdd": "mocha -w --require app/testUtils/setup.js --recursive app/**/*.spec.js",
-    "test:lint": "eslint ./app"
+    "test:lint": "eslint ./app",
+    "coverage": "nyc mocha --require app/testUtils/setup.js --recursive app/**/*.spec.js"
   },
   "repository": {
     "type": "git",
@@ -17,6 +18,17 @@
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/x-team/unleash/issues"
+  },
+  "nyc": {
+    "exclude": [
+      "**/*.specs.js",
+      "node_modules"
+    ],
+    "reporter": [
+      "lcov",
+      "text",
+      "html"
+    ]
   },
   "homepage": "https://github.com/x-team/unleash#readme",
   "dependencies": {
@@ -32,6 +44,7 @@
     "redux-thunk": "^2.1.0"
   },
   "devDependencies": {
+    "asset-require-hook": "^1.0.2",
     "babel-core": "^6.10.4",
     "babel-eslint": "^6.1.2",
     "babel-loader": "^6.2.4",
@@ -48,7 +61,10 @@
     "eslint-plugin-react": "^5.2.2",
     "express": "^4.14.0",
     "faker": "^3.1.0",
+    "file-loader": "^0.9.0",
     "jsdom": "^9.4.1",
+    "isomorphic-fetch": "^2.2.1",
+    "es6-promise": "^3.2.1",
     "karma": "^1.1.2",
     "karma-chrome-launcher": "^1.0.1",
     "karma-cli": "^1.0.1",
@@ -56,9 +72,11 @@
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^1.7.0",
     "mocha": "^2.5.3",
+    "nock": "^8.0.0",
+    "nyc": "^8.1.0",
     "react-addons-test-utils": "^15.2.1",
+    "redux-mock-store": "^1.1.4",
     "sinon": "^1.17.5",
-    "file-loader": "^0.9.0",
     "url-loader": "^0.5.7",
     "webpack": "^1.13.1",
     "webpack-dev-middleware": "^1.6.1"

@@ -26,7 +26,7 @@ export function pathsList(userId) {
   return (dispatch) => {
     dispatch(doPathsList());
 
-    fetch(config.paths_api_url + userId)
+    return fetch(config.paths_api_url + userId)
       .then(response => response.json())
       .then(paths => dispatch(pathsListSuccess(paths)))
       .catch(errors => dispatch(pathsListFailure(errors)));

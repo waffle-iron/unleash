@@ -20,7 +20,7 @@ export function profileList() {
   return (dispatch) => {
     dispatch(doProfileList());
 
-    fetch(config.profiles_api_url)
+    return fetch(config.profiles_api_url)
       .then(response => response.json())
       .then(profiles => dispatch(profileListSuccess(profiles)))
       .catch(errors => dispatch(profileListFailure(errors)));
