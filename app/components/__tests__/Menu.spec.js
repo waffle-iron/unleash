@@ -25,12 +25,12 @@ describe('Menu Component', () => {
     component = mount(<Menu />,{ context, childContextTypes });
   });
 
-  it('renders without problems', () => {
+  it('should render without problems', () => {
     expect(component).to.exist;
   });
 
 
-  it('router push to new view on handleMenuClick', () => {
+  it('should change the page when a menu item is clicked', () => {
     const element = component.find('Menu');
     const expectedRoute = '/heroes/unleash';
     element.node.handleMenuClick(expectedRoute);

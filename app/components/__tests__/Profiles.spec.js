@@ -40,20 +40,20 @@ describe('Profiles List', () => {
       });
   });
 
-  it('renders without problems', () => {
+  it('should render without problems', () => {
     expect(component).to.exist;
   });
 
-  it('renders the list of profiles', () => {
+  it('should render the list of profiles', () => {
     const listItems = component.find('ListItem');
     expect(listItems.length).to.equal(profiles.length);
   });
 
-  it('componentDidMount call the profileList fetch', () => {
+  it('should fetch the profiles lists when component is mounted', () => {
     expect(profileListSpy.callCount).to.equal(1);
   });
 
-  it('router push to profile view on handleProfileSelect', () => {
+  it('should go to a profile page when a profile is selected', () => {
     const index = random(profiles.length - 1);
     const profile = profiles[index];
     const profileElement = component.find('Profiles');

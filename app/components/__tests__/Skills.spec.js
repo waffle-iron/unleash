@@ -39,20 +39,20 @@ describe('Skills List', () => {
       });
   });
 
-  it('renders without problems', () => {
+  it('should render without problems', () => {
     expect(component).to.exist;
   });
 
-  it('renders the list of skills', () => {
+  it('should render the list of skills', () => {
     const listItems = component.find('ListItem');
     expect(listItems.length).to.equal(skills.length);
   });
 
-  it('componentDidMount call the skillList fetch', () => {
+  it('should fetch the list of skills when components is mounted', () => {
     expect(skillListSpy.callCount).to.equal(1);
   });
 
-  it('router push to skill view on handleSkillSelect', () => {
+  it('should go to a skill page when a skill is selected', () => {
     const index = random(skills.length - 1);
     const skill = skills[index];
     const skillElement = component.find('Skills');

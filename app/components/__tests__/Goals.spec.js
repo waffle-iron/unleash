@@ -11,7 +11,7 @@ describe('Goals List', () => {
     component = mount(<Goals />);
   });
 
-  it('renders without problems', () => {
+  it('should render without problems', () => {
     expect(component).to.exist;
   });
 

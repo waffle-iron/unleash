@@ -59,16 +59,16 @@ describe('Path Component', () => {
       });
   });
 
-  it('renders without problems', () => {
+  it('should render without problems', () => {
     expect(component).to.exist;
   });
 
-  it('renders the list of paths', () => {
+  it('should render the list of paths', () => {
     const pathItems = component.find('Subheader');
     expect(pathItems.length).to.equal(paths.length);
   });
 
-  it('renders the list of goals', () => {
+  it('should render the list of goals', () => {
     const goalsItems = component.find('ListItem');
     let goalsLength = 0;
     forEach(paths, path => {
