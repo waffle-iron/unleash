@@ -6,6 +6,8 @@ services:
   - docker
 
 before_install:
+  - pip install --user awscli
+  - export PATH=$PATH:$HOME/.local/bin
   - cp config.dist.js config.js
 
 install:
@@ -14,3 +16,9 @@ install:
 script:
   - docker run $AWS_ACCOUNT_ID.dkr.ecr.us-west-2.amazonaws.com/x-team-unleash:$TRAVIS_BUILD_NUMBER npm run test:lint
   - docker run $AWS_ACCOUNT_ID.dkr.ecr.us-west-2.amazonaws.com/x-team-unleash:$TRAVIS_BUILD_NUMBER npm run test
+
+deploy:
+  provider: script
+  script: ./deploy.sh
+  on:
+    branch: setup_cd-#207
