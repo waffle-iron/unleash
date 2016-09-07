@@ -21,4 +21,4 @@ deploy:
   provider: script
   script: ./deploy.sh
   on:
-    branch: setup_cd-#207
+    branch: develop
