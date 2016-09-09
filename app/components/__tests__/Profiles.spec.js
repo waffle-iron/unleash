@@ -5,7 +5,7 @@ import { expect } from 'chai';
 import { keyBy, random } from 'lodash';
 import sinon from 'sinon';
 import generate from '../../testUtils/fixtures';
-import { Profiles } from '../Profiles';
+import Profiles from '../Profiles';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 describe('Profiles List', () => {
@@ -22,10 +22,10 @@ describe('Profiles List', () => {
     mockedActions = {
       profileList: profileListSpy,
     };
+    const router = {
+      push: routerSpy,
+    };
     const context = {
-      router: {
-        push: routerSpy,
-      },
       muiTheme: getMuiTheme()
     };
     const childContextTypes = {
@@ -33,7 +33,11 @@ describe('Profiles List', () => {
     };
 
     component = mount(
-      <Profiles profiles={mockedProfiles} actions={mockedActions}/>,
+      <Profiles
+        profiles={mockedProfiles}
+        actions={mockedActions}
+        router={router}
+      />,
       {
         context,
         childContextTypes
