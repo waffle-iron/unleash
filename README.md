@@ -1,4 +1,5 @@
 [![Stories in Ready](https://badge.waffle.io/x-team/unleash.png?label=ready&title=Ready)](https://waffle.io/x-team/unleash)
+[![Stories in Ready](https://badge.waffle.io/x-team/unleash.png?label=ready&title=Ready)](https://waffle.io/x-team/unleash)
 # Unleash your path
 
 A project dedicated to help X-Teamers grow and see a progress they make along the way.
